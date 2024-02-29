@@ -1,0 +1,12 @@
+**/*.a
+**/*.o
+**/*.gch
+a.out
+build/
+Objects/
+
+.vscode
+.DS_Store
+*.dSYM
+
+README.md
