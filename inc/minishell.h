@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:00 by demre             #+#    #+#             */
-/*   Updated: 2024/03/01 13:17:06 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/01 14:34:06 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,11 @@
 
 
 // 1_read_input.c //
+
 char	*read_input(char *prompt);
+
+// Handle prompt
+
+int	handle_prompt(char *prompt);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:16:49 by demre             #+#    #+#             */
-/*   Updated: 2024/03/01 13:40:27 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/01 14:32:35 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ int	main(int argc, char **argv, char **envp)
 	while (!prompt || ft_strcmp(prompt, "exit") != 0)
 	{
 		prompt = read_input(prompt);
-//		printf("%s, %zu\n", prompt, ft_strlen(prompt));
+		if (handle_prompt(prompt) == FAILURE)
+			return (EXIT_FAILURE);
 	}
 	
 	
