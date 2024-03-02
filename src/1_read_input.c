@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:16 by demre             #+#    #+#             */
-/*   Updated: 2024/03/02 15:24:01 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/02 19:59:07 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,7 @@ int	process_input(char **prompt)
 	tokens = (char **)malloc((n_tokens + 1) * sizeof(char *));
 	if (!tokens)
 		return (FAILURE);
-	tokens = assign_tokens(tokens, *prompt);
-	if (!tokens)
+	if (assign_tokens(tokens, *prompt) == FAILURE)
 		return (FAILURE);
 
 // Print all tokens in terminal

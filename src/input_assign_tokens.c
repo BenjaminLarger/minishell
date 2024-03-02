@@ -6,86 +6,119 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/02 14:01:44 by demre             #+#    #+#             */
-/*   Updated: 2024/03/02 16:17:45 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/02 20:52:23 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	initialise_index_data(t_index_data *v)
+/**
+ * @brief Initialise variables used in the index-related data structure.
+ * @param t Pointer to the index data structure to be initialised.
+ */
+static void	initialise_index_data(t_index_data *d)
 {
-	v->i = 0;
-	v->j = 0;
-	v->start = 0;
-	v->n_sgl_quotes = 0;
-	v->n_dbl_quotes = 0;
+	d->i = 0;
+	d->j = 0;
+	d->start = 0;
+	d->n_sgl_quotes = 0;
+	d->n_dbl_quotes = 0;
 }
 
-static void	increase_n_quotes(t_index_data *v, int type_of_quotes)
+/**
+ * @brief Increase the count of single or double quotes based on the type 
+ * specified.
+ * @param d Pointer to the index data structure containing quote counts.
+ * @param type_of_quotes Type of quotes to increase count (single_quote or 
+ * double_quote).
+ */
+static void	increase_quote_count(t_index_data *d, enum e_quote type_of_quotes)
 {
-	if (type_of_quotes == 1)
-		v->n_sgl_quotes++;
-	else if (type_of_quotes == 2)
-		v->n_dbl_quotes++;
-	v->i++;
+	if (type_of_quotes == single_quote)
+		d->n_sgl_quotes++;
+	else if (type_of_quotes == double_quote)
+		d->n_dbl_quotes++;
+	d->i++;
 }
 
-static int	split_string(char **tokens, char *str, t_index_data *v)
+/**
+ * @brief Store a token extracted from the input string into the tokens array.
+ * This function extracts a substring from the input string based on start and 
+ * end indices, allocates memory for it, and stores it in the tokens array.
+ * @param tokens Pointer to the array of strings where tokens will be stored.
+ * @param str Pointer to the input string.
+ * @param d Pointer to the index data structure containing indices and quote counts.
+ * @return int SUCCESS if storing the token is successful, FAILURE otherwise.
+ */
+static int	store_token(char **tokens, char *str, t_index_data *d)
 {
-// Don't include quotes when saving token
-//	if ((str[v->start] == '\'' && str[v->i - 1] == '\'')
-//		|| (str[v->start] == '\"' && str[v->i - 1] == '\"'))
-//		tokens[v->j] = ft_substr(str, v->start + 1, (v->i - v->start - 2));
+// Option not to include quotes when saving token
+//	if ((str[d->start] == '\'' && str[d->i - 1] == '\'')
+//		|| (str[d->start] == '\"' && str[d->i - 1] == '\"'))
+//		tokens[d->j] = ft_substr(str, d->start + 1, (d->i - d->start - 2));
 //	else
-		tokens[v->j] = ft_substr(str, v->start, (v->i - v->start));
-	if (!tokens[v->j])
+	tokens[d->j] = ft_substr(str, d->start, (d->i - d->start));
+	if (!tokens[d->j])
 	{
-		free_n_string_array(tokens, v->j);
+		free_n_string_array(tokens, d->j);
 		return (FAILURE);
 	}
-	v->j++;
+	d->j++;
 	return (SUCCESS);
 }
 
-static void	walk_the_string(char *str, t_index_data *v)
+/**
+ * @brief Move the index to the next non-whitespace character outside of quotes.
+ * @param str Pointer to the input string.
+ * @param d Pointer to the index data structure containing indices and quote 
+ * counts.
+ */
+static void	find_next_non_whitespace_outside_quotes(char *str, t_index_data *d)
 {
-	while (str[v->i]
-		&& ((v->n_sgl_quotes % 2 == 0 && v->n_dbl_quotes % 2 == 0
-				&& !ft_isspace(str[v->i]))
-			|| (v->n_sgl_quotes % 2 == 1 && str[v->i] != '\'')
-			|| (v->n_dbl_quotes % 2 == 1 && str[v->i] != '\"'))
+	while (str[d->i]
+		&& ((d->n_sgl_quotes % 2 == 0 && d->n_dbl_quotes % 2 == 0
+				&& !ft_isspace(str[d->i]))
+			|| (d->n_sgl_quotes % 2 == 1 && str[d->i] != '\'')
+			|| (d->n_dbl_quotes % 2 == 1 && str[d->i] != '\"'))
 	)
-		v->i++;
+		d->i++;
 }
 
-char	**assign_tokens(char **tokens, char *str)
+/**
+ * @brief Break down a string into individual tokens based on whitespace and 
+ * quotes.
+ * @param tokens Pointer to the array of strings where tokens will be stored.
+ * @param str Pointer to the input string to tokenize.
+ * @return int SUCCESS if tokenization is successful, FAILURE otherwise.
+ */
+int	assign_tokens(char **tokens, char *str)
 {
-	t_index_data	v;
+	t_index_data	d;
 
-	initialise_index_data(&v);
-	while (str[v.i])
+	initialise_index_data(&d);
+	while (str[d.i])
 	{
-		while (ft_isspace(str[v.i]))
-			v.i++;
-		v.start = v.i;
-		if (str[v.i] == '\'')
-			increase_n_quotes(&v, 1);
-		else if (str[v.i] == '\"')
-			increase_n_quotes(&v, 2);
-		walk_the_string(str, &v);
-		if (v.n_sgl_quotes % 2 == 1 && str[v.i] == '\'')
-			increase_n_quotes(&v, 1);
-		else if (v.n_dbl_quotes % 2 == 1 && str[v.i] == '\"')
-			increase_n_quotes(&v, 2);
-//		printf("v.start: %d, %c ", v.start, str[v.start]);
-//		printf("v.i: %d, %c, sgl: %d, dbl: %d\n", v.i, str[v.i], v.n_sgl_quotes, v.n_dbl_quotes);
-		if (v.n_sgl_quotes % 2 == 1 || v.n_dbl_quotes % 2 == 1)
-			return (NULL);
-//		printf("v.start: %d, %c, v.i: %d, %c\n", v.start, str[v.start], v.i, str[v.i]);
-		if (v.start < v.i)
-			if (split_string(tokens, str, &v) == FAILURE)
-				return (NULL);
+		while (ft_isspace(str[d.i]))
+			d.i++;
+		d.start = d.i;
+		if (str[d.i] == '\'')
+			increase_quote_count(&d, single_quote);
+		else if (str[d.i] == '\"')
+			increase_quote_count(&d, double_quote);
+		find_next_non_whitespace_outside_quotes(str, &d);
+		if (d.n_sgl_quotes % 2 == 1 && str[d.i] == '\'')
+			increase_quote_count(&d, single_quote);
+		else if (d.n_dbl_quotes % 2 == 1 && str[d.i] == '\"')
+			increase_quote_count(&d, double_quote);
+//		printf("d.start: %d, %c ", d.start, str[d.start]);
+//		printf("d.i: %d, %c, sgl: %d, dbl: %d\n", d.i, str[d.i], d.n_sgl_quotes, d.n_dbl_quotes);
+		if (d.n_sgl_quotes % 2 == 1 || d.n_dbl_quotes % 2 == 1)
+			return (FAILURE);
+//		printf("d.start: %d, %c, d.i: %d, %c\n", d.start, str[d.start], d.i, str[d.i]);
+		if (d.start < d.i)
+			if (store_token(tokens, str, &d) == FAILURE)
+				return (FAILURE);
 	}
-	tokens[v.j] = NULL;
-	return (tokens);
+	tokens[d.j] = NULL;
+	return (SUCCESS);
 }

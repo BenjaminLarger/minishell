@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 16:30:35 by demre             #+#    #+#             */
-/*   Updated: 2024/03/01 12:18:12 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/02 20:54:26 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,5 +49,38 @@ typedef struct s_pipex
 	int		fd_father;
 	char	**env;
 }	t_pipex;
+
+/**
+ * @brief Enumerates the type of quotes for tokens.
+ */
+enum	e_quote
+{
+	single_quote,
+	double_quote
+};
+
+/**
+ * @brief Structure to hold token-related data when counting number of tokens.
+ */
+typedef struct s_token_data
+{
+	int	i;
+	int	n_tokens;
+	int	is_inside_token;
+	int	n_sgl_quotes;
+	int	n_dbl_quotes;
+}				t_token_data;
+
+/**
+ * @brief Structure to hold index-related data during string tokenization.
+ */
+typedef struct s_index_data
+{
+	int	i;
+	int	j;
+	int	start;
+	int	n_sgl_quotes;
+	int	n_dbl_quotes;
+}				t_index_data;
 
 #endif

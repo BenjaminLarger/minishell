@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:00 by demre             #+#    #+#             */
-/*   Updated: 2024/03/02 15:06:45 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/02 19:57:09 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,26 +31,6 @@
 # define FAILURE 1
 # define SUCCESS 0
 
-
-typedef struct s_index_data
-{
-	int	i;
-	int	j;
-	int	start;
-	int	n_sgl_quotes;
-	int	n_dbl_quotes;
-}				t_index_data;
-
-typedef struct s_word_data
-{
-	int	i;
-	int	n_words;
-	int	inside_word;
-	int	n_sgl_quotes;
-	int	n_dbl_quotes;
-}				t_word_data;
-
-
 // 1_read_input.c //
 
 char	*read_input(char *prompt);
@@ -59,8 +39,8 @@ char	*read_input(char *prompt);
 
 int		handle_prompt(char **prompt);
 int		process_input(char **prompt);
-int		count_tokens(char *str);
-char	**assign_tokens(char **tokens, char *str);
+int		count_tokens(char const *str);
+int		assign_tokens(char **tokens, char *str);
 
 // Free arrays
 

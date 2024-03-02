@@ -6,58 +6,66 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/02 14:01:55 by demre             #+#    #+#             */
-/*   Updated: 2024/03/02 16:30:27 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/02 20:23:48 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	initialise_word_data(t_word_data *v)
+/**
+ * @brief Initialise variables used in the token-related data structure.
+ * @param t Pointer to the token data structure to be initialised.
+ */
+static void	initialise_token_data(t_token_data *t)
 {
-	v->n_words = 0;
-	v->i = 0;
-	v->inside_word = TRUE;
-	v->n_sgl_quotes = 0;
-	v->n_dbl_quotes = 0;
+	t->n_tokens = 0;
+	t->i = 0;
+	t->is_inside_token = TRUE;
+	t->n_sgl_quotes = 0;
+	t->n_dbl_quotes = 0;
 }
 
-static int	count_words(char const *str)
+/**
+ * @brief Increase quote count if the character is a quote.
+ * This function increases the count of single or double quotes based on the 
+ * character encountered in the string, while ensuring that the quote is not 
+ * within a pair of the opposite type of quotes.
+ * @param str Pointer to the input string.
+ * @param t Pointer to the token data structure containing quote counts.
+ */
+static void	increase_quote_count_if_char_is_quote(char const *str,
+	t_token_data *t)
 {
-	t_word_data	w;
-
-	initialise_word_data(&w);
-	while (str[w.i])
-	{
-		if (str[w.i] == '\'' && w.n_dbl_quotes % 2 == 0)
-			w.n_sgl_quotes++;
-		else if (str[w.i] == '\"' && w.n_sgl_quotes % 2 == 0)
-			w.n_dbl_quotes++;
-		if (w.i == 0 && !ft_isspace(str[w.i]))
-			w.n_words++;
-		else if (ft_isspace(str[w.i])
-			&& w.n_sgl_quotes % 2 == 0 && w.n_dbl_quotes % 2 == 0)
-			w.inside_word = FALSE;
-		else if (w.inside_word == FALSE)
-		{
-			w.inside_word = TRUE;
-			w.n_words++;
-		}
-		w.i++;
-	}
-	if (w.n_sgl_quotes % 2 == 1 || w.n_dbl_quotes % 2 == 1)
-		w.n_words = 0;
-	return (w.n_words);
+	if (str[t->i] == '\'' && t->n_dbl_quotes % 2 == 0)
+		t->n_sgl_quotes++;
+	else if (str[t->i] == '\"' && t->n_sgl_quotes % 2 == 0)
+		t->n_dbl_quotes++;
 }
 
-int	count_tokens(char *str)
+int	count_tokens(char const *str)
 {
-	int	n_tokens;
+	t_token_data	t;
 
+	initialise_token_data(&t);
 	if (!str || str[0] == '\0')
-		n_tokens = 0;
-	else if (str && ft_strlen(str) > 0 && ft_strchr(str, ' ') == NULL)
-		n_tokens = 1;
-	else
-		n_tokens = count_words(str);
-	return (n_tokens);
+		return (0);
+	while (str[t.i])
+	{
+		increase_quote_count_if_char_is_quote(str, &t);
+		if (t.i == 0 && !ft_isspace(str[t.i]))
+			t.n_tokens++;
+		else if (ft_isspace(str[t.i])
+			&& t.n_sgl_quotes % 2 == 0 && t.n_dbl_quotes % 2 == 0)
+			t.is_inside_token = FALSE;
+		else if (t.is_inside_token == FALSE)
+		{
+			t.is_inside_token = TRUE;
+			t.n_tokens++;
+		}
+		t.i++;
+	}
+	// Handle if there's an odd number of quotes
+	if (t.n_sgl_quotes % 2 == 1 || t.n_dbl_quotes % 2 == 1)
+		t.n_tokens = 0;
+	return (t.n_tokens);
 }
