@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   1_read_input.c                                     :+:      :+:    :+:   */
+/*   input.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:16 by demre             #+#    #+#             */
-/*   Updated: 2024/03/02 19:59:07 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/02 21:41:50 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,37 +24,6 @@
 // Handle only space or tab
 // If readline read an empty line => return NULL 
 
-/**
- * @brief Split the prompt string into strings saved in a token array
- * @param prompt 
- * @return 
- */
-int	process_input(char **prompt)
-{
-	char	**tokens;
-	int		n_tokens;
-
-	n_tokens = count_tokens(*prompt);
-	if (n_tokens == 0)
-		return (FAILURE);
-	printf("%s, n_tokens: %d\n", *prompt, n_tokens); //
-	tokens = (char **)malloc((n_tokens + 1) * sizeof(char *));
-	if (!tokens)
-		return (FAILURE);
-	if (assign_tokens(tokens, *prompt) == FAILURE)
-		return (FAILURE);
-
-// Print all tokens in terminal
-	int i = 0;
-	while (tokens[i])
-	{
-		printf("%s\n", tokens[i]);
-		i++;
-	}
-	
-	return (SUCCESS);
-}
-
 char	*read_input(char *prompt)
 {
 	if (prompt)
@@ -66,4 +35,34 @@ char	*read_input(char *prompt)
 	if (prompt && *prompt)
 		add_history(prompt);
 	return (prompt);
+}
+
+/**
+ * @brief Split the prompt string into strings saved in a args array
+ * @param t_mish Structure representing the shared data and parameters.
+ * @return 
+ */
+int		split_input(t_mish *mish)
+{
+	int		n_args;
+
+	n_args = count_tokens(mish->prompt);
+	if (n_args == 0)
+		return (FAILURE);
+	printf("%s, n_args: %d\n", mish->prompt, n_args); //
+	mish->args = (char **)malloc((n_args + 1) * sizeof(char *));
+	if (!mish->args)
+		return (FAILURE);
+	if (assign_tokens(mish->args, mish->prompt) == FAILURE)
+		return (FAILURE);
+
+// Print all args to terminal
+	int i = 0;
+	while (mish->args[i])
+	{
+		printf("%s\n", mish->args[i]);
+		i++;
+	}
+	
+	return (SUCCESS);
 }

@@ -1,25 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   2_handle_prompt.c                                  :+:      :+:    :+:   */
+/*   shell.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 14:31:29 by demre             #+#    #+#             */
-/*   Updated: 2024/03/02 16:30:36 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/02 21:40:29 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	handle_prompt(char **prompt)
+int	run_shell_loop(t_mish *mish)
 {
-	while (!(*prompt) || ft_strcmp(*prompt, "exit") != 0)
+	mish->prompt = NULL;
+	while (!(mish->prompt) || ft_strcmp(mish->prompt, "exit") != 0)
 	{
-		*prompt = read_input(*prompt);
-		if (process_input(prompt) == FAILURE)
+		mish->prompt = read_input(mish->prompt);
+		if (split_input(mish) == FAILURE)
 			return (FAILURE);
+		
+		process_args(mish);
+
+		free_string_array(mish->args); // check if correct
 	}
-	free(*prompt);
+	free(mish->prompt);
 	return (SUCCESS);
 }

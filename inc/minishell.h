@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:00 by demre             #+#    #+#             */
-/*   Updated: 2024/03/02 19:57:09 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/02 21:48:38 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,18 +31,23 @@
 # define FAILURE 1
 # define SUCCESS 0
 
-// 1_read_input.c //
+// Shell engine
+// shell.c, shell_process_args.c
+
+int		run_shell_loop(t_mish *mish);
+int		process_args(t_mish *mish);
+
+// Handle input
+// input.c, input_assign_tokens.c, input_count_tokens.c
 
 char	*read_input(char *prompt);
-
-// Handle prompt
-
-int		handle_prompt(char **prompt);
-int		process_input(char **prompt);
+int		split_input(t_mish *mish);
 int		count_tokens(char const *str);
-int		assign_tokens(char **tokens, char *str);
+int		assign_tokens(char **tokens, char const *str);
+
 
 // Free arrays
+// cleanup_free_arrays.c
 
 void	free_string_array(char **str_array);
 void	free_n_string_array(char **str_array, int n);

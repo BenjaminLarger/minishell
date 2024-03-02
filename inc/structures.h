@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 16:30:35 by demre             #+#    #+#             */
-/*   Updated: 2024/03/02 20:54:26 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/02 21:24:52 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,16 @@ typedef struct s_pipex
 	int		fd_father;
 	char	**env;
 }	t_pipex;
+
+/**
+ * @brief Structure representing the shared data and parameters.
+ */
+typedef struct s_mish
+{
+	char	*prompt;
+	char	**args;
+	
+}		t_mish;
 
 /**
  * @brief Enumerates the type of quotes for tokens.

@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/02 14:01:44 by demre             #+#    #+#             */
-/*   Updated: 2024/03/02 20:52:23 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/02 21:13:13 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static void	increase_quote_count(t_index_data *d, enum e_quote type_of_quotes)
  * @param d Pointer to the index data structure containing indices and quote counts.
  * @return int SUCCESS if storing the token is successful, FAILURE otherwise.
  */
-static int	store_token(char **tokens, char *str, t_index_data *d)
+static int	store_token(char **tokens, char const *str, t_index_data *d)
 {
 // Option not to include quotes when saving token
 //	if ((str[d->start] == '\'' && str[d->i - 1] == '\'')
@@ -73,7 +73,8 @@ static int	store_token(char **tokens, char *str, t_index_data *d)
  * @param d Pointer to the index data structure containing indices and quote 
  * counts.
  */
-static void	find_next_non_whitespace_outside_quotes(char *str, t_index_data *d)
+static void	find_next_non_whitespace_outside_quotes(char const *str,
+	t_index_data *d)
 {
 	while (str[d->i]
 		&& ((d->n_sgl_quotes % 2 == 0 && d->n_dbl_quotes % 2 == 0
@@ -91,7 +92,7 @@ static void	find_next_non_whitespace_outside_quotes(char *str, t_index_data *d)
  * @param str Pointer to the input string to tokenize.
  * @return int SUCCESS if tokenization is successful, FAILURE otherwise.
  */
-int	assign_tokens(char **tokens, char *str)
+int	assign_tokens(char **tokens, char const *str)
 {
 	t_index_data	d;
 
