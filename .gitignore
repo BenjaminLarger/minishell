@@ -10,3 +10,6 @@ Objects/
 *.dSYM
 
 minishell
+infile
+outfile
+output

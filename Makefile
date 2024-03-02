@@ -19,7 +19,9 @@ HEADER_DIR	:=	inc/
 HEADERS		= -I $(HEADER_DIR) -I ${LIBFT} -I$(HOME)/.brew/opt/readline/include
 
 ## SOURCE ##
-SRCS		:= 0_main.c 1_read_input.c 2_handle_prompt.c \
+SRCS		:= 0_main.c 1_read_input.c 2_handle_prompt.c input_assign_tokens.c \
+	input_count_tokens.c \
+	cleanup_free_arrays.c \
 
 SRC_DIR		:= src/
 BUILD_DIR	:= build/

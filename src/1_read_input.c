@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:16 by demre             #+#    #+#             */
-/*   Updated: 2024/03/01 13:14:40 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/02 15:24:01 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,38 @@
 // handle empty value
 // Handle only space or tab
 // If readline read an empty line => return NULL 
+
+/**
+ * @brief Split the prompt string into strings saved in a token array
+ * @param prompt 
+ * @return 
+ */
+int	process_input(char **prompt)
+{
+	char	**tokens;
+	int		n_tokens;
+
+	n_tokens = count_tokens(*prompt);
+	if (n_tokens == 0)
+		return (FAILURE);
+	printf("%s, n_tokens: %d\n", *prompt, n_tokens); //
+	tokens = (char **)malloc((n_tokens + 1) * sizeof(char *));
+	if (!tokens)
+		return (FAILURE);
+	tokens = assign_tokens(tokens, *prompt);
+	if (!tokens)
+		return (FAILURE);
+
+// Print all tokens in terminal
+	int i = 0;
+	while (tokens[i])
+	{
+		printf("%s\n", tokens[i]);
+		i++;
+	}
+	
+	return (SUCCESS);
+}
 
 char	*read_input(char *prompt)
 {
