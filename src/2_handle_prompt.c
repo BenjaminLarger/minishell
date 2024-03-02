@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 14:31:29 by demre             #+#    #+#             */
-/*   Updated: 2024/03/01 14:53:11 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/02 12:15:25 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ static int	count_words(char const *s, char c)
 	return (w.n_words);
 }
  */
+/* 
 int	count_tokens(char *str)
 {
 	int	n_tokens;
@@ -57,13 +58,13 @@ int	count_tokens(char *str)
 		n_tokens = count_words(str, ' ');
 	return (n_tokens);
 }
-
+ */
 /**
  * 
  */
 int	handle_prompt(char *prompt)
 {
-//		printf("%s, %zu\n", prompt, ft_strlen(prompt));
+		printf("%s, %zu\n", prompt, ft_strlen(prompt));
 
 	return (SUCCESS);
 }
