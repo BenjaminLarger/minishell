@@ -108,7 +108,7 @@ int	signal_handling(pid_t	pid1)
 			g_unblock_sigquit = 0;
 //			Débloque SIGINT et SIGQUIT
 			unblock_signal(SIGINT);
-			//unblock_signal(SIGQUIT);
+			unblock_signal(SIGQUIT);
 		}
 //		Sinon, on débloque SIGINT et on continue la boucle
 		else
