@@ -1,101 +1,97 @@
-#include <unistd.h>
-#include <signal.h>
-#include <stdio.h>
-#include <stdlib.h>
-
 //TO IMPLMENT
 //ctrl-c => display new prompt line
 // ctrl-D => exit the shelle
 // Ctrl-\ => sends a SIGQUIT
 
-//FUNCTIONS TO USE
-//sigaction(): These functions are used to set up signal handlers for catching and handling signals such as SIGINT (Ctrl-C) and SIGQUIT (Ctrl-).
-//sigemptyset(): initialize signal_set, which indicate that none signal is stocked ¡
-//sigaddset : add a signal
+/* FUNCTIONS TO USE
+sigaction(): These functions are used to set up signal handlers for catching and
+handling signals such as SIGINT (Ctrl-C) and SIGQUIT (Ctrl-).
+int sigemptyset(sigset_t *set); => initialize signal_set, which indicate
+that none signal is stocked
+int sigaddset(sigset_t *set, int signum); => add signum signal to *set 
+void rl_replace_line (const char *string, int clear_undo) => send a new prompt to
+the command line (*string), can clear history (bool) */
 
-//Step 1
-//include headers
 #include <signal.h>
 #include <strings.h>
 #include <stdio.h>
 #include <unistd.h>
 
-// Variable globale partagée entre le programme
-// principal et la routine SIGINT. La routine mettra
-// cette variable à 1 lorsqu'on fait ctrl-c.
-// Déclarée volatile pour éviter quelle se retrouve
-// dans la mémoire cache à cause du compilateur
+/* The variable value may change unexpectedly. It prevents the compiler to put
+the variable inside the hidden memory. The variable may be modified by signals
+handler, which are external to the normal flow of the program execution.
+It is initialized to 0, which means that the flag is not set.
+(Indicating that SIGQUIT should remain blocked.)
+ SIGQUIT = End of a processus (ctrl-\)
+ The global variable is a flage to indicate that the program should unblock
+ the SIGQUIT signal.
+ 0 => blocked // 1 => unblocked */
+
 volatile int	g_unblock_sigquit = 0;
 
-// Fonction pour bloquer le signal spécifié
+/* The logic behind blocking and unblocking signals is symmetric.
+When you block a signal, it prevents the associated signal handler from
+being invoked when that signal is raised.
+Conversely, when you unblock a signal, it allows the signal handler
+to be invoked again when the signal is raised.
+Therefore, the actions required to block and unblock a signal are
+essentially the inverse of each other. */
+
+// Function to block SIGQUIT (ctrl-\)
 void	block_signal(int signal)
 {
-//	L'ensemble des signaux à bloquer
 	sigset_t	sigset;
 
-//	Initialise l'ensemble à 0
 	sigemptyset(&sigset);
-//	Ajoute le signal à l'ensemble
 	sigaddset(&sigset, signal);
-//	Ajoute les signaux de l'ensemble aux
-//	signaux bloqués pour ce processus
-	sigprocmask(SIG_BLOCK, &sigset, NULL);
-	if (signal == SIGQUIT)
-		printf("\e[36mSIGQUIT (ctrl-\\) blocked.\e[0m\n");
+	if (signal == SIGQUIT) // kill(pid1, SIGUSR1);
+		printf("\e[36mSIGQUIT (ctrl-\\) blocked.\e[0m\n"); //replace to send a new prompt
 }
 
-// Fonction pour débloquer le signal spécifié
+// Function to unblock SIGQUIT (ctrl-\)
 void	unblock_signal(int signal)
 {
-//	L'ensemble des signaus à débloquer
 	sigset_t	sigset;
 
-//	Initialise l'ensemble à 0
 	sigemptyset(&sigset);
-//	Ajoute le signal à l'ensemble
 	sigaddset(&sigset, signal);
-//	Retire les signaux de l'ensemble des
-//	signaux bloqués pour ce processus
-	sigprocmask(SIG_UNBLOCK, &sigset, NULL);
 	if (signal == SIGQUIT)
 		printf("\e[36mSIGQUIT (ctrl-\\) unblocked.\e[0m\n");
 }
 
-// Routine de gestion du signal SIGINT
 void	sigint_handler(int signal)
 {
 	if (signal != SIGINT)
 		return ;
-//	Bloque les autres signaux SIGINT pour
-//	protéger la variable globale le temps
-//	de la modifier
 	block_signal(SIGINT);
 	g_unblock_sigquit = 1;
 	unblock_signal(SIGINT);
 }
+/* The sigaction struct is used to specify the action to be taken when a
+signal is received.
+ bzero ensures that any fields not explicity set will have a default value of
+ zero.
+ act.sa_handler = &sigint_handler;: Specifies the signal handler function
+ to be called when the SIGINT signal (Ctrl-C) is received.
+ sigaction(SIGINT, &act, NULL);: Associates the specified action (act) with
+ the SIGINT signal. */
 
 void set_signal_action(void)
 {
-//	Déclaration de la structure sigaction
 	struct sigaction	act;
 
-//	Initialiser la structure à 0.
-	bzero(&act, sizeof(act));
-//	Nouvelle routine de gestion de signal
+	bzero(&act, sizeof(act)); //ft_
 	act.sa_handler = &sigint_handler;
-//	Applique la nouvelle routine à SIGINT (ctrl-c)
 	sigaction(SIGINT, &act, NULL);
 }
 
-int	main(void)
+int	signal_handling(pid_t	pid1)
 {
-//	Change l'action par défaut de SIGINT (ctrl-c)
 	set_signal_action();
-//	Bloque le signal SIGQUIT (ctrl-\)
 	block_signal(SIGQUIT);
 //	Boucle infinie pour avoir le temps de faire ctrl-\ et
 //	ctrl-c autant de fois que ça nous chante.
-	while(1)
+	while(pid1)
 	{
 //		Bloque le signal SIGINT le temps de lire la variable
 //		globale.
@@ -105,10 +101,14 @@ int	main(void)
 		if (g_unblock_sigquit == 1)
 		{
 //			SIGINT (ctrl-c) a été reçu.
-			printf("\n\e[36mSIGINT detected. Unblocking SIGQUIT\e[0m\n");
+			//printf("\n\e[36mSIGINT detected. Unblocking SIGQUIT\e[0m\n");
+			//process control c
+			printf("control c caught\n");
+			//kill(pid1, SIGINT);
+			g_unblock_sigquit = 0;
 //			Débloque SIGINT et SIGQUIT
 			unblock_signal(SIGINT);
-			unblock_signal(SIGQUIT);
+			//unblock_signal(SIGQUIT);
 		}
 //		Sinon, on débloque SIGINT et on continue la boucle
 		else

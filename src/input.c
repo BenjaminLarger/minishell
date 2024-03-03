@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
+/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:16 by demre             #+#    #+#             */
-/*   Updated: 2024/03/02 21:41:50 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/03 12:26:35 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,28 +39,28 @@ char	*read_input(char *prompt)
 
 /**
  * @brief Split the prompt string into strings saved in a args array
- * @param t_mish Structure representing the shared data and parameters.
+ * @param t_minishell Structure representing the shared data and parameters.
  * @return 
  */
-int		split_input(t_mish *mish)
+int		split_input(t_minishell *data)
 {
 	int		n_args;
 
-	n_args = count_tokens(mish->prompt);
+	n_args = count_tokens(data->prompt);
 	if (n_args == 0)
 		return (FAILURE);
-	printf("%s, n_args: %d\n", mish->prompt, n_args); //
-	mish->args = (char **)malloc((n_args + 1) * sizeof(char *));
-	if (!mish->args)
+	printf("%s, n_args: %d\n", data->prompt, n_args); //
+	data->args = (char **)malloc((n_args + 1) * sizeof(char *));
+	if (!data->args)
 		return (FAILURE);
-	if (assign_tokens(mish->args, mish->prompt) == FAILURE)
+	if (assign_tokens(data->args, data->prompt) == FAILURE)
 		return (FAILURE);
 
 // Print all args to terminal
 	int i = 0;
-	while (mish->args[i])
+	while (data->args[i])
 	{
-		printf("%s\n", mish->args[i]);
+		printf("%s\n", data->args[i]);
 		i++;
 	}
 	

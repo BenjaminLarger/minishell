@@ -3,28 +3,44 @@
 /*                                                        :::      ::::::::   */
 /*   shell.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
+/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 14:31:29 by demre             #+#    #+#             */
-/*   Updated: 2024/03/02 21:40:29 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/03 13:14:24 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	run_shell_loop(t_mish *mish)
+static void	handle_sigusr1(int sig)
 {
-	mish->prompt = NULL;
-	while (!(mish->prompt) || ft_strcmp(mish->prompt, "exit") != 0)
+	if (sig || !sig)
+		printf("Hello from the shell\n");
+}
+
+static void set_sigusr1_action(void)
+{
+	struct sigaction	act;
+
+	bzero(&act, sizeof(act)); //ft_
+	act.sa_handler = &handle_sigusr1;
+	sigaction(SIGINT, &act, NULL);
+}
+
+int	run_shell_loop(t_minishell *data)
+{
+	data->prompt = NULL;
+	set_sigusr1_action();
+	while (!(data->prompt) || ft_strcmp(data->prompt, "exit") != 0)
 	{
-		mish->prompt = read_input(mish->prompt);
-		if (split_input(mish) == FAILURE)
+		data->prompt = read_input(data->prompt);
+		if (split_input(data) == FAILURE)
 			return (FAILURE);
 		
-		process_args(mish);
+		process_args(data);
 
-		free_string_array(mish->args); // check if correct
+		free_string_array(data->args); // check if correct
 	}
-	free(mish->prompt);
+	free(data->prompt);
 	return (SUCCESS);
 }

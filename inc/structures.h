@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structures.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
+/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 16:30:35 by demre             #+#    #+#             */
-/*   Updated: 2024/03/02 21:24:52 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/03 12:25:37 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,12 @@ typedef struct s_pipex
 /**
  * @brief Structure representing the shared data and parameters.
  */
-typedef struct s_mish
+typedef struct s_minishell
 {
 	char	*prompt;
 	char	**args;
 	
-}		t_mish;
+}		t_minishell;
 
 /**
  * @brief Enumerates the type of quotes for tokens.
