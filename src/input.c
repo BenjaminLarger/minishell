@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:16 by demre             #+#    #+#             */
-/*   Updated: 2024/03/04 21:41:55 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/04 21:43:03 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,10 @@
 
 char	*read_input(char *prompt)
 {
-	if (data->prompt)
+	if (prompt)
 	{
-		free(data->prompt);
-		data->prompt = NULL;
+		free(prompt);
+		prompt = NULL;
 	}
 	prompt = readline("minish> ");
 	if (prompt && *prompt)
