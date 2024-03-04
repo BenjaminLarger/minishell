@@ -4,6 +4,7 @@
 a.out
 build/
 Objects/
+test.c
 
 .vscode
 .DS_Store

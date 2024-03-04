@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:16 by demre             #+#    #+#             */
-/*   Updated: 2024/03/03 12:26:35 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/04 12:18:24 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 // Handle only space or tab
 // If readline read an empty line => return NULL 
 
-char	*read_input(char *prompt)
+char	*read_input(char *prompt, pid_t pid1)
 {
 	if (prompt)
 	{
@@ -32,6 +32,8 @@ char	*read_input(char *prompt)
 		prompt = NULL;
 	}
 	prompt = readline("minish> ");
+	if (!prompt)
+		return (ctrl_d_pushed(pid1)); // => handle ctrl D ; must exit minishell && free the list => communicate to child process to stop the process
 	if (prompt && *prompt)
 		add_history(prompt);
 	return (prompt);
@@ -47,8 +49,6 @@ int		split_input(t_minishell *data)
 	int		n_args;
 
 	n_args = count_tokens(data->prompt);
-	if (n_args == 0)
-		return (FAILURE);
 	printf("%s, n_args: %d\n", data->prompt, n_args); //
 	data->args = (char **)malloc((n_args + 1) * sizeof(char *));
 	if (!data->args)

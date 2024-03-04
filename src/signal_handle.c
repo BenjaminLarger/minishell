@@ -12,10 +12,8 @@ int sigaddset(sigset_t *set, int signum); => add signum signal to *set
 void rl_replace_line (const char *string, int clear_undo) => send a new prompt to
 the command line (*string), can clear history (bool) */
 
-#include <signal.h>
-#include <strings.h>
-#include <stdio.h>
-#include <unistd.h>
+#include "minishell.h"
+
 
 /* The variable value may change unexpectedly. It prevents the compiler to put
 the variable inside the hidden memory. The variable may be modified by signals
@@ -80,12 +78,12 @@ void set_signal_action(void)
 {
 	struct sigaction	act;
 
-	bzero(&act, sizeof(act)); //ft_
+	ft_bzero(&act, sizeof(act));
 	act.sa_handler = &sigint_handler;
 	sigaction(SIGINT, &act, NULL);
 }
 
-int	signal_handling(pid_t	pid1)
+int	signal_handling(pid_t	pid1) // do we need pid1 as partameter ? (void) ?
 {
 	set_signal_action();
 	block_signal(SIGQUIT);
