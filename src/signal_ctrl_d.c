@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 11:30:46 by blarger           #+#    #+#             */
-/*   Updated: 2024/03/04 21:25:28 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/04 21:41:47 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,14 @@ void		set_child_ctr_d_action(void)
 	signal(SIGUSR1, kill_child_process);
 }
 
-char	*ctrl_d_pushed(pid_t pid1)
+char	*ctrl_d_pushed(t_minishell *data) //doese not work
 {
-	kill(pid1, SIGUSR1);
-	//free(...);
+	rl_replace_line("exit", 0);
+	rl_redisplay ();
+	printf("exit");
+	rl_on_new_line ();
+	kill(data->pid1, SIGUSR1);
+	free_string_array(&(data->prompt));
 	exit(EXIT_SUCCESS);
 	return (NULL);
 }

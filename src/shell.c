@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 14:31:29 by demre             #+#    #+#             */
-/*   Updated: 2024/03/04 21:31:43 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/04 21:41:46 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,10 @@ static void	child_sigint_handler(int sig)
 static void set_child_sigint_action(void)
 {
 	struct sigaction	act;
-	//struct sigaction	cat;
 
 	ft_bzero(&act, sizeof(act));
-	//ft_bzero(&cat, sizeof(cat));
 	act.sa_handler = &child_sigint_handler;
-	/* cat.sa_handler = &child_sigint_handler;
-	cat.sa_flags = SA_SIGINFO; */
 	sigaction(SIGINT, &act, NULL);
-	//sigaction(SIGINT, &cat, NULL);
 }
 
 int	run_shell_loop(t_minishell *data)

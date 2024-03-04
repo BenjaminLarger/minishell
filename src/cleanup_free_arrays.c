@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleanup_free_arrays.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
+/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/02 14:34:07 by demre             #+#    #+#             */
-/*   Updated: 2024/03/02 14:34:34 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/04 17:44:59 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,13 @@ void	free_string_array(char **str_array)
 	int	i;
 
 	i = 0;
-	while (str_array[i])
+	if (str_array)
 	{
-		free(str_array[i]);
-		i++;
+		while (str_array[i])
+		{
+			free(str_array[i]);
+			i++;
+		}
 	}
 	free(str_array);
 }

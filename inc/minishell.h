@@ -6,7 +6,11 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:00 by demre             #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2024/03/04 21:08:33 by demre            ###   ########.fr       */
+=======
+/*   Updated: 2024/03/04 17:58:49 by blarger          ###   ########.fr       */
+>>>>>>> 5d7d3a4fe31ae710504c0c16f372323acc288310
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +43,7 @@ extern int g_unblock_sigquit;
 int		signal_handling(pid_t pid1, int *status);
 	//ctrl-d
 void	set_child_ctr_d_action(void);
-char	*ctrl_d_pushed(pid_t pid1);
+char	*ctrl_d_pushed(t_minishell *data);
 void	kill_child_process(int sig);
 
 // Shell engine
@@ -55,7 +59,6 @@ char	*read_input(char *prompt);
 int		split_input_in_args(t_minishell *data);
 int		count_tokens(char const *str);
 int		assign_tokens(char **tokens, char const *str);
-char	*ctr_d_pushed(pid_t pid1);
 
 
 // Free arrays
