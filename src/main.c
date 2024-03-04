@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
+/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:16:49 by demre             #+#    #+#             */
-/*   Updated: 2024/03/04 15:35:20 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/04 21:37:31 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ int g_unblock_sigquit = 0;
 int	main(int argc, char **argv, char **envp)
 {
 	t_minishell	data;
+	int			status;
 
 	g_unblock_sigquit = 0;
 	if (argc != 1 && argv && (envp || !envp))
@@ -30,9 +31,17 @@ int	main(int argc, char **argv, char **envp)
 		run_shell_loop(&data);
 	else if (data.pid1 > 0)
 	{
+		printf("From parent, pid: %d\n", getpid()); //
 		set_child_ctr_d_action();
-		signal_handling(data.pid1);
-		waitpid(data.pid1, NULL, 0);
+		signal_handling(data.pid1, &status);
+		printf("waiting\n");
+		waitpid(data.pid1, &status, 0);
+
+		if (WIFEXITED(status) && WEXITSTATUS(status) == 0) {
+			printf("Child process terminated successfully. Parent process exiting.\n");
+		} else {
+			printf("Child process terminated with error. Parent process continuing.\n");
+		}
 	}
 	return (EXIT_SUCCESS);
 }

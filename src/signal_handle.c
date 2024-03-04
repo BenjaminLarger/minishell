@@ -64,6 +64,7 @@ void	sigint_handler(int signal)
 	g_unblock_sigquit = 1;
 	unblock_signal(SIGINT);
 }
+
 /* The sigaction struct is used to specify the action to be taken when a
 signal is received.
  bzero ensures that any fields not explicity set will have a default value of
@@ -73,7 +74,7 @@ signal is received.
  sigaction(SIGINT, &act, NULL);: Associates the specified action (act) with
  the SIGINT signal. */
 
-void set_signal_action(void)
+void	set_signal_action(void)
 {
 	struct sigaction	act;
 
@@ -82,14 +83,14 @@ void set_signal_action(void)
 	sigaction(SIGINT, &act, NULL);
 }
 
-int	signal_handling(pid_t	pid1) // do we need pid1 as partameter ?
+int	signal_handling(pid_t pid1, int *status) // do we need pid1 as partameter ?
 {
 	g_unblock_sigquit = 0;
 	set_signal_action();
 	block_signal(SIGQUIT);
 //	Boucle infinie pour avoir le temps de faire ctrl-\ et
 //	ctrl-c autant de fois que ça nous chante.
-	while(pid1)
+	while(pid1 && !WIFEXITED(*status))
 	{
 //		Bloque le signal SIGINT le temps de lire la variable
 //		globale.
@@ -101,7 +102,7 @@ int	signal_handling(pid_t	pid1) // do we need pid1 as partameter ?
 //			SIGINT (ctrl-c) a été reçu.
 			//printf("\n\e[36mSIGINT detected. Unblocking SIGQUIT\e[0m\n");
 			//process control c
-			printf("control c caught\n");
+			printf("control c caught in parent\n");
 			//kill(pid1, SIGINT);
 			g_unblock_sigquit = 0;
 //			Débloque SIGINT et SIGQUIT

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
+/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:16 by demre             #+#    #+#             */
-/*   Updated: 2024/03/04 12:18:24 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/04 21:24:49 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 // Handle only space or tab
 // If readline read an empty line => return NULL 
 
-char	*read_input(char *prompt, pid_t pid1)
+char	*read_input(char *prompt)
 {
 	if (prompt)
 	{
@@ -32,8 +32,6 @@ char	*read_input(char *prompt, pid_t pid1)
 		prompt = NULL;
 	}
 	prompt = readline("minish> ");
-	if (!prompt)
-		return (ctrl_d_pushed(pid1)); // => handle ctrl D ; must exit minishell && free the list => communicate to child process to stop the process
 	if (prompt && *prompt)
 		add_history(prompt);
 	return (prompt);
@@ -44,25 +42,27 @@ char	*read_input(char *prompt, pid_t pid1)
  * @param t_minishell Structure representing the shared data and parameters.
  * @return 
  */
-int		split_input(t_minishell *data)
+int		split_input_in_args(t_minishell *data)
 {
 	int		n_args;
 
 	n_args = count_tokens(data->prompt);
-	printf("%s, n_args: %d\n", data->prompt, n_args); //
+//	printf("%s, n_args: %d\n", data->prompt, n_args); //
 	data->args = (char **)malloc((n_args + 1) * sizeof(char *));
 	if (!data->args)
 		return (FAILURE);
-	if (assign_tokens(data->args, data->prompt) == FAILURE)
+	if (data->prompt && assign_tokens(data->args, data->prompt) == FAILURE)
 		return (FAILURE);
 
-// Print all args to terminal
-	int i = 0;
-	while (data->args[i])
+/* // Print all args to terminal
+	if (data->prompt)
 	{
-		printf("%s\n", data->args[i]);
-		i++;
-	}
-	
+		int i = 0;
+		while (data->args[i])
+		{
+			printf("%s\n", data->args[i]);
+			i++;
+		}
+	} */
 	return (SUCCESS);
 }

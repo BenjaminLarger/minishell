@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal_ctrl_d.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
+/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 11:30:46 by blarger           #+#    #+#             */
-/*   Updated: 2024/03/04 16:22:26 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/04 21:25:28 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 
 void		set_child_ctr_d_action(void)
 {
+	printf("From set_child_ctr_d_action, pid: %d\n", getpid());
 	signal(SIGUSR1, kill_child_process);
 }
 
@@ -28,9 +29,11 @@ char	*ctrl_d_pushed(pid_t pid1)
 	return (NULL);
 }
 
-void	kill_child_process(int sig)
+void	kill_child_process(int sig) // en fait, ca kill le parent
 {
-	if (sig || !sig)
-		printf("exit\n"); //should print exit next to the newline, not at the next line
+//	if (sig || !sig)
+//		printf("exit\n"); //should print exit next to the newline, not at the next line
+	(void)sig;
+	printf("From kill_child_process, pid: %d\n", getpid());
 	exit(EXIT_SUCCESS);
 }
