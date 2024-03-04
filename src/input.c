@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:16 by demre             #+#    #+#             */
-/*   Updated: 2024/03/04 12:18:24 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/04 18:26:03 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,19 +24,19 @@
 // Handle only space or tab
 // If readline read an empty line => return NULL 
 
-char	*read_input(char *prompt, pid_t pid1)
+char	*read_input(t_minishell *data)
 {
-	if (prompt)
+	if (data->prompt)
 	{
-		free(prompt);
-		prompt = NULL;
+		free(data->prompt);
+		data->prompt = NULL;
 	}
-	prompt = readline("minish> ");
-	if (!prompt)
-		return (ctrl_d_pushed(pid1)); // => handle ctrl D ; must exit minishell && free the list => communicate to child process to stop the process
-	if (prompt && *prompt)
-		add_history(prompt);
-	return (prompt);
+	data->prompt = readline("minish> ");
+	if (!data->prompt)
+		return (ctrl_d_pushed(data)); // => handle ctrl D ; must exit minishell && free the list => communicate to child process to stop the process
+	if (data->prompt && *(data->prompt))
+		add_history(data->prompt);
+	return (data->prompt);
 }
 
 /**

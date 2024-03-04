@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 11:30:46 by blarger           #+#    #+#             */
-/*   Updated: 2024/03/04 16:22:26 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/04 18:33:13 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,14 @@ void		set_child_ctr_d_action(void)
 	signal(SIGUSR1, kill_child_process);
 }
 
-char	*ctrl_d_pushed(pid_t pid1)
+char	*ctrl_d_pushed(t_minishell *data) //doese not work
 {
-	kill(pid1, SIGUSR1);
-	//free(...);
+	rl_replace_line("exit", 0);
+	rl_redisplay ();
+	printf("exit");
+	rl_on_new_line ();
+	kill(data->pid1, SIGUSR1);
+	free_string_array(&(data->prompt));
 	exit(EXIT_SUCCESS);
 	return (NULL);
 }
@@ -31,6 +35,7 @@ char	*ctrl_d_pushed(pid_t pid1)
 void	kill_child_process(int sig)
 {
 	if (sig || !sig)
-		printf("exit\n"); //should print exit next to the newline, not at the next line
+		rl_replace_line("minish> exit", 0);
+	rl_redisplay ();
 	exit(EXIT_SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:00 by demre             #+#    #+#             */
-/*   Updated: 2024/03/04 15:34:26 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/04 17:58:49 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ extern int g_unblock_sigquit;
 int		signal_handling(pid_t pid1);
 	//ctrl-d
 void	set_child_ctr_d_action(void);
-char	*ctrl_d_pushed(pid_t pid1);
+char	*ctrl_d_pushed(t_minishell *data);
 void	kill_child_process(int sig);
 
 // Shell engine
@@ -51,11 +51,10 @@ int		process_args(t_minishell *data);
 // Handle input
 // input.c, input_assign_tokens.c, input_count_tokens.c
 
-char	*read_input(char *prompt, pid_t pid1);
+char	*read_input(t_minishell *data);
 int		split_input(t_minishell *data);
 int		count_tokens(char const *str);
 int		assign_tokens(char **tokens, char const *str);
-char	*ctr_d_pushed(pid_t pid1);
 
 
 // Free arrays

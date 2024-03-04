@@ -101,7 +101,6 @@ int	signal_handling(pid_t	pid1) // do we need pid1 as partameter ?
 //			SIGINT (ctrl-c) a été reçu.
 			//printf("\n\e[36mSIGINT detected. Unblocking SIGQUIT\e[0m\n");
 			//process control c
-			printf("control c caught\n");
 			//kill(pid1, SIGINT);
 			g_unblock_sigquit = 0;
 //			Débloque SIGINT et SIGQUIT
