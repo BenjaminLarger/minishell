@@ -25,7 +25,6 @@ It is initialized to 0, which means that the flag is not set.
  the SIGQUIT signal.
  0 => blocked // 1 => unblocked */
 
-volatile int	g_unblock_sigquit = 0;
 
 /* The logic behind blocking and unblocking signals is symmetric.
 When you block a signal, it prevents the associated signal handler from
@@ -83,8 +82,9 @@ void set_signal_action(void)
 	sigaction(SIGINT, &act, NULL);
 }
 
-int	signal_handling(pid_t	pid1) // do we need pid1 as partameter ? (void) ?
+int	signal_handling(pid_t	pid1) // do we need pid1 as partameter ?
 {
+	g_unblock_sigquit = 0;
 	set_signal_action();
 	block_signal(SIGQUIT);
 //	Boucle infinie pour avoir le temps de faire ctrl-\ et

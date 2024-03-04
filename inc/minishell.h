@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:00 by demre             #+#    #+#             */
-/*   Updated: 2024/03/04 12:18:30 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/04 15:34:26 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@
 # define TRUE 1
 # define FAILURE 1
 # define SUCCESS 0
+
+extern int g_unblock_sigquit;
 
 // Signal handling
 	//ctrl-c

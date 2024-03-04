@@ -6,17 +6,19 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:16:49 by demre             #+#    #+#             */
-/*   Updated: 2024/03/04 12:41:57 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/04 15:35:20 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+int g_unblock_sigquit = 0;
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_minishell	data;
-	//pid_t	pid1;
 
+	g_unblock_sigquit = 0;
 	if (argc != 1 && argv && (envp || !envp))
 		return (EXIT_FAILURE);
 //		return (print_error(ARG), exit(EXIT_FAILURE));
