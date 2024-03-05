@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
+/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:00 by demre             #+#    #+#             */
-/*   Updated: 2024/03/05 13:26:59 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/05 15:03:09 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,19 @@
 # define FAILURE 1
 # define SUCCESS 0
 
-extern int g_unblock_sigquit;
+extern int g_signal;
 
 // Signal handling
+
+void	block_signal(int signal);
+void	unblock_signal(int signal);
+
 	//ctrl-c
-int		signal_handling(pid_t pid1, int *status);
+int		signal_handling(t_minishell *data, int *status);
+void	set_child_sigint_action(void);
+void	set_parent_sigint_action(void);
 	//ctrl-d
-void		handle_ctrld_in_parent(t_minishell *data);
-char	*ctrl_d_pushed(t_minishell *data);
-void	handle_sigusr1_in_parent(int sig);
+void	set_parent_exit_signal_action(t_minishell *data);
 
 // Shell engine
 // shell.c, shell_process_args.c

@@ -56,58 +56,36 @@ void	unblock_signal(int signal)
 		printf("\e[36mSIGQUIT (ctrl-\\) unblocked.\e[0m\n");
 }
 
-void	sigint_handler(int signal)
+int	signal_handling(t_minishell *data, int *status)
 {
-	if (signal != SIGINT)
-		return ;
-	block_signal(SIGINT);
-	g_unblock_sigquit = 1;
-	unblock_signal(SIGINT);
-}
-
-/* The sigaction struct is used to specify the action to be taken when a
-signal is received.
- bzero ensures that any fields not explicity set will have a default value of
- zero.
- act.sa_handler = &sigint_handler;: Specifies the signal handler function
- to be called when the SIGINT signal (Ctrl-C) is received.
- sigaction(SIGINT, &act, NULL);: Associates the specified action (act) with
- the SIGINT signal. */
-
-void	set_signal_action(void)
-{
-	struct sigaction	act;
-
-	ft_bzero(&act, sizeof(act));
-	act.sa_handler = &sigint_handler;
-	sigaction(SIGINT, &act, NULL);
-}
-
-int	signal_handling(t_minishell *data, int *status) // do we need pid1 as partameter ?
-{
-	g_unblock_sigquit = 0;
-	set_signal_action();
+	(void)status;
+	g_signal = 0;
+	set_parent_sigint_action();
+	set_parent_exit_signal_action(data);
 	block_signal(SIGQUIT);
 //	Boucle infinie pour avoir le temps de faire ctrl-\ et
 //	ctrl-c autant de fois que ça nous chante.
-	while(data->is_ctrld == FALSE) // !WIFEXITED(*status)
+	while(data->is_exit == FALSE) // !WIFEXITED(*status)
 	{
 //		Bloque le signal SIGINT le temps de lire la variable
 //		globale.
 		block_signal(SIGINT);
 //		Si la routine de gestion de SIGINT a indiqué qu'elle a
 //		été invoquée dans la variable globale
-		if (g_unblock_sigquit == 1)
+		if (g_signal == ctrlc_signal)
 		{
 //			SIGINT (ctrl-c) a été reçu.
 			//printf("\n\e[36mSIGINT detected. Unblocking SIGQUIT\e[0m\n");
 			//process control c
-			printf("control c caught in parent\n");
-			//kill(pid1, SIGINT);
-			g_unblock_sigquit = 0;
+//			printf("control c caught in parent\n");
+			g_signal = no_signal;
 //			Débloque SIGINT et SIGQUIT
 			unblock_signal(SIGINT);
 			unblock_signal(SIGQUIT);
+		}		
+		if (g_signal == exit_signal)
+		{
+			data->is_exit = TRUE;
 		}
 //		Sinon, on débloque SIGINT et on continue la boucle
 		else

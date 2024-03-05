@@ -3,24 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
+/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:16:49 by demre             #+#    #+#             */
-/*   Updated: 2024/03/05 13:25:18 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/05 15:15:01 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int g_unblock_sigquit = 0;
+int g_signal = 0;
 
-int	main(int argc, char **argv, char **envp)
+int	main(int argc, char **argv)
 {
 	t_minishell	data;
 	int			status;
 
-	g_unblock_sigquit = 0;
-	if (argc != 1 && argv && (envp || !envp))
+	if (argc != 1 && argv)
 		return (EXIT_FAILURE);
 //		return (print_error(ARG), exit(EXIT_FAILURE));
 
@@ -31,10 +30,7 @@ int	main(int argc, char **argv, char **envp)
 		run_shell_loop(&data);
 	else if (data.pid1 > 0)
 	{
-		printf("From parent, pid: %d\n", getpid()); //
-		set_child_ctr_d_action();
 		signal_handling(&data, &status);
-		printf("waiting\n");
 		waitpid(data.pid1, &status, 0);
 
 		if (WIFEXITED(status) && WEXITSTATUS(status) == 0) {
