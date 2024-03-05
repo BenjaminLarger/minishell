@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 16:30:35 by demre             #+#    #+#             */
-/*   Updated: 2024/03/04 11:13:44 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/05 13:23:49 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ typedef struct s_minishell
 	char	*prompt;
 	char	**args;
 	pid_t	pid1;
+	int		is_ctrld;
 	
 }		t_minishell;
 

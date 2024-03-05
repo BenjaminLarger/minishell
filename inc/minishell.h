@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
+/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:00 by demre             #+#    #+#             */
-/*   Updated: 2024/03/04 21:42:42 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/05 13:26:59 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,9 @@ extern int g_unblock_sigquit;
 	//ctrl-c
 int		signal_handling(pid_t pid1, int *status);
 	//ctrl-d
-void	set_child_ctr_d_action(void);
+void		handle_ctrld_in_parent(t_minishell *data);
 char	*ctrl_d_pushed(t_minishell *data);
-void	kill_child_process(int sig);
+void	handle_sigusr1_in_parent(int sig);
 
 // Shell engine
 // shell.c, shell_process_args.c

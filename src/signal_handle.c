@@ -83,14 +83,14 @@ void	set_signal_action(void)
 	sigaction(SIGINT, &act, NULL);
 }
 
-int	signal_handling(pid_t pid1, int *status) // do we need pid1 as partameter ?
+int	signal_handling(t_minishell *data, int *status) // do we need pid1 as partameter ?
 {
 	g_unblock_sigquit = 0;
 	set_signal_action();
 	block_signal(SIGQUIT);
 //	Boucle infinie pour avoir le temps de faire ctrl-\ et
 //	ctrl-c autant de fois que ça nous chante.
-	while(pid1 && !WIFEXITED(*status))
+	while(data->is_ctrld == FALSE) // !WIFEXITED(*status)
 	{
 //		Bloque le signal SIGINT le temps de lire la variable
 //		globale.

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal_ctrl_d.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
+/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 11:30:46 by blarger           #+#    #+#             */
-/*   Updated: 2024/03/04 21:41:47 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/05 13:27:28 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,11 @@
 /*  If pid equals 0, then sig is sent to every process in the process
        group of the calling process. */
 
-void		set_child_ctr_d_action(void)
+void		handle_ctrld_in_parent(t_minishell *data)
 {
+	data->is_ctrld = FALSE;
 	printf("From set_child_ctr_d_action, pid: %d\n", getpid());
-	signal(SIGUSR1, kill_child_process);
+	signal(SIGUSR1, handle_sigusr1_in_parent);
 }
 
 char	*ctrl_d_pushed(t_minishell *data) //doese not work
@@ -33,11 +34,12 @@ char	*ctrl_d_pushed(t_minishell *data) //doese not work
 	return (NULL);
 }
 
-void	kill_child_process(int sig) // en fait, ca kill le parent
+void	handle_sigusr1_in_parent(dataint sig) // en fait, ca kill le parent
 {
 //	if (sig || !sig)
 //		printf("exit\n"); //should print exit next to the newline, not at the next line
 	(void)sig;
 	printf("From kill_child_process, pid: %d\n", getpid());
-	exit(EXIT_SUCCESS);
+	data->is_ctrld = TRUE;
+	//exit(EXIT_SUCCESS);
 }

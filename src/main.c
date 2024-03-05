@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
+/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:16:49 by demre             #+#    #+#             */
-/*   Updated: 2024/03/04 21:37:31 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/05 13:25:18 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	main(int argc, char **argv, char **envp)
 	{
 		printf("From parent, pid: %d\n", getpid()); //
 		set_child_ctr_d_action();
-		signal_handling(data.pid1, &status);
+		signal_handling(&data, &status);
 		printf("waiting\n");
 		waitpid(data.pid1, &status, 0);
 
