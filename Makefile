@@ -20,10 +20,11 @@ HEADERS		= -I $(HEADER_DIR) -I ${LIBFT} -I$(HOME)/.brew/opt/readline/include
 
 ## SOURCE ##
 SRCS		:= main.c \
-	shell.c shell_process_args.c \
+	shell.c shell_process_args.c shell_split_args.c \
 	input.c input_assign_tokens.c input_count_tokens.c \
 	signal_handle.c signal_sigint.c signal_parent_exit.c \
 	cleanup_free_arrays.c \
+	dev_utils.c \
 
 SRC_DIR		:= src/
 BUILD_DIR	:= build/

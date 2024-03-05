@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:16:49 by demre             #+#    #+#             */
-/*   Updated: 2024/03/05 15:15:01 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/05 15:51:13 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int g_signal = 0;
 int	main(int argc, char **argv)
 {
 	t_minishell	data;
-	int			status;
+	int			status; // prob to delete
 
 	if (argc != 1 && argv)
 		return (EXIT_FAILURE);

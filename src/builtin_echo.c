@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_echo.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
+/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 12:44:26 by blarger           #+#    #+#             */
-/*   Updated: 2024/03/05 12:59:08 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/05 15:57:35 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,7 @@ void	echo_builtin(t_minishell *data, int i)
 		delete_newline = true;
 	else
 		delete_newline = false;
-	while (data->args[i] != "|" && data->args[i] != "||"
-		&& data->args[i])
+	while (data->args[i] != "|" && data->args[i])
 	{
 		if (start == false)
 			printf(" ");

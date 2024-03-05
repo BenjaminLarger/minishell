@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process_here_file.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
+/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 09:11:57 by blarger           #+#    #+#             */
-/*   Updated: 2024/03/05 12:42:20 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/05 16:44:58 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,14 @@ static void	open_here_files(t_minishell *data, int n_cmds);
 static void	read_from_input(t_minishell *data);
 static void	write_to_fd1(t_minishell *data);
 
-void	redirection_limiter(t_minishell *data, char **envp, int n_cmds)
+void	process_here_file(t_minishell *data, int n_cmds)
 {
-	int	i;
+	int		i;
+	char	*envp;
 
+	envp = getenv("PATH");
 	i = -1;
-	if (envp)
-		open_here_files(data, n_cmds);
+	open_here_files(data, n_cmds);
 	read_from_input(data);
 	/* dup2(data->file.fd1, STDIN_FILENO);
 	while (++i < n_cmds - 1)

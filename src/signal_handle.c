@@ -59,7 +59,7 @@ void	unblock_signal(int signal)
 int	signal_handling(t_minishell *data, int *status)
 {
 	(void)status;
-	g_signal = 0;
+	g_signal = 0; // delete ?
 	set_parent_sigint_action();
 	set_parent_exit_signal_action(data);
 	block_signal(SIGQUIT);

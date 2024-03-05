@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:16 by demre             #+#    #+#             */
-/*   Updated: 2024/03/04 21:43:03 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/05 16:54:31 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ char	*read_input(char *prompt)
  * @param t_minishell Structure representing the shared data and parameters.
  * @return 
  */
-int		split_input_in_args(t_minishell *data)
+int		split_input_into_args(t_minishell *data)
 {
 	int		n_args;
 
@@ -54,15 +54,7 @@ int		split_input_in_args(t_minishell *data)
 	if (data->prompt && assign_tokens(data->args, data->prompt) == FAILURE)
 		return (FAILURE);
 
-/* // Print all args to terminal
-	if (data->prompt)
-	{
-		int i = 0;
-		while (data->args[i])
-		{
-			printf("%s\n", data->args[i]);
-			i++;
-		}
-	} */
+	// print_array(data->args);
+	
 	return (SUCCESS);
 }

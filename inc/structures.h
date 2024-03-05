@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 16:30:35 by demre             #+#    #+#             */
-/*   Updated: 2024/03/05 14:43:58 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/05 16:54:31 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ typedef struct s_cmd
 	char			**cmd;
 	bool			valid_cmd;
 	char			*bash_path;
-	int				n_cmd;
+	int				n_cmd_args;
 }	t_cmd;
 
 typedef struct s_file
@@ -59,6 +59,11 @@ typedef struct s_minishell
 	char	**args;
 	pid_t	pid1;
 	int		is_exit;
+	t_file	file;
+	t_cmd	*cmds;
+	int		n_cmds;
+	char	**linker;
+	int		n_linker;
 	
 }		t_minishell;
 

@@ -1,25 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   shell_process_args.c                               :+:      :+:    :+:   */
+/*   dev_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/02 21:44:40 by demre             #+#    #+#             */
-/*   Updated: 2024/03/05 16:49:59 by demre            ###   ########.fr       */
+/*   Created: 2024/03/05 16:07:07 by demre             #+#    #+#             */
+/*   Updated: 2024/03/05 16:54:31 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	process_args(t_minishell *data)
+/**
+ * @brief Print a string array to terminal
+ * @param t_minishell Structure representing the shared data and parameters.
+*/
+void	print_array(char **array)
 {
-//	if (split_args_into_cmds(data) == FAILURE)
-//		return (FAILURE);
-
-	if (!ft_strncmp(data->args[1], "<<", 2))
-		process_here_file(data, 2);
-	else if (!ft_strncmp(data->args[0], "echo", 4))
-		echo_builtin(data, 1);
-	return (SUCCESS);
+	int i = 0;
+	while (array[i])
+	{
+		printf("%s\n", array[i]);
+		i++;
+	}
 }
