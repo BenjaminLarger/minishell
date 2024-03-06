@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_cd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
+/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 16:15:50 by blarger           #+#    #+#             */
-/*   Updated: 2024/03/06 14:24:11 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/06 16:24:53 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,18 @@ can be passed directly to the chdir system call.*/
 static void	cd_back_to_prev_cur_dir(char *arg, char *cur_dir);
 static void	dispatch_home_dir(char *arg, char *cur_dir);
 
-char	*g_last_dir[MAX_PATH_LEN]; //global variabl here
+char	g_last_dir[MAX_PATH_LEN]; //global variabl here
 	
 void	builtin_cd(char *arg)
 {
 	char	*cur_dir;
 
-	cur_dir = NULL;
-	if (getcwd(cur_dir, sizeof(cur_dir))) //allocate using malloc
+	if (g_last_dir)
+		printf("last dir = %s\n", g_last_dir);
+	/* cur_dir = (char *)malloc(MAX_PATH_LEN * sizeof(char));
+	if (!cur_dir)
+		return ; //Adjust error message */
+	if (getcwd(cur_dir, sizeof(cur_dir)))
 		cur_dir = NULL;
 	if (arg == NULL)
 		arg = getenv("HOME"); //do not use malloc
@@ -53,8 +57,7 @@ void	builtin_cd(char *arg)
 		dispatch_home_dir(arg, cur_dir);
 	else if (*arg == '.')
 	{
-		printf("ok\n");
-		ft_strlcpy((char *)g_last_dir, cur_dir, ft_strlen((char *)g_last_dir));
+		ft_strlcpy((char *)g_last_dir, cur_dir, ft_strlen((char *)g_last_dir) - 1);
 		return ;
 	}
 	else
@@ -74,7 +77,6 @@ static void	cd_back_to_prev_cur_dir(char *arg, char *cur_dir)
 {
 	if (*g_last_dir == (void *)0)
 			return (ft_putstr_fd("No previous directory\n", 2));
-	ft_strlcpy(arg, (char *)g_last_dir, ft_strlen(arg));
 	if (chdir(arg))
 		ft_putstr_fd("Path not found\n", 2); //change error msg
 	ft_strlcpy((char *)g_last_dir, cur_dir, ft_strlen(cur_dir));

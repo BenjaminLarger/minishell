@@ -13,3 +13,8 @@ usage: tr [-Ccsu] string1 string2
        tr [-Ccu] -d string1
        tr [-Ccu] -s string1
        tr [-Ccu] -ds string1 string2
+
+
+grep i < infile
+==
+< infile | grep i

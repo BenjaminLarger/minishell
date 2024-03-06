@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
+/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:00 by demre             #+#    #+#             */
-/*   Updated: 2024/03/06 13:12:54 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/06 15:17:38 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,11 @@ void	set_parent_sigint_action(void);
 void	set_parent_exit_signal_action(t_minishell *data);
 
 // Shell engine
-// shell.c, shell_process_args.c
+// shell.c, shell_process_args.c, shell_split_args.c
 
 int		run_shell_loop(t_minishell *data);
 int		process_args(t_minishell *data);
+int		split_args_into_cmds(t_minishell *data);
 
 // Handle input
 // input.c, input_assign_tokens.c, input_count_tokens.c

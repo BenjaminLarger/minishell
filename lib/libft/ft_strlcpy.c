@@ -6,11 +6,12 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 17:05:30 by demre             #+#    #+#             */
-/*   Updated: 2023/12/01 14:03:08 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/06 16:10:10 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stddef.h>
+#include <stdio.h>
 
 size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 {
