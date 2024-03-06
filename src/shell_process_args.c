@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_process_args.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
+/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/02 21:44:40 by demre             #+#    #+#             */
-/*   Updated: 2024/03/06 16:27:15 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/06 16:48:40 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	process_args(t_minishell *data)
 	else if (!ft_strncmp(data->args[0], "pwd", 3))
 		builtin_pwd(); // change to n cmds
 	else if (!ft_strncmp(data->args[0], "cd", 2))
-		builtin_cd(data->args[1]);
+		builtin_cd(data->args[1], data);
 /* 	else if (!ft_strncmp(data->args[1], "<<", 2))
 		process_here_file(data, 2); */
 	return (SUCCESS);

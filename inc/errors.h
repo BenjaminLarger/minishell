@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:07 by demre             #+#    #+#             */
-/*   Updated: 2024/03/06 13:59:27 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/06 16:53:50 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 # define EXEC_FAIL		"sh: command not found: "
 # define ENV			"Can't find the environment"
 # define COM			"zsh: command not found: "
-# define FILE			"No such file or directory: "
+# define FILE			"No such file or directory: \n"
 # define PIPE			"Pipe creation failed."
 # define WAIT			"waitpid function failed to resume parent process.\n"
 # define CHILD			"Child process terminated abnormally\n"

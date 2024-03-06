@@ -3,14 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_cd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
+/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 16:15:50 by blarger           #+#    #+#             */
-/*   Updated: 2024/03/06 16:24:53 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/06 17:32:07 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <errno.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+
 
 //FUNCTIONS
 /* chdir will change the current directory of your program, probably a
@@ -33,64 +39,67 @@ should expand to the home directory of the user name.*/
 /* Absolute and relative paths such as /, .., subdir pose no problem and
 can be passed directly to the chdir system call.*/
 
-static void	cd_back_to_prev_cur_dir(char *arg, char *cur_dir);
-static void	dispatch_home_dir(char *arg, char *cur_dir);
+static void	cd_back_to_prev_cur_dir(char *arg, char *cur_dir, t_minishell *data);
+static void	dispatch_home_dir(char *arg, char *cur_dir, t_minishell *data);
 
-char	g_last_dir[MAX_PATH_LEN]; //global variabl here
-	
-void	builtin_cd(char *arg)
+void	builtin_cd(char *arg, t_minishell *data)
 {
 	char	*cur_dir;
 
-	if (g_last_dir)
-		printf("last dir = %s\n", g_last_dir);
-	/* cur_dir = (char *)malloc(MAX_PATH_LEN * sizeof(char));
-	if (!cur_dir)
-		return ; //Adjust error message */
-	if (getcwd(cur_dir, sizeof(cur_dir)))
-		cur_dir = NULL;
+	/* if (!data->cd_last_dir)
+	{
+		data->cd_last_dir = (char *)malloc(sizeof(char) * MAX_PATH_LEN);
+		if (!data->cd_last_dir)
+			return ; //edit
+	} */
+	cur_dir = NULL;
+	cur_dir = getcwd(cur_dir, sizeof(cur_dir));
+	/*if (!getcwd(cur_dir, sizeof(cur_dir)))
+		cur_dir = NULL; */
 	if (arg == NULL)
 		arg = getenv("HOME"); //do not use malloc
 	if (!ft_strncmp(arg, "-", 1))
-		return (cd_back_to_prev_cur_dir(arg, cur_dir));
+		return (cd_back_to_prev_cur_dir(arg, cur_dir, data));
 	else if (*arg == '~')
-		dispatch_home_dir(arg, cur_dir);
-	else if (*arg == '.')
+		dispatch_home_dir(arg, cur_dir, data);
+	else if (*arg == '.' && arg[1] == '\0')
 	{
-		ft_strlcpy((char *)g_last_dir, cur_dir, ft_strlen((char *)g_last_dir) - 1);
+		ft_strlcpy(data->cd_last_dir, cur_dir, ft_strlen(data->cd_last_dir) + 1);
 		return ;
 	}
 	else
 	{
+		printf("arg = %s\n", arg);
 		if (chdir(arg))
 		{
-			ft_putstr_fd("bash: cd:", 2); //change error msg
+			ft_putstr_fd("bash: cd: ", 2); //change error msg
 			ft_putstr_fd(arg, 2);
 			ft_putstr_fd(FILE, 2);
 		}
 	}
-	ft_strlcpy((char *)g_last_dir, cur_dir, ft_strlen((char *)g_last_dir));
+	ft_strlcpy(data->cd_last_dir, cur_dir, ft_strlen(data->cd_last_dir) + 1);
 	free(cur_dir);
 }
 
-static void	cd_back_to_prev_cur_dir(char *arg, char *cur_dir)
+static void	cd_back_to_prev_cur_dir(char *arg, char *cur_dir, t_minishell *data)
 {
-	if (*g_last_dir == (void *)0)
+	if (!data->cd_last_dir)
 			return (ft_putstr_fd("No previous directory\n", 2));
-	if (chdir(arg))
+	if (chdir(data->cd_last_dir) && arg)
 		ft_putstr_fd("Path not found\n", 2); //change error msg
-	ft_strlcpy((char *)g_last_dir, cur_dir, ft_strlen(cur_dir));
+	printf("%s\n", data->cd_last_dir);
+	ft_strlcpy((char *)data->cd_last_dir, cur_dir, ft_strlen(cur_dir) + 1);
 	free(cur_dir);
 }
 
-static void	dispatch_home_dir(char *arg, char *cur_dir)
+static void	dispatch_home_dir(char *arg, char *cur_dir, t_minishell *data)
 {
 	char	*path;
 
 	path = NULL;
 	if (arg[1] == '/' || arg[1] == '\0')
 	{
-		snprintf(path, sizeof path, "%s%s", getenv("HOME"), arg + 1);
+		snprintf(path, sizeof path, "%s%s", getenv("HOME"), arg + 1); //can not use !!
 		arg = path;
 	}
 	else
@@ -101,6 +110,6 @@ static void	dispatch_home_dir(char *arg, char *cur_dir)
 	}
 	if (chdir(arg))
 		ft_putstr_fd("Path not found\n", 2); //change error msg
-	ft_strlcpy((char *)g_last_dir, cur_dir, ft_strlen((char *)g_last_dir));
+	ft_strlcpy((char *)data->cd_last_dir, cur_dir, ft_strlen((char *)data->cd_last_dir) + 1);
 	free(cur_dir);
 }
