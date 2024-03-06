@@ -1,40 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_echo.c                                     :+:      :+:    :+:   */
+/*   builtin_pwd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/05 12:44:26 by blarger           #+#    #+#             */
-/*   Updated: 2024/03/06 11:58:32 by blarger          ###   ########.fr       */
+/*   Created: 2024/03/06 09:42:30 by blarger           #+#    #+#             */
+/*   Updated: 2024/03/06 12:32:12 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	builtin_echo(char **args, int n_cmd)
+void	builtin_pwd(void) //can delet n_cmds arg once n_cmds implented
 {
-	bool	delete_newline;
-	bool	start;
-	int		i;
+	char			cwd[1024];
 
-	start = true;
-	i = 1;
-	if (!ft_strncmp(args[i], "-n", 2))
-	{
-		i++;
-		delete_newline = true;
-	}
-	else
-		delete_newline = false;
-	while (i <= n_cmd)
-	{
-		if (start == false)
-			printf(" ");
-		printf("%s", args[i]);
-		i++;
-		start = false;
-	}
-	if (delete_newline == false)
-		printf("\n");
+	if (getcwd(cwd, sizeof(cwd)) != NULL)
+		printf("%s\n", cwd);
 }

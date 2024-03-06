@@ -1,40 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_echo.c                                     :+:      :+:    :+:   */
+/*   builtin_env.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/05 12:44:26 by blarger           #+#    #+#             */
-/*   Updated: 2024/03/06 11:58:32 by blarger          ###   ########.fr       */
+/*   Created: 2024/03/06 10:19:52 by blarger           #+#    #+#             */
+/*   Updated: 2024/03/06 11:00:01 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	builtin_echo(char **args, int n_cmd)
+void	builtin_env(void)
 {
-	bool	delete_newline;
-	bool	start;
-	int		i;
+	extern char	**environ;
+	char		**s;
 
-	start = true;
-	i = 1;
-	if (!ft_strncmp(args[i], "-n", 2))
+	s = environ;
+	while (*s)
 	{
-		i++;
-		delete_newline = true;
+		printf("%s\n", *s);
+		s++;
 	}
-	else
-		delete_newline = false;
-	while (i <= n_cmd)
-	{
-		if (start == false)
-			printf(" ");
-		printf("%s", args[i]);
-		i++;
-		start = false;
-	}
-	if (delete_newline == false)
-		printf("\n");
 }

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   process_here_file.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
+/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 09:11:57 by blarger           #+#    #+#             */
-/*   Updated: 2024/03/05 16:44:58 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/06 11:03:46 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	read_from_input(t_minishell *data);
+/*static void	read_from_input(t_minishell *data);
 static void	open_here_files(t_minishell *data, int n_cmds);
 static void	read_from_input(t_minishell *data);
 static void	write_to_fd1(t_minishell *data);
@@ -26,7 +26,7 @@ void	process_here_file(t_minishell *data, int n_cmds)
 	i = -1;
 	open_here_files(data, n_cmds);
 	read_from_input(data);
-	/* dup2(data->file.fd1, STDIN_FILENO);
+	dup2(data->file.fd1, STDIN_FILENO);
 	while (++i < n_cmds - 1)
 	{
 		if (i == 0)
@@ -35,7 +35,7 @@ void	process_here_file(t_minishell *data, int n_cmds)
 			child_process(data, envp, i + 1);
 	}
 	dup2(data->file.fd2, STDOUT_FILENO);
-	execve(data->args[n_cmds - 1].bash_path, data->args[n_cmds - 1],envp); */
+	execve(data->args[n_cmds - 1].bash_path, data->args[n_cmds - 1],envp);
 }
 
 static void	open_here_files(t_minishell *data, int n_cmds)
@@ -85,4 +85,4 @@ static void	write_to_fd1(t_minishell *data)
 	close(data->file.fd1);
 	open(data->file.filename1, O_RDONLY);
 	free(data->file.limited);
-}
+}*/

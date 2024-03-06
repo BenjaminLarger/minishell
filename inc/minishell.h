@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
+/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:00 by demre             #+#    #+#             */
-/*   Updated: 2024/03/05 16:18:53 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/06 13:12:54 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <signal.h>
-#include <dirent.h>
+# include <dirent.h>
+# include <errno.h>
 # include "libft.h"
 # include "errors.h"
 # include "structures.h"
@@ -66,7 +67,10 @@ int		assign_tokens(char **tokens, char const *str);
 void	process_here_file(t_minishell *data, int n_cmds);
 
 //BuiltsIn
-void	echo_builtin(t_minishell *data, int i);
+void	builtin_echo(char **args, int n_cmd);
+void	builtin_pwd(void);
+void	builtin_env(void);
+void	builtin_cd(char *arg);
 
 // Free arrays
 // cleanup_free_arrays.c
@@ -74,6 +78,9 @@ void	echo_builtin(t_minishell *data, int i);
 void	free_string_array(char **str_array);
 void	free_n_string_array(char **str_array, int n);
 void	free_array_string_array(char ***array);
+
+//utils
+char	*ft_strjoin_free(char *s1, char *s2);
 
 // Dev functions
 
