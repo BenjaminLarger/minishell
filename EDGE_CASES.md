@@ -18,3 +18,5 @@ usage: tr [-Ccsu] string1 string2
 grep i < infile
 ==
 < infile | grep i
+
+ls -l | < infile | cat -e // should work
