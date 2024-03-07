@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
+/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:00 by demre             #+#    #+#             */
-/*   Updated: 2024/03/07 15:00:22 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/07 17:34:31 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	builtin_echo(char **args, int n_cmd);
 void	builtin_pwd(void);
 void	builtin_env(void);
 void	builtin_cd(char *arg, t_minishell *data);
-void	builtin_export(char *arg, t_minishell *data);
+void	builtin_export(char **args);
 
 // Free arrays
 // cleanup_free_arrays.c
