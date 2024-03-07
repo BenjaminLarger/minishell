@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 12:49:54 by demre             #+#    #+#             */
-/*   Updated: 2024/03/06 16:58:24 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/07 08:51:54 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,5 +67,6 @@ void	ft_lst_add_front(t_list **lst, t_list *new_node);
 void	ft_lst_apply_all(t_list *lst, void (*f)(void *));
 t_list	*ft_lst_map(t_list *lst, void *(*f)(void *), void (*del)(void *));
 char	*ft_get_next_line(int file_descriptor);
+char	*gnl_strjoin(char const *s1, char const *s2);
 
 #endif
