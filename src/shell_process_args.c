@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_process_args.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
+/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/02 21:44:40 by demre             #+#    #+#             */
-/*   Updated: 2024/03/06 16:48:40 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/06 19:32:32 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ int	process_args(t_minishell *data)
 {
 //	if (split_args_into_cmds(data) == FAILURE)
 //		return (FAILURE);
+//	if (data->n_args == 0)
+//		return (SUCCESS);
 
 	if (!ft_strncmp(data->args[0], "echo", 4))
 		builtin_echo(data->args, 3); //replace 4 by n_cmds

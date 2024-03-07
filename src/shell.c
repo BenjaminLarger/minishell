@@ -6,11 +6,21 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 14:31:29 by demre             #+#    #+#             */
-/*   Updated: 2024/03/05 16:54:31 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/06 18:12:46 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void	kill_and_exit(t_minishell *data, int exit_type)
+{
+	kill(data->pid1, SIGUSR1);
+	if (exit_type == EXIT_SUCCESS)
+		exit(EXIT_SUCCESS);
+	else if (exit_type == EXIT_FAILURE)
+		exit(EXIT_FAILURE);
+
+}
 
 int	run_shell_loop(t_minishell *data)
 {
@@ -22,8 +32,8 @@ int	run_shell_loop(t_minishell *data)
 		if (data->prompt)
 		{
 			if (split_input_into_args(data) == FAILURE)
-				return (FAILURE);
-			process_args(data);
+				kill_and_exit(data, EXIT_FAILURE); // free first
+			process_args(data); // error: two consecutive linker or sole linker
 			free_string_array(data->args);
 		}
 		else // when ctrl-d is pressed
