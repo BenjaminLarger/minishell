@@ -23,7 +23,7 @@ SRCS		:= main.c \
 	shell.c shell_process_args.c shell_split_args.c \
 	input.c input_assign_tokens.c input_count_tokens.c \
 	signal_handle.c signal_sigint.c signal_parent_exit.c \
-	builtin_cd.c builtin_echo.c builtin_pwd.c builtin_env.c 
+	builtin_cd.c builtin_echo.c builtin_pwd.c builtin_env.c \
 	builtin_export.c\
 	utils_joinfree.c \
 	cleanup_free_arrays.c \
