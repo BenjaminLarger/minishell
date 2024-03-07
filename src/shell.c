@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 14:31:29 by demre             #+#    #+#             */
-/*   Updated: 2024/03/06 18:12:46 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/07 16:19:13 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ int	run_shell_loop(t_minishell *data)
 			if (split_input_into_args(data) == FAILURE)
 				kill_and_exit(data, EXIT_FAILURE); // free first
 			process_args(data); // error: two consecutive linker or sole linker
+		//	exec_args(data);
 			free_string_array(data->args);
 		}
 		else // when ctrl-d is pressed

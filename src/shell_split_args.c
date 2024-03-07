@@ -6,13 +6,13 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 16:00:30 by demre             #+#    #+#             */
-/*   Updated: 2024/03/06 19:29:02 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/07 15:03:16 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int is_linker(char *str)
+static int is_linker(char *str)
 {
 	if (ft_strcmp(str, "|") == 0
 		|| ft_strcmp(str, "<") == 0

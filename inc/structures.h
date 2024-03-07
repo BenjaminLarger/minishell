@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 16:30:35 by demre             #+#    #+#             */
-/*   Updated: 2024/03/06 19:13:50 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/07 15:33:42 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,12 @@ typedef struct s_minishell
 	pid_t	pid1;
 	int		is_exit;
 	t_file	file;
-	t_cmd	*cmds;
-	int		n_cmds;
-	char	**linker;
-	int		n_linker;
+	t_cmd	*cmds; // prob delete
+	int		n_cmds; // prob delete
+	char	**linker; // prob delete
+	int		n_linker; // prob delete
+	int		fd_pipe1[2];
+	int		fd_pipe2[2];
 	char	*cd_last_dir;
 }		t_minishell;
 
