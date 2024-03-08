@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:00 by demre             #+#    #+#             */
-/*   Updated: 2024/03/07 17:34:31 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/08 13:17:00 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ void	builtin_pwd(void);
 void	builtin_env(void);
 void	builtin_cd(char *arg, t_minishell *data);
 void	builtin_export(char **args);
+void	builtin_unset(char **args);
 
 // Free arrays
 // cleanup_free_arrays.c
@@ -90,5 +91,6 @@ char	*ft_strjoin_free(char *s1, char *s2);
 
 void	print_array(char **array);
 void	print_all_cmds_and_linkers(t_minishell *data);
+void	ft_leaks(void);
 
 #endif

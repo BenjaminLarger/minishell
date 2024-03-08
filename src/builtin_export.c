@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 09:34:57 by blarger           #+#    #+#             */
-/*   Updated: 2024/03/07 17:37:38 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/08 13:51:20 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	builtin_export(char **args)
 	int	i;
 
 	i = 1;
-	if (!args)
+	if (!args[1])
 		return (display_exported_variable());
 	else
 	{

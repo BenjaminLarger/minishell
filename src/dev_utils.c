@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dev_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
+/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 16:07:07 by demre             #+#    #+#             */
-/*   Updated: 2024/03/06 19:22:32 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/08 13:19:43 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,4 +52,9 @@ void	print_all_cmds_and_linkers(t_minishell *data)
 		printf("linker[%d]: %s\n", i, data->linker[i]);
 		i++;
 	}
+}
+
+void	ft_leaks(void)
+{
+	system("leaks ./minishell");
 }

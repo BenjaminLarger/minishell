@@ -26,6 +26,8 @@ Handle empty command ""
 execve
 
 ## 5. Redirection and pipe
+Si le shell exécutait directement le programme ls sans créer de fils au préalable, le processus du shell serait entièrement remplacé par le programme ls et on ne pourrait plus rien faire dans notre shell…
+
 Handle input/output redirection
 Execute commands with redirections < and/or >
 Repeat multiple times with different commands and arguments and sometimes change > with >>
@@ -118,8 +120,29 @@ write(): This function is used to write data to a file descriptor. In the contex
 access(), open(), read(), close(): These functions are used for file operations like checking file accessibility, opening files, reading from them, and closing them.
 
 fork(), wait(), waitpid(), wait3(), wait4(): These functions are used for process management, including creating child processes, waiting for them to terminate, and obtaining their status.
+id_t wait(int *status);
+pid_t waitpid(pid_t pid, int *status, int options);
+Langage du code : C++ (cpp)
+La différence entre les deux se ressent surtout lorsqu’un processus a plusieurs processus fils. L’appel wait va récupérer le premier fils qui a terminé, tandis que waitpid pourra attendre le fils avec le PID qu’on lui fournit en particulier et ignorer tous les autres. De plus, waitpid nous fournit la possibilité d’indiquer certaines options.
+Le paramètre commun aux deux appels système est status : un pointeur vers une variable de type int, dans lequel wait et waitpid peuvent stoker le statut de fin du processus fils qu’on récupère. On pourra ensuite analyser ce nombre pour déterminer si le fils a correctement terminé son exécution ou s’il a été interrompu par exemple.
+options : il existe quelques options possibles pour waitpid. Parmi elles, l’option parfois bien utile WNOHANG, qui force waitpid à retourner immédiatement si le fils n’a pas fini son exécution. Sans cette option, le processus père restera par défaut bloqué tant que le fils n’a pas terminé.
+On peut inspecter le statut à l’aide de plusieurs macros :
+WIFEXITED(status) : renvoie vrai si le fils s’est terminé normalement, par exemple en faisant appel à exit ou en terminant via la fonction principale, main.
+WEXITSTATUS(status) : a utiliser uniquement si WIFEXITED a renvoyé vrai. Renvoie le code de sortie du fils, c’est à dire le nombre que le fils a spécifié lors de son appel à exit ou lors de son retour dans le main.
+WIFSIGNALED(status) : renvoie vrai si le fils a été terminé de force par un signal.
+WTERMSIG(status) : a utiliser uniquement si WIFSIGNALED a renvoyé vrai. Renvoie le numéro du signal qui a provoqué la terminaison du fils.
 
 signal(), sigaction(), sigemptyset(), sigaddset(), kill(): These functions are used for signal handling, including setting signal handlers, sending signals, and modifying signal sets.
+C’est quelque peu sinistre, mais on peut, au besoin, tuer notre processus fils. Pour cela, il suffit d’utiliser la fonction kill de la bibliothèque <signal.h> afin d’envoyer un signal au processus fils de tout arrêter immédiatement. Le prototype de la fonction est le suivant :
+sig : le signal à envoyer au processus pour le tuer. Il y a plusieurs signaux possibles qu’on peut envoyer avec kill, chacun avec ses nuances (voir man 7 signal), mais les plus courants sont sans doute SIGTERM (signal de fin) ou SIGKILL (arrêt forcé immédiat).
+« L’envoi » d’un signal est en réalité plutôt une livraison : le système met à jour le contexte du processus destinataire du signal. En effet, pour chaque processus, le système maintient deux vecteurs de bits : pending pour surveiller les signaux en attente, et blocked pour suivre les signaux bloqués. Lorsqu’il envoie un signal, le système ne fait que mettre le bit associé au signal à 1 dans le vecteur pending du processus destinataire.
+Il est important de noter qu’il ne peut pas y avoir plusieurs signaux du même type en attente. Dans l’image ci-dessus, le processus a déjà le signal 17, SIGCHLD, en attente. Le système ne peut donc pas lui envoyer d’autres signaux SIGCHLD jusqu’à ce que ce signal soit réceptionné. Il n’y a pas non plus de file d’attente pour les signaux en attente : tant que ce signal n’est pas réceptionné, tous les signaux du même type qui suivent sont perdus.
+Cet appel système fonctionne de la même manière que la commande /bin/kill décrite ci-dessus. Ses paramètres sont :
+pid : l’identifiant du processus ou du groupe de processus auquel envoyer le signal. On peut ici spécifier :
+un entier positif : le PID d’un processus,
+un entier négatif : le PGID d’un groupe de processus,
+0 : tous les processus dans le groupe du processus appelant,
+-1 : tous les processus dans le système pour lequel le processus appelant a la permission d’envoyer un signal (sauf le processus 1, init). Voir la page de manuel kill (2) pour la question des permissions.
 
 exit(): This function is used to terminate the calling process. It would be used to exit the minishell.
 
@@ -128,6 +151,11 @@ getcwd(), chdir(), stat(), lstat(), fstat(), unlink(): These functions are used 
 execve(): This function is used to execute a program. It would be used to launch other executables within the minishell.
 
 dup(), dup2(), pipe(): These functions are used for file descriptor manipulation and inter-process communication, including duplicating file descriptors and creating pipes for communication between processes.
+Les descripteurs de fichiers d’un pipe s’utilisent de la même manière que tout autre descripteur de fichier. Afin d’y mettre des données ou de les récupérer, on pourra se servir respectivement des appels systèmes read et write de la bibliothèque <unistd.h>.
+LIRE ET ECRIRE DANS UN PIPE
+Il y a toutefois deux points à garder à l’esprit :
+Si un processus tente de lire depuis un pipe vide, read bloquera le processus jusqu’à ce que des données soient écrites dans le pipe.
+À l’inverse, si un processus tente d’écrire dans un pipe plein (c’est à dire à la limite de sa capacité), write bloquera le processus jusqu’à ce qu’assez de données soient lues pour permettre d’y écrire.
 
 opendir(), readdir(), closedir(): These functions are used for directory operations, including opening directories, reading directory contents, and closing directories.
 
