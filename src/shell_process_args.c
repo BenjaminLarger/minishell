@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_process_args.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
+/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/02 21:44:40 by demre             #+#    #+#             */
-/*   Updated: 2024/03/07 17:31:45 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/08 16:22:19 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	process_args(t_minishell *data)
 	else if (!ft_strncmp(data->args[0], "cd", 2) && data->args[0][2] == '\0')
 		builtin_cd(data->args[1], data);
 	else if (!ft_strncmp(data->args[0], "export", 6) && data->args[0][6] == '\0')
-		builtin_export(data->args, data);
+		builtin_export(data->args);
 /* 	else if (!ft_strncmp(data->args[1], "<<", 2))
 		process_here_file(data, 2); */
 	return (SUCCESS);

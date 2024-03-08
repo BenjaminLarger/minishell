@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
+/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:16:49 by demre             #+#    #+#             */
-/*   Updated: 2024/03/06 17:23:01 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/08 17:53:20 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,19 @@ int	main(int argc, char **argv)
 		run_shell_loop(&data);
 	else if (data.pid1 > 0)
 	{
-		signal_handling(&data, &status);
+		signal_handling(&data);
 		waitpid(data.pid1, &status, 0);
 
-		if (WIFEXITED(status) && WEXITSTATUS(status) == 0) {
-			printf("Child process terminated successfully. Parent process exiting.\n");
+		if (WIFEXITED(status))
+		{
+			int exit_status = WEXITSTATUS(status);
+			if (exit_status == 0) {
+				printf("Child process terminated successfully. Parent process exiting.\n");
+			} else {
+				printf("Child process terminated with error (exit status: %d). Parent process continuing.\n", exit_status);
+			}
 		} else {
-			printf("Child process terminated with error. Parent process continuing.\n");
+			printf("Child process terminated abnormally. Parent process continuing.\n");
 		}
 	}
 	return (EXIT_SUCCESS);

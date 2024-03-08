@@ -56,16 +56,16 @@ void	unblock_signal(int signal)
 		printf("\e[36mSIGQUIT (ctrl-\\) unblocked.\e[0m\n");
 }
 
-int	signal_handling(t_minishell *data, int *status)
+int	signal_handling(t_minishell *data)
 {
-	(void)status;
 	g_signal = 0; // delete ?
 	set_parent_sigint_action();
-	set_parent_exit_signal_action(data);
+	data->is_exit = FALSE;
+	set_parent_exit_signal_action();
 	block_signal(SIGQUIT);
 //	Boucle infinie pour avoir le temps de faire ctrl-\ et
 //	ctrl-c autant de fois que ça nous chante.
-	while(data->is_exit == FALSE) // !WIFEXITED(*status)
+	while(data->is_exit == FALSE)
 	{
 //		Bloque le signal SIGINT le temps de lire la variable
 //		globale.
@@ -85,6 +85,7 @@ int	signal_handling(t_minishell *data, int *status)
 		}		
 		if (g_signal == exit_signal)
 		{
+			printf("data->is_exit = TRUE\n");
 			data->is_exit = TRUE;
 		}
 //		Sinon, on débloque SIGINT et on continue la boucle

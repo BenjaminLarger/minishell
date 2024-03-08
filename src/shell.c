@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 14:31:29 by demre             #+#    #+#             */
-/*   Updated: 2024/03/07 16:19:13 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/08 18:21:28 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,10 @@ static void	kill_and_exit(t_minishell *data, int exit_type)
 	if (exit_type == EXIT_SUCCESS)
 		exit(EXIT_SUCCESS);
 	else if (exit_type == EXIT_FAILURE)
+	{
+		perror("Tokenization failed");
 		exit(EXIT_FAILURE);
+	}
 
 }
 
@@ -44,12 +47,14 @@ int	run_shell_loop(t_minishell *data)
 //			sleep(2);
 			printf("exit\n");
 			kill(data->pid1, SIGUSR1);
+			printf("signal sent\n"); // to delete
 			exit(EXIT_SUCCESS);
 		}
 	}
 	if (data->prompt)
 		free(data->prompt);
-	printf("exit\n"); // OK
+	printf("exit\n"); // keep
 	kill(data->pid1, SIGUSR1);
+	printf("signal sent\n"); // to delete
 	exit(EXIT_SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:00 by demre             #+#    #+#             */
-/*   Updated: 2024/03/08 15:16:31 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/08 17:57:56 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,13 @@ extern int g_signal;
 
 void	block_signal(int signal);
 void	unblock_signal(int signal);
-int		signal_handling(t_minishell *data, int *status);
+int		signal_handling(t_minishell *data);
 
 	//ctrl-c
 void	set_child_sigint_action(void);
 void	set_parent_sigint_action(void);
 	//ctrl-d
-void	set_parent_exit_signal_action(t_minishell *data);
+void	set_parent_exit_signal_action(void);
 
 // Shell engine
 // shell.c, shell_process_args.c, shell_split_args.c
