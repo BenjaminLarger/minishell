@@ -25,7 +25,7 @@ SRCS		:= main.c \
 	signal_handle.c signal_sigint.c signal_parent_exit.c \
 	builtin_cd.c builtin_echo.c builtin_pwd.c builtin_env.c \
 	builtin_export.c \
-	shell_exec_args.c \
+	shell_exec_args.c path.c \
 	utils_joinfree.c \
 	cleanup_free_arrays.c \
 	dev_utils.c \

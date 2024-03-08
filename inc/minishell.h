@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
+/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:00 by demre             #+#    #+#             */
-/*   Updated: 2024/03/08 13:17:00 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/08 15:16:31 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,10 @@ int		process_args(t_minishell *data);
 int		split_args_into_cmds(t_minishell *data);
 
 void	exec_args(t_minishell *data);
+
+// Path
+
+int	get_paths(char ***paths);
 
 // Handle input
 // input.c, input_assign_tokens.c, input_count_tokens.c

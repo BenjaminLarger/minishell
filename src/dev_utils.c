@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dev_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
+/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 16:07:07 by demre             #+#    #+#             */
-/*   Updated: 2024/03/08 13:19:43 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/07 17:11:32 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,10 @@ void	print_array(char **array)
 	i = 0;
 	while (array[i])
 	{
-		printf("%s\n", array[i]);
+		printf("array[%d]: %s\n", i, array[i]);
 		i++;
 	}
+	printf("array[%d]: %s\n", i, array[i]); // check NULL
 }
 
 void	print_all_cmds_and_linkers(t_minishell *data)
@@ -52,9 +53,4 @@ void	print_all_cmds_and_linkers(t_minishell *data)
 		printf("linker[%d]: %s\n", i, data->linker[i]);
 		i++;
 	}
-}
-
-void	ft_leaks(void)
-{
-	system("leaks ./minishell");
 }
