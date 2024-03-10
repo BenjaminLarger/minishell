@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_process_args.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
+/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/02 21:44:40 by demre             #+#    #+#             */
-/*   Updated: 2024/03/08 16:22:19 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/10 09:08:41 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	process_args(t_minishell *data)
 //		return (FAILURE);
 //	if (data->n_args == 0)
 //		return (SUCCESS);
-
+	handle_env_variable(data->args);
 	if (!ft_strncmp(data->args[0], "echo", 4) && data->args[0][4] == '\0')
 		builtin_echo(data->args, 3); //replace 3 by n_cmds
 	else if (!ft_strncmp(data->args[0], "pwd", 3) && data->args[0][3] == '\0')

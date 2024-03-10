@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
+/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:00 by demre             #+#    #+#             */
-/*   Updated: 2024/03/08 17:57:56 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/10 09:10:13 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,9 @@ int		assign_tokens(char **tokens, char const *str);
 //Process
 	//Here_file
 void	process_here_file(t_minishell *data, int n_cmds);
+
+//Handle environment variable($USER)
+void	handle_env_variable(char **args);
 
 //BuiltsIn
 void	builtin_echo(char **args, int n_cmd);
