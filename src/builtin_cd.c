@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 16:15:50 by blarger           #+#    #+#             */
-/*   Updated: 2024/03/08 14:33:58 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/11 15:34:34 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ void	builtin_cd(char *arg, t_minishell *data) //Check the leaks. Else it should 
 {
 	char	*cur_dir;
 
+	if (is_linker(arg))
+		return ;
 	cur_dir = NULL;
 	cur_dir = getcwd(cur_dir, sizeof(cur_dir));
 	if (arg == NULL)

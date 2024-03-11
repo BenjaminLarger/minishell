@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
+/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:16:49 by demre             #+#    #+#             */
-/*   Updated: 2024/03/08 17:53:20 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/11 09:54:35 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 int g_signal = 0;
+int	g_last_exit_status = 0;
 
 int	main(int argc, char **argv)
 {
@@ -37,6 +38,7 @@ int	main(int argc, char **argv)
 
 		if (WIFEXITED(status))
 		{
+			g_last_exit_status = WEXITSTATUS(status); //$? handle
 			int exit_status = WEXITSTATUS(status);
 			if (exit_status == 0) {
 				printf("Child process terminated successfully. Parent process exiting.\n");
@@ -44,6 +46,7 @@ int	main(int argc, char **argv)
 				printf("Child process terminated with error (exit status: %d). Parent process continuing.\n", exit_status);
 			}
 		} else {
+			g_last_exit_status = 0; //$? handle
 			printf("Child process terminated abnormally. Parent process continuing.\n");
 		}
 	}

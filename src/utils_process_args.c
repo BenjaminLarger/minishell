@@ -1,40 +1,53 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_echo.c                                     :+:      :+:    :+:   */
+/*   utils_process_args.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/05 12:44:26 by blarger           #+#    #+#             */
-/*   Updated: 2024/03/11 17:08:43 by blarger          ###   ########.fr       */
+/*   Created: 2024/03/11 15:24:35 by blarger           #+#    #+#             */
+/*   Updated: 2024/03/11 17:07:48 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	builtin_echo(char **args)
+int	count_pipes(t_minishell *data)
 {
-	bool	delete_newline;
-	bool	start;
-	int		i;
+	int	count;
+	int	i;
 
-	i = 1;
-	start = true;
-	if (!ft_strncmp(args[i], "-n", 2))
+	count = 0;
+	i = 0;
+	while (data->args[i])
 	{
+		if (!ft_strcmp(data->args[i], "|"))
+			count++;
 		i++;
-		delete_newline = true;
 	}
-	else
-		delete_newline = false;
+	return (count);
+}
+
+int is_linker(char *str)
+{
+	if (ft_strcmp(str, "|") == 0
+		|| ft_strcmp(str, "<") == 0
+		|| ft_strcmp(str, "<<") == 0
+		|| ft_strcmp(str, ">") == 0
+		|| ft_strcmp(str, ">>") == 0
+	)
+		return (TRUE);
+	return (FALSE);
+}
+
+int	get_next_pipe(char **args)
+{
+	int	i;
+
+	i = 0;
 	while (args[i] && is_linker(args[i]) == FALSE)
-	{
-		if (start == false)
-			printf(" ");
-		printf("%s", args[i]);
 		i++;
-		start = false;
-	}
-	if (delete_newline == false)
-		printf("\n");
+	if (args[i] && !ft_strcmp(args[i], "|"))
+		i++;
+	return (i);
 }

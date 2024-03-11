@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:00 by demre             #+#    #+#             */
-/*   Updated: 2024/03/10 09:10:13 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/11 16:55:39 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@
 # define FAILURE 1
 # define SUCCESS 0
 
-extern int g_signal;
+extern int	g_signal;
+extern int	g_last_exit_status;
 
 // Signal handling
 
@@ -53,6 +54,7 @@ void	set_parent_exit_signal_action(void);
 
 int		run_shell_loop(t_minishell *data);
 int		process_args(t_minishell *data);
+void	execute_command(t_minishell *data, int i);
 int		split_args_into_cmds(t_minishell *data);
 
 void	exec_args(t_minishell *data);
@@ -77,12 +79,19 @@ void	process_here_file(t_minishell *data, int n_cmds);
 void	handle_env_variable(char **args);
 
 //BuiltsIn
-void	builtin_echo(char **args, int n_cmd);
+void	builtin_echo(char **args);
 void	builtin_pwd(void);
 void	builtin_env(void);
 void	builtin_cd(char *arg, t_minishell *data);
 void	builtin_export(char **args);
 void	builtin_unset(char **args);
+
+//Handle $? last exit command
+void	handle_last_exit_status_cmd(char **args);
+
+//Handle redirection
+void	handle_redirection(char **args);
+
 
 // Free arrays
 // cleanup_free_arrays.c
@@ -93,6 +102,10 @@ void	free_array_string_array(char ***array);
 
 //utils
 char	*ft_strjoin_free(char *s1, char *s2);
+int		is_linker(char *str);
+int		count_pipes(t_minishell *data);
+int		get_next_pipe(char **args);
+
 
 // Dev functions
 

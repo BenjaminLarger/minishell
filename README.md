@@ -168,4 +168,7 @@ getenv(): This function is used to retrieve the value of an environment variable
 tcsetattr(), tcgetattr(), tgetent(), tgetflag(), tgetnum(), tgetstr(), tgoto(), tputs(): These functions are used for terminal control and manipulation, including setting and getting terminal attributes and interacting with the terminal database.
 
 ## Documentation
-Block signal routine : https://www.codequoi.com/envoyer-et-intercepter-un-signal-en-c/#:~:text=Sigaction%20en%20action&text=Quand%20on%20fait%20ctrl%2Dc,avec%20ctrl%2D%5C%20(%20SIGQUIT%20).
+Block signal routine : https://www.codequoi.com/envoyer-et-intercepter-un-signal-en-c/#:~:text=Sigaction%20en%20action&text=Quand%20on%20fait%20ctrl%2Dc,avec%20ctrl%2D%5C%20(%20SIGQUIT%20)
+
+PIPES BASH-LIKE
+https://www.geeksforgeeks.org/making-linux-shell-c/

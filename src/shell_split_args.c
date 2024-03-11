@@ -3,26 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   shell_split_args.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
+/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 16:00:30 by demre             #+#    #+#             */
-/*   Updated: 2024/03/07 15:03:16 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/11 15:25:00 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static int is_linker(char *str)
-{
-	if (ft_strcmp(str, "|") == 0
-		|| ft_strcmp(str, "<") == 0
-		|| ft_strcmp(str, "<<") == 0
-		|| ft_strcmp(str, ">") == 0
-		|| ft_strcmp(str, ">>") == 0
-	)
-		return (TRUE);
-	return (FALSE);
-}
 
 static int	count_cmds_groups(t_minishell *data)
 {

@@ -3,26 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   shell_exec_args.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
+/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 14:57:17 by demre             #+#    #+#             */
-/*   Updated: 2024/03/08 14:39:01 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/11 16:53:10 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static int is_linker(char *str)
-{
-	if (ft_strcmp(str, "|") == 0
-		|| ft_strcmp(str, "<") == 0
-		|| ft_strcmp(str, "<<") == 0
-		|| ft_strcmp(str, ">") == 0
-		|| ft_strcmp(str, ">>") == 0
-	)
-		return (TRUE);
-	return (FALSE);
-}
 
 void	exec_command(t_minishell *data, char **args, int start, int end, int fd)
 {
