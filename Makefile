@@ -22,7 +22,7 @@ HEADERS		= -I $(HEADER_DIR) -I ${LIBFT} -I$(HOME)/.brew/opt/readline/include
 SRCS		:= main.c \
 	shell.c shell_process_args.c shell_split_args.c \
 	input.c input_assign_tokens.c input_count_tokens.c \
-	signal_handle.c signal_sigint.c signal_parent_exit.c \
+	signal_handle.c signal_sigint.c signal_exit.c \
 	builtin_cd.c builtin_echo.c builtin_pwd.c builtin_env.c \
 	builtin_export.c env_variable_handling.c last_exit_status.c\
 	shell_exec_args.c path.c \

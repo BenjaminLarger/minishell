@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 16:15:50 by blarger           #+#    #+#             */
-/*   Updated: 2024/03/12 12:01:16 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/12 17:39:48 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,6 @@ static void	dispatch_home_dir(char *arg, char *cur_dir, t_minishell *data)
 	path = NULL;
 	if ((arg[1] == '/' || arg[1] == '\0') && get_home_path()) //cd ~ doit etre capable de rediriger vers Users/blarger meme apres "unset HOME" command
 	{
-		printf("hoe = %s\n", getenv(get_home_path()));
 		path = gnl_strjoin(get_home_path(), arg + 1);
 		arg = path;
 	}
@@ -123,7 +122,6 @@ static char	*get_home_path(void)
 {
 	if (getenv("HOME"))
 	{
-		printf("hoooome = %s\n", getenv("HOME"));
 		return (getenv("HOME"));
 	}
 	else if (getenv(""))

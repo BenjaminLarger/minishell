@@ -6,13 +6,13 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 09:42:30 by blarger           #+#    #+#             */
-/*   Updated: 2024/03/12 12:03:36 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/12 17:38:37 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	builtin_pwd(void) //can delet n_cmds arg once n_cmds implented
+void	builtin_pwd(void)
 {
 	char			cwd[1024];
 

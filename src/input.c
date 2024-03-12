@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
+/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:16 by demre             #+#    #+#             */
-/*   Updated: 2024/03/06 19:14:22 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/12 17:39:27 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int		split_input_into_args(t_minishell *data)
 //	printf("%s, n_args: %d\n", data->prompt, data->n_args); //
 	data->args = (char **)malloc((data->n_args + 1) * sizeof(char *));
 	if (!data->args)
-		return (FAILURE);
+		return (errno);
 	if (data->prompt && assign_tokens(data->args, data->prompt) == FAILURE)
 		return (FAILURE);
 

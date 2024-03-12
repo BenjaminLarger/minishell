@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:00 by demre             #+#    #+#             */
-/*   Updated: 2024/03/12 12:03:48 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/12 17:20:46 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ int		signal_handling(t_minishell *data);
 void	set_child_sigint_action(void);
 void	set_parent_sigint_action(void);
 	//ctrl-d
+void	set_child_exit_signal_action(void);
 void	set_parent_exit_signal_action(void);
 
 // Shell engine
@@ -93,7 +94,6 @@ void	handle_last_exit_status_cmd(char **args);
 int		handle_redirection(char **args, t_minishell *data);
 void	process_input_redirection(char **args, t_minishell *data);
 
-
 // Free arrays
 // cleanup_free_arrays.c
 
@@ -108,7 +108,7 @@ int		count_arg_after_cmd(char **args);
 
 //errros_handling.c
 char	*get_linker(char *linker);
-void	msg_kill_free(char *m, char *s, int ex, t_minishell *d);
+void	perror_msg_kill_free(char *msg, t_minishell *data);
 
 // Dev functions
 

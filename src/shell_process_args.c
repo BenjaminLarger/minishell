@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/02 21:44:40 by demre             #+#    #+#             */
-/*   Updated: 2024/03/12 12:40:39 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/12 15:43:23 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,6 @@ static void	process_args_loop(t_minishell *data) //Should we process args one by
 	i = 0;
 	while (data->args[i])
 	{
-		//create_fork(data);
-		//if is child => write in write-end pipe {
 		if (is_linker(data->args[i]) == TRUE)
 			i += handle_redirection(&(data->args[i]), data);
 		else //it is a simple command

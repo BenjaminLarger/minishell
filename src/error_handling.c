@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 08:58:59 by blarger           #+#    #+#             */
-/*   Updated: 2024/03/12 11:10:34 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/12 17:27:16 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,21 +27,19 @@ char	*get_linker(char *linker)
 	return (NULL);
 }
 
-void	msg_kill_free(char *m, char *s, int ex, t_minishell *d)
+void	perror_msg_kill_free(char *msg, t_minishell *data)
 {
-	perror(m);
-	if (s && s[0] != '\0')
-		perror(s);
-	if (ex == EXIT_SUCCESS)
+	/* if (msg && msg[0] != '\0')
+		perror(msg); */
+	if (errno && msg)
 	{
-		//free here
-		kill(d->pid1, SIGUSR1);
-		exit(EXIT_SUCCESS);
+		free_string_array(data->args);
+		kill(data->pid1, SIGUSR1);
+		exit(errno);
 	}
-	else if (ex == EXIT_FAILURE)
+	else
 	{
-		//free here
-		kill(d->pid1, SIGUSR1);
-		exit(EXIT_FAILURE);
+		kill(data->pid1, SIGUSR1);
+		exit(errno);
 	}
 }
