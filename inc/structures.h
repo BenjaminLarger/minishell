@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 16:30:35 by demre             #+#    #+#             */
-/*   Updated: 2024/03/11 09:39:27 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/12 09:58:26 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ typedef struct s_cmd
 
 typedef struct s_file
 {
-	int		fd1;
-	int		fd2;
+	int		in_fd;
+	int		out_fd;
 	int		fd1_limited;
 	char	*filename1;
 	char	*filename2;

@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:07 by demre             #+#    #+#             */
-/*   Updated: 2024/03/07 09:10:49 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/12 10:12:21 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,5 +29,8 @@
 # define WAIT			"waitpid function failed to resume parent process.\n"
 # define CHILD			"Child process terminated abnormally\n"
 # define PERM			"zsh: permission denied: "
+# define TOKEN			"bash: syntax error near unexpected token"
+# define BASH			"bash : "
+# define SYNTAX			"bash: syntax error near unexpected token "
 
 #endif

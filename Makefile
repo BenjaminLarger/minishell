@@ -29,6 +29,7 @@ SRCS		:= main.c \
 	redirections.c \
 	utils_joinfree.c utils_process_args.c \
 	cleanup_free_arrays.c \
+	error_handling.c \
 	dev_utils.c \
 
 SRC_DIR		:= src/

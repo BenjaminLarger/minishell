@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
+/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 14:31:29 by demre             #+#    #+#             */
-/*   Updated: 2024/03/08 18:21:28 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/12 12:25:12 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ int	run_shell_loop(t_minishell *data)
 //			rl_replace_line("minish> exit", 0);
 //			rl_redisplay();
 //			sleep(2);
+			printf("contrl D pressed\n");
 			printf("exit\n");
 			kill(data->pid1, SIGUSR1);
 			printf("signal sent\n"); // to delete

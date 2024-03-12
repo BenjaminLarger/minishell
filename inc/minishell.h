@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:00 by demre             #+#    #+#             */
-/*   Updated: 2024/03/11 16:55:39 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/12 12:03:48 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	set_parent_exit_signal_action(void);
 
 int		run_shell_loop(t_minishell *data);
 int		process_args(t_minishell *data);
-void	execute_command(t_minishell *data, int i);
+int		execute_command(t_minishell *data, int i);
 int		split_args_into_cmds(t_minishell *data);
 
 void	exec_args(t_minishell *data);
@@ -73,7 +73,7 @@ int		assign_tokens(char **tokens, char const *str);
 
 //Process
 	//Here_file
-void	process_here_file(t_minishell *data, int n_cmds);
+void	read_from_input(t_minishell *data);
 
 //Handle environment variable($USER)
 void	handle_env_variable(char **args);
@@ -90,7 +90,8 @@ void	builtin_unset(char **args);
 void	handle_last_exit_status_cmd(char **args);
 
 //Handle redirection
-void	handle_redirection(char **args);
+int		handle_redirection(char **args, t_minishell *data);
+void	process_input_redirection(char **args, t_minishell *data);
 
 
 // Free arrays
@@ -103,9 +104,11 @@ void	free_array_string_array(char ***array);
 //utils
 char	*ft_strjoin_free(char *s1, char *s2);
 int		is_linker(char *str);
-int		count_pipes(t_minishell *data);
-int		get_next_pipe(char **args);
+int		count_arg_after_cmd(char **args);
 
+//errros_handling.c
+char	*get_linker(char *linker);
+void	msg_kill_free(char *m, char *s, int ex, t_minishell *d);
 
 // Dev functions
 
