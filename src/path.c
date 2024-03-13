@@ -6,13 +6,17 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:12:28 by demre             #+#    #+#             */
-/*   Updated: 2024/03/08 14:36:17 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/13 20:50:32 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	get_paths(char ***paths)
+/**
+ * @brief Retrieves the directories listed in the PATH environment variable
+ *        and appends a forward slash to each path.
+ */
+static int	get_all_paths_from_env(char ***paths)
 {
 	char	*all_paths_as_one_str;
 	char	*temp;
@@ -38,5 +42,62 @@ int	get_paths(char ***paths)
 		(*paths)[i++] = temp;
 	}
 	(*paths)[i] = NULL;
+	return (SUCCESS);
+}
+
+static int	test_path_with_command(char *path, char const *cmd)
+{
+	char	*temp;
+	int		has_access;
+
+	temp = ft_strjoin(path, cmd);
+	if (!temp)
+		exit(EXIT_FAILURE);
+	has_access = access(temp, F_OK | X_OK);
+	free(temp);
+	if (has_access != -1)
+		return (SUCCESS);
+	else
+		return (FAILURE);
+}
+
+static int	add_path_to_command(char const *cmd, char **cmd_with_path, char **paths, int n_paths)
+{
+	int		i;
+
+	i = 0;
+	while (paths[i] && test_path_with_command(paths[i], cmd) == FAILURE)
+		i++;
+	if (i != n_paths && ft_strchr(cmd, '/') == NULL)
+	{
+		*cmd_with_path = ft_strjoin(paths[i], cmd);
+		if (!(*cmd_with_path))
+			return (FAILURE);
+	}
+	else
+		*cmd_with_path = ft_strdup(cmd);
+	return (SUCCESS);
+}
+
+int	get_cmd_with_path(char const *cmd, char **cmd_with_path)
+{
+	char	**paths;
+	int		n_paths;
+
+	if (get_all_paths_from_env(&paths) != SUCCESS)
+	{
+		perror("Error loading paths");
+		return (FAILURE);
+	}
+	n_paths = 0;
+	while (paths[n_paths])
+		n_paths++;
+	if (add_path_to_command(cmd, cmd_with_path, paths, n_paths) != SUCCESS)
+	{
+		perror("Memory allocation failure");
+		free_string_array(paths);
+		return (FAILURE);
+	}
+	free_string_array(paths);
 	return (SUCCESS);
 }

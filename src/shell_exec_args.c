@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 14:57:17 by demre             #+#    #+#             */
-/*   Updated: 2024/03/13 18:16:52 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/13 21:27:48 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,30 +30,12 @@ static void	output_pipe_to_stdout(int fd)
 	}
 }
 
-/* 
-		char *test[3];
-		if (start == 0)
-		{
-			test[0] = "/bin/ls";
-			test[1] = NULL;
-			test[2] = NULL;
-		}
-		else
-		{
-			test[0] = "/bin/cat";
-			test[1] = "-e";
-			test[2] = NULL;
-		}
-		dprintf(STDERR_FILENO, "executing: %s from %d to %d\n", test[0], start, end); // delete
-		execve(test[0], test, env);
-		dprintf(STDERR_FILENO, "exec failed: %s\n", test[0]); // delete
- */
-
 static void	exec_command(t_minishell *data, char **args, int start, int end)
 {
 	int			pid2;
 	extern char	**environ;
 	char		**env;
+	char		*cmd_with_path;
 
 	env = environ;
 	pid2 = fork();
@@ -67,11 +49,22 @@ static void	exec_command(t_minishell *data, char **args, int start, int end)
 		close(data->fd_pipe2[WRITE_END]);
 
 		args[end] = NULL;
-		execve(args[start], &(args[start]), env);
-//		handle_exec_error(args[start]);
-		dprintf(STDERR_FILENO, "exec failed: %s\n", args[start]); // delete
-		perror("execve error");
-		exit(EXIT_FAILURE);
+		if (exec_cmd_if_builtin(&(args[start])) == SUCCESS)
+		{
+			exit(EXIT_SUCCESS);
+		}
+		else
+		{
+			if (get_cmd_with_path(args[start], &cmd_with_path) == FAILURE)
+				exit(EXIT_FAILURE); // check free
+			dprintf(STDERR_FILENO, "cmd_with_path: %s\n", cmd_with_path); //
+			execve(cmd_with_path, &(args[start]), env);
+	//		handle_exec_error(args[start]);
+			free(cmd_with_path);
+			dprintf(STDERR_FILENO, "exec failed: %s\n", args[start]); // delete
+			perror("execve error");
+			exit(EXIT_FAILURE);
+		}
 	}
 	else if (pid2 > 0)
 	{
@@ -93,20 +86,21 @@ void	exec_args(t_minishell *data)
 		start_index = i;
 		while (data->args[i] && !is_linker(data->args[i]))
 			i++; // linker now at index i, beginning of cmd at start_index
-		dprintf(STDERR_FILENO, "linker or eof at i: %d\n", i); //
+		dprintf(STDERR_FILENO, "\nlinker or eof at i = %d\n", i); //
 		if (!data->args[i] || ft_strcmp(data->args[i], "|") == 0)
 		{
 			dprintf(STDERR_FILENO, "args[start_index]: %s\n", data->args[start_index]); //
 			if (pipe(data->fd_pipe2) == -1)
-				return ; // handle error
+				return ; // handle pipe error
 			exec_command(data, data->args, start_index, i);
 			data->fd_pipe1[READ_END] = data->fd_pipe2[READ_END];
 		}
 //		else
 //			handle_redirection(&(data->args[i++]), data);
 		i++;
-		dprintf(STDERR_FILENO, "end loop with i: %d\n", i); //
 	}
+//	dprintf(STDERR_FILENO, "data->fd_pipe1[READ_END]: %d\n", data->fd_pipe1[READ_END]); //
+//	check_open_fd(); // pour voir quels fd sont ouverts/fermés
 	output_pipe_to_stdout(data->fd_pipe1[READ_END]);
 	close(data->fd_pipe1[READ_END]);
 }

@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   dev_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
+/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 16:07:07 by demre             #+#    #+#             */
-/*   Updated: 2024/03/13 12:17:52 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/13 19:32:00 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <sys/types.h>
+#include <sys/stat.h>
 
 /**
  * @brief Print a string array to terminal
@@ -29,28 +31,45 @@ void	print_array(char **array)
 	printf("array[%d]: %s\n", i, array[i]); // check NULL
 }
 
-/* void	print_all_cmds_and_linkers(t_minishell *data)
+void print_pipe_contents(int pipefd)
 {
-	int	i;
-	int	j;
+	char buffer[4096];
+	ssize_t bytes_read;
 
-	printf("data->n_cmds: %d, data->n_linker: %d\n", data->n_cmds, data->n_linker);
-	i = 0;
-	while (i < data->n_cmds)
-	{
-		printf("data->cmds[%d].n_cmd_args : %d\n", i, data->cmds[i].n_cmd_args);
-		j = 0;
-		while (j < data->cmds[i].n_cmd_args + 1 && data->cmds[i].n_cmd_args > 0)
-		{
-			printf("data->cmds[%d].cmd[%d] : %s\n", i, j, data->cmds[i].cmd[j]);
-			j++;
+	off_t current_pos = lseek(pipefd, 0, SEEK_CUR);
+	if (current_pos == -1)
+		perror("Failed to get file cursor position");
+	fprintf(stderr, "Current position of file cursor: %ld\n", (long)current_pos);
+
+
+	struct stat file_info;
+	if (stat(".temp_pipex_heredoc", &file_info) == -1)
+		perror("Failed to get file information");
+	printf("File size of %s: %lld bytes\n", ".temp_pipex_heredoc", (long long)file_info.st_size);
+
+	while ((bytes_read = read(pipefd, buffer, 4096)) > 0) {
+		if (write(2, buffer, bytes_read) != bytes_read) {
+			perror("write");
+			break;
 		}
-		i++;
+		fprintf(stderr, "testtest\n");
+		fprintf(stderr, "%s\n", buffer);
 	}
-	i = 0;
-	while (i < data->n_linker + 1)
-	{
-		printf("linker[%d]: %s\n", i, data->linker[i]);
-		i++;
+
+		fprintf(stderr, "bytes_read: %zd\n", bytes_read);
+	if (bytes_read == -1) {
+		perror("read");
 	}
-} */
+}
+
+void check_open_fd()
+{
+	int	fd;
+	
+	for (fd = 3; fd <= 6; fd++) {
+		if (fcntl(fd, F_GETFD) != -1)
+			fprintf(stderr, "fd %d open\n", fd);
+		else
+			fprintf(stderr, "fd %d closed\n", fd);
+	}
+}

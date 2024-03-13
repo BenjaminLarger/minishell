@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:00 by demre             #+#    #+#             */
-/*   Updated: 2024/03/13 18:18:24 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/13 20:35:31 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,11 @@ int		process_args(t_minishell *data);
 int		execute_command(t_minishell *data, int i);
 
 void	exec_args(t_minishell *data);
+int		exec_cmd_if_builtin(char **cmd);
 
 // Path
 
-int	get_paths(char ***paths);
+int	get_cmd_with_path(char const *cmd, char **cmd_with_path);
 
 // Handle input
 // input.c, input_assign_tokens.c, input_count_tokens.c
@@ -115,7 +116,7 @@ void	perror_msg_kill_free(char *msg, t_minishell *data);
 // Dev functions
 
 void	print_array(char **array);
-//void	print_all_cmds_and_linkers(t_minishell *data);
+void	check_open_fd();
 void	ft_leaks(void);
 
 #endif
