@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dev_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
+/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 16:07:07 by demre             #+#    #+#             */
-/*   Updated: 2024/03/07 17:11:32 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/13 12:17:52 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 void	print_array(char **array)
 {
 	int	i;
-	
+
 	i = 0;
 	while (array[i])
 	{
@@ -29,7 +29,7 @@ void	print_array(char **array)
 	printf("array[%d]: %s\n", i, array[i]); // check NULL
 }
 
-void	print_all_cmds_and_linkers(t_minishell *data)
+/* void	print_all_cmds_and_linkers(t_minishell *data)
 {
 	int	i;
 	int	j;
@@ -53,4 +53,4 @@ void	print_all_cmds_and_linkers(t_minishell *data)
 		printf("linker[%d]: %s\n", i, data->linker[i]);
 		i++;
 	}
-}
+} */

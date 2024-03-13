@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 14:57:17 by demre             #+#    #+#             */
-/*   Updated: 2024/03/12 15:49:17 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/13 13:18:12 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	exec_command(t_minishell *data, char **args, int start, int end, int fd)
 		execve(test[0], test, env); // add envp
 		dprintf(STDERR_FILENO, "exec failed: %s\n", test[0]); // delete
 
-		execve(args[start], &args[start], env); // add envp
+		execve(args[start], &(args[start]), env); // add envp
 //		handle_exec_error(args[start]);
 //		dprintf(STDERR_FILENO, "exec failed: %s\n", args[start]); // delete
 		perror("execve error");

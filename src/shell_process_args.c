@@ -6,13 +6,13 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/02 21:44:40 by demre             #+#    #+#             */
-/*   Updated: 2024/03/13 13:59:09 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/13 16:13:10 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	process_args_loop(t_minishell *data, char **envp);
+static void	process_args_loop(t_minishell *data);
 
 /* IMPORTANT
 After using dup2, STDIN refers to the read end of the pipe,
@@ -33,14 +33,14 @@ Once the while loop has processed pipes and dup operations, we can restore the
 original STDIN.
  */
 
-int	process_args(t_minishell *data, char **envp)
+int	process_args(t_minishell *data)
 {
 	//split_args_into_cmds(data);
 	//print_all_cmds_and_linkers(data);
 	data->save_stdin_fd = dup(STDIN_FILENO);
 	handle_last_exit_status_cmd(data->args);
 	handle_env_variable(data->args);
-	process_args_loop(data, envp);
+	process_args_loop(data);
 	dup2(data->save_stdin_fd, STDIN_FILENO);
 	close(data->save_stdin_fd);
 	if (data->file.in_fd)
@@ -52,7 +52,7 @@ int	process_args(t_minishell *data, char **envp)
 	return (SUCCESS);
 }
 
-static void	process_args_loop(t_minishell *data, char **envp) //Should we process args one by one or pipe per pipe
+static void	process_args_loop(t_minishell *data) //Should we process args one by one or pipe per pipe
 {
 	int	i;
 
@@ -62,12 +62,12 @@ static void	process_args_loop(t_minishell *data, char **envp) //Should we proces
 		if (is_linker(data->args[i]) == TRUE)
 			i += handle_redirection(&(data->args[i]), data);
 		else //it is a simple command
-			i += execute_command(data, i, envp);
+			i += execute_command(data, i);
 		printf("i = %d\n\n", i);
 	}
 }
 
-int	execute_command(t_minishell *data, int i, char **envp)
+int	execute_command(t_minishell *data, int i)
 {
 	if (!ft_strcmp(data->args[i], "echo"))
 		builtin_echo(&(data->args[i]));
@@ -82,7 +82,7 @@ int	execute_command(t_minishell *data, int i, char **envp)
 		builtin_env();
 		return (i + 1);
 	}
-	else
+	//else
 		//simple_command(&(data->args[i]), data, envp);
 	return count_commands(&(data->args[i]));
 	/* else

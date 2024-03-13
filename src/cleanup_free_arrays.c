@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/02 14:34:07 by demre             #+#    #+#             */
-/*   Updated: 2024/03/04 17:44:59 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/13 16:11:44 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	free_string_array(char **str_array)
 		while (str_array[i])
 		{
 			free(str_array[i]);
+			str_array[i] = NULL;
 			i++;
 		}
 	}

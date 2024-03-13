@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:00 by demre             #+#    #+#             */
-/*   Updated: 2024/03/12 17:20:46 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/13 16:11:30 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	set_parent_exit_signal_action(void);
 int		run_shell_loop(t_minishell *data);
 int		process_args(t_minishell *data);
 int		execute_command(t_minishell *data, int i);
-int		split_args_into_cmds(t_minishell *data);
+//int		split_args_into_cmds(t_minishell *data);
 
 void	exec_args(t_minishell *data);
 
@@ -79,13 +79,15 @@ void	read_from_input(t_minishell *data);
 //Handle environment variable($USER)
 void	handle_env_variable(char **args);
 
-//BuiltsIn
+//Execute commands
+	//BuiltsIn
 void	builtin_echo(char **args);
 void	builtin_pwd(void);
 void	builtin_env(void);
 void	builtin_cd(char *arg, t_minishell *data);
 void	builtin_export(char **args);
 void	builtin_unset(char **args);
+
 
 //Handle $? last exit command
 void	handle_last_exit_status_cmd(char **args);
@@ -96,7 +98,6 @@ void	process_input_redirection(char **args, t_minishell *data);
 
 // Free arrays
 // cleanup_free_arrays.c
-
 void	free_string_array(char **str_array);
 void	free_n_string_array(char **str_array, int n);
 void	free_array_string_array(char ***array);
@@ -104,7 +105,7 @@ void	free_array_string_array(char ***array);
 //utils
 char	*ft_strjoin_free(char *s1, char *s2);
 int		is_linker(char *str);
-int		count_arg_after_cmd(char **args);
+int		count_commands(char **args);
 
 //errros_handling.c
 char	*get_linker(char *linker);
@@ -113,7 +114,7 @@ void	perror_msg_kill_free(char *msg, t_minishell *data);
 // Dev functions
 
 void	print_array(char **array);
-void	print_all_cmds_and_linkers(t_minishell *data);
+//void	print_all_cmds_and_linkers(t_minishell *data);
 void	ft_leaks(void);
 
 #endif

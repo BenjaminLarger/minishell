@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 08:58:59 by blarger           #+#    #+#             */
-/*   Updated: 2024/03/12 17:27:16 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/13 16:13:26 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ void	perror_msg_kill_free(char *msg, t_minishell *data)
 		perror(msg); */
 	if (errno && msg)
 	{
-		free_string_array(data->args);
 		kill(data->pid1, SIGUSR1);
 		exit(errno);
 	}

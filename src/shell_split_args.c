@@ -6,13 +6,13 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 16:00:30 by demre             #+#    #+#             */
-/*   Updated: 2024/03/11 15:25:00 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/13 12:15:47 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	count_cmds_groups(t_minishell *data)
+/* static int	count_cmds_groups(t_minishell *data)
 {
 	int		i;
 	int		linker_index;
@@ -142,4 +142,4 @@ int		split_args_into_cmds(t_minishell *data)
 
 	print_all_cmds_and_linkers(data);
 	return (SUCCESS);
-}
+} */
