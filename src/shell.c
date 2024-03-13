@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 14:31:29 by demre             #+#    #+#             */
-/*   Updated: 2024/03/13 17:40:52 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/13 18:33:02 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	run_shell_loop(t_minishell *data)
 	while (!(data->prompt) || ft_strcmp(data->prompt, "exit") != 0)
 	{
 		data->prompt = read_input(data->prompt);
-		if (data->prompt && ft_strcmp(data->prompt, "exit") != 0)
+		if (data->prompt && *(data->prompt) && ft_strcmp(data->prompt, "exit"))
 		{
 			if (split_input_into_args(data) == FAILURE)
 				kill_and_exit(data, EXIT_FAILURE); // malloc or other failure
