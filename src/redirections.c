@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 12:43:06 by blarger           #+#    #+#             */
-/*   Updated: 2024/03/13 16:08:10 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/13 16:17:15 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,40 +14,7 @@
 
 #define DO_NO_EXIT 10
 
-static int	process_input(char **args, t_minishell *data);
-static int	process_output(char **args, t_minishell *data);
-static int	process_here_doc(char **args, t_minishell *data);
-
-int	handle_redirection(char **args, t_minishell *data)
-{
-	/* if (!ft_strcmp(args[0], "|"))
-		perror_msg_kill_free(TOKEN, data); */
-	if (!ft_strcmp(args[0], "<"))
-		return (process_input(args, data));
-	else if (!ft_strcmp(args[0], ">"))
-		return (process_output(args, data));
-	else if (!ft_strcmp(args[0], "<<"))
-		return (process_here_doc(args, data));
-	else if (!ft_strcmp(args[0], ">>"))
-		return (process_output(args, data));
-	return (0);
-}
 /* !!! When doing a dup2, program act as if ctrl D was pressed */
-static int	process_input(char **args, t_minishell *data)
-{
-	if (is_linker(args[1]) == TRUE)
-		perror_msg_kill_free(TOKEN, data);
-	data->file.in_fd = open(args[1], O_RDWR);
-	if (data->file.in_fd < 0)
-	{
-		perror("bash");
-		//msg_kill_free(args[1], FILE, DO_NO_EXIT, data); perror handle error message => edit function
-	}
-	dup2(data->file.in_fd, STDIN_FILENO);
-	rl_on_new_line();
-	return (2);
-}
-
 static int	process_here_doc(char **args, t_minishell *data)
 {
 	int		pipefd[2];
@@ -91,4 +58,34 @@ static int	process_output(char **args, t_minishell *data)
 	dup2(data->file.out_fd, STDOUT_FILENO); //here dup2 create block the output
 	rl_on_new_line();
 	return (2);
+}
+
+static int	process_input(char **args, t_minishell *data)
+{
+	if (is_linker(args[1]) == TRUE)
+		perror_msg_kill_free(TOKEN, data);
+	data->file.in_fd = open(args[1], O_RDWR);
+	if (data->file.in_fd < 0)
+	{
+		perror("bash");
+		//msg_kill_free(args[1], FILE, DO_NO_EXIT, data); perror handle error message => edit function
+	}
+	dup2(data->file.in_fd, STDIN_FILENO);
+	rl_on_new_line();
+	return (2);
+}
+
+int	handle_redirection(char **args, t_minishell *data)
+{
+	/* if (!ft_strcmp(args[0], "|"))
+		perror_msg_kill_free(TOKEN, data); */
+	if (!ft_strcmp(args[0], "<"))
+		return (process_input(args, data));
+	else if (!ft_strcmp(args[0], ">"))
+		return (process_output(args, data));
+	else if (!ft_strcmp(args[0], "<<"))
+		return (process_here_doc(args, data));
+	else if (!ft_strcmp(args[0], ">>"))
+		return (process_output(args, data));
+	return (0);
 }

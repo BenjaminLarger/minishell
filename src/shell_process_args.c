@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/02 21:44:40 by demre             #+#    #+#             */
-/*   Updated: 2024/03/13 16:13:10 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/13 16:16:27 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,40 +33,6 @@ Once the while loop has processed pipes and dup operations, we can restore the
 original STDIN.
  */
 
-int	process_args(t_minishell *data)
-{
-	//split_args_into_cmds(data);
-	//print_all_cmds_and_linkers(data);
-	data->save_stdin_fd = dup(STDIN_FILENO);
-	handle_last_exit_status_cmd(data->args);
-	handle_env_variable(data->args);
-	process_args_loop(data);
-	dup2(data->save_stdin_fd, STDIN_FILENO);
-	close(data->save_stdin_fd);
-	if (data->file.in_fd)
-		close(data->file.in_fd);
-	if (data->file.out_fd)
-		close(data->file.out_fd);
-/* 	else if (!ft_strcmp(data->args[1], "<<", 2))
-		process_here_file(data, 2); */
-	return (SUCCESS);
-}
-
-static void	process_args_loop(t_minishell *data) //Should we process args one by one or pipe per pipe
-{
-	int	i;
-
-	i = 0;
-	while (data->args[i])
-	{
-		if (is_linker(data->args[i]) == TRUE)
-			i += handle_redirection(&(data->args[i]), data);
-		else //it is a simple command
-			i += execute_command(data, i);
-		printf("i = %d\n\n", i);
-	}
-}
-
 int	execute_command(t_minishell *data, int i)
 {
 	if (!ft_strcmp(data->args[i], "echo"))
@@ -89,3 +55,36 @@ int	execute_command(t_minishell *data, int i)
 		execve() */
 }
 
+static void	process_args_loop(t_minishell *data) //Should we process args one by one or pipe per pipe
+{
+	int	i;
+
+	i = 0;
+	while (data->args[i])
+	{
+		if (is_linker(data->args[i]) == TRUE)
+			i += handle_redirection(&(data->args[i]), data);
+		else //it is a simple command
+			i += execute_command(data, i);
+		printf("i = %d\n\n", i);
+	}
+}
+
+int	process_args(t_minishell *data)
+{
+	//split_args_into_cmds(data);
+	//print_all_cmds_and_linkers(data);
+	data->save_stdin_fd = dup(STDIN_FILENO);
+	handle_last_exit_status_cmd(data->args);
+	handle_env_variable(data->args);
+	process_args_loop(data);
+	dup2(data->save_stdin_fd, STDIN_FILENO);
+	close(data->save_stdin_fd);
+	if (data->file.in_fd)
+		close(data->file.in_fd);
+	if (data->file.out_fd)
+		close(data->file.out_fd);
+/* 	else if (!ft_strcmp(data->args[1], "<<", 2))
+		process_here_file(data, 2); */
+	return (SUCCESS);
+}
