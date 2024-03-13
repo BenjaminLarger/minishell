@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
+/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:16:49 by demre             #+#    #+#             */
-/*   Updated: 2024/03/13 16:04:57 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/13 17:40:07 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,16 @@ int	main(int argc, char **argv)
 	int			status; // prob to delete
 
 	if (argc != 1 && argv)
-		return (EXIT_FAILURE);
-//		return (print_error(ARG), exit(EXIT_FAILURE));
+		return (EXIT_FAILURE); // "wrong arg number"
 	data.cd_last_dir = (char *)malloc(sizeof(char) * MAX_PATH_LEN);
 	if (!data.cd_last_dir)
 			return (0); //we can move it // to free
+	
+	if (pipe(data.fd_pipe1) == -1)
+		return (EXIT_FAILURE); //	"Pipe error"
 	data.pid1 = fork();
 	if (data.pid1 == -1)
-		return (EXIT_FAILURE);//		error_and_exit(commands);
+		return (EXIT_FAILURE); //	"Fork error"
 	else if (data.pid1 == 0)
 		run_shell_loop(&data);
 	else if (data.pid1 > 0)

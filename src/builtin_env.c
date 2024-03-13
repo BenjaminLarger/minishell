@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_env.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
+/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 10:19:52 by blarger           #+#    #+#             */
-/*   Updated: 2024/03/06 11:00:01 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/13 16:18:47 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	builtin_env(void)
 	char		**s;
 
 	s = environ;
+	// add return if non valid command after env
 	while (*s)
 	{
 		printf("%s\n", *s);

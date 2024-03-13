@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
+/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:00 by demre             #+#    #+#             */
-/*   Updated: 2024/03/13 16:11:30 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/13 18:18:24 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@
 # define TRUE 1
 # define FAILURE 1
 # define SUCCESS 0
+# define READ_END 0
+# define WRITE_END 1
 
 extern int	g_signal;
 extern int	g_last_exit_status;
@@ -51,12 +53,11 @@ void	set_child_exit_signal_action(void);
 void	set_parent_exit_signal_action(void);
 
 // Shell engine
-// shell.c, shell_process_args.c, shell_split_args.c
+// shell.c, shell_process_args.c
 
 int		run_shell_loop(t_minishell *data);
 int		process_args(t_minishell *data);
 int		execute_command(t_minishell *data, int i);
-//int		split_args_into_cmds(t_minishell *data);
 
 void	exec_args(t_minishell *data);
 
