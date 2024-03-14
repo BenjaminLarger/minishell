@@ -3,32 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   shell_exec_args.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
+/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 14:57:17 by demre             #+#    #+#             */
-/*   Updated: 2024/03/14 12:39:48 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/14 14:42:36 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static void	output_pipe_to_stdout(int fd)
-{
-	char	buffer[4096];
-	ssize_t	bytes_read;
-
-	bytes_read = 1;
-	while (bytes_read > 0)
-	{
-		bytes_read = read(fd, buffer, sizeof(buffer));
-		if (bytes_read < 0)
-		{
-			perror("read from pipe error");
-			exit(EXIT_FAILURE);
-		}
-		write(STDOUT_FILENO, buffer, bytes_read);
-	}
-}
 
 static void	exec_command(t_minishell *data, char **args, int start, int end)
 {
@@ -43,6 +25,7 @@ static void	exec_command(t_minishell *data, char **args, int start, int end)
 //		display_error_and_exit("Fork error", commands);
 	if (pid2 == 0)
 	{
+		//close(data->fd_pipe1[WRITE_END]);
 		dup2(data->fd_pipe1[READ_END], STDIN_FILENO);
 		dup2(data->fd_pipe2[WRITE_END], STDOUT_FILENO); 
 		close(data->fd_pipe1[READ_END]);
@@ -81,7 +64,6 @@ void	exec_args(t_minishell *data)
 	int start_index = 0;
 
 	print_array(data->args); //
-	close(data->fd_pipe1[WRITE_END]);
 	while (i < data->n_args && data->args[i]) // && data->args[i + 1])
 	{
 		start_index = i;
@@ -95,13 +77,19 @@ void	exec_args(t_minishell *data)
 				return ; // handle pipe error
 			exec_command(data, data->args, start_index, i);
 			data->fd_pipe1[READ_END] = data->fd_pipe2[READ_END];
+		dprintf(STDERR_FILENO, "\npipes_fd\n", i); //
+			print_pipes_fd(data);
 		}
-//		else
-//			handle_redirection(&(data->args[i++]), data);
+		else
+		{
+			handle_redirection(&(data->args[i++]), data);
+			// < infile
+			// fd_file = open(infile)
+			// data->fd_pipe1[READ_END] = fd_file;
+		}
 		i++;
 	}
 //	dprintf(STDERR_FILENO, "data->fd_pipe1[READ_END]: %d\n", data->fd_pipe1[READ_END]); //
 //	check_open_fd(); // pour voir quels fd sont ouverts/fermés
-	output_pipe_to_stdout(data->fd_pipe1[READ_END]);
-	close(data->fd_pipe1[READ_END]);
+	write_fdin_to_fdout(data->fd_pipe1[READ_END], STDOUT_FILENO);
 }

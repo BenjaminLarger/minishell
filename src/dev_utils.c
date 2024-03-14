@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dev_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
+/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 16:07:07 by demre             #+#    #+#             */
-/*   Updated: 2024/03/13 19:32:00 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/14 14:42:47 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,4 +72,27 @@ void check_open_fd()
 		else
 			fprintf(stderr, "fd %d closed\n", fd);
 	}
+}
+
+void	print_fd(int fd)
+{
+	int		fd_dup;
+	char	*print;
+
+	fd_dup = dup(fd);
+	dprintf(STDERR_FILENO, "\t\tFILE:");
+	while (1)
+	{
+		print = ft_get_next_line(fd_dup);
+		dprintf(STDERR_FILENO, "%s \n", print);
+		if (!print)
+			break ;
+		free(print);
+	}
+	free(print);
+}
+
+void	print_pipes_fd(t_minishell *data)
+{
+	dprintf(2, "data->fd_pipe1[READ_END]: %d, data->fd_pipe1[WRITE_END]: %d, data->fd_pipe2[READ_END]: %d, data->fd_pipe2[WRITE_END]: %d\n", data->fd_pipe1[READ_END], data->fd_pipe1[WRITE_END], data->fd_pipe2[READ_END], data->fd_pipe2[WRITE_END]);
 }

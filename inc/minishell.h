@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
+/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:00 by demre             #+#    #+#             */
-/*   Updated: 2024/03/14 12:39:14 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/14 14:42:47 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,7 @@ void	free_array_string_array(char ***array);
 char	*ft_strjoin_free(char *s1, char *s2);
 int		is_linker(char *str);
 int		count_commands(char **args);
+void	write_fdin_to_fdout(int fd_in, int fd_out);
 
 //errros_handling.c
 char	*get_linker(char *linker);
@@ -118,5 +119,7 @@ void	perror_msg_kill_free(char *msg, t_minishell *data);
 void	print_array(char **array);
 void	check_open_fd();
 void	ft_leaks(void);
+void	print_fd(int fd);
+void	print_pipes_fd(t_minishell *data);
 
 #endif

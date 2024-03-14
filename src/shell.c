@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
+/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 14:31:29 by demre             #+#    #+#             */
-/*   Updated: 2024/03/13 18:33:02 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/14 14:08:32 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ static void	kill_and_exit(t_minishell *data, int exit_status)
 {
 	// free args
 	// close file descriptors
+	close(data->fd_pipe1[READ_END]);
 	kill(data->pid1, SIGUSR1);
 	if (errno == 0)
 		exit(exit_status);
@@ -27,6 +28,7 @@ int	run_shell_loop(t_minishell *data)
 	data->prompt = NULL;
 	set_child_sigint_action();
 	set_child_exit_signal_action();
+	close(data->fd_pipe1[WRITE_END]);
 	while (!(data->prompt) || ft_strcmp(data->prompt, "exit") != 0)
 	{
 		data->prompt = read_input(data->prompt);
@@ -45,6 +47,7 @@ int	run_shell_loop(t_minishell *data)
 //			rl_redisplay();
 //			sleep(2);
 			printf("contrl D pressed\n");
+			close(data->fd_pipe1[READ_END]);
 			printf("exit\n"); // to fix, not on same line
 			kill(data->pid1, SIGUSR1);
 			exit(EXIT_SUCCESS);
@@ -52,6 +55,7 @@ int	run_shell_loop(t_minishell *data)
 	}
 	if (data->prompt)
 		free(data->prompt);
+	close(data->fd_pipe1[READ_END]);
 	printf("exit\n"); // keep
 	kill(data->pid1, SIGUSR1);
 	exit(EXIT_SUCCESS);
