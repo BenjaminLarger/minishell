@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
+/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 14:31:29 by demre             #+#    #+#             */
-/*   Updated: 2024/03/14 14:08:32 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/14 17:21:52 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ int	run_shell_loop(t_minishell *data)
 	while (!(data->prompt) || ft_strcmp(data->prompt, "exit") != 0)
 	{
 		data->prompt = read_input(data->prompt);
-		if (data->prompt && *(data->prompt) && ft_strcmp(data->prompt, "exit"))
+		if (data->prompt && *(data->prompt) && ft_strcmp(data->prompt, "exit")
+			&& !is_string_all_space(data->prompt))
 		{
 			if (split_input_into_args(data) == FAILURE)
 				kill_and_exit(data, EXIT_FAILURE); // malloc or other failure

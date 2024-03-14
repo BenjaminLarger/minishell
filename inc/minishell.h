@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
+/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:00 by demre             #+#    #+#             */
-/*   Updated: 2024/03/14 14:42:57 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/14 17:18:09 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,7 @@ char	*ft_strjoin_free(char *s1, char *s2);
 int		is_linker(char *str);
 int		count_commands(char **args);
 void	write_fdin_to_fdout(int fd_in, int fd_out);
+int		is_string_all_space(char const *str);
 
 //errros_handling.c
 char	*get_linker(char *linker);

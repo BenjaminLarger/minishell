@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
+/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 12:43:06 by blarger           #+#    #+#             */
-/*   Updated: 2024/03/14 14:42:57 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/14 16:49:06 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,30 +47,16 @@ static int	process_here_doc(char **args, t_minishell *data)
 
 static int	process_output(char **args, t_minishell *data)
 {
-	//int	temp;
-	perror("22");
 	if (is_linker(args[1]) == TRUE)
-		perror_msg_kill_free(SYNTAX, data);
+		perror_msg_kill_free(SYNTAX, data); // err mais pas exit
 	if (!ft_strcmp(args[0], ">"))
 		data->file.out_fd = open(args[1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	else if (!ft_strcmp(args[0], ">>"))
 		data->file.out_fd = open(args[1], O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (data->file.out_fd < 0)
 		perror("bash");
-	//data->fd_pipe1[WRITE_END] = data->file.out_fd;
-	write(data->file.out_fd, "I\n", 2);
-	printf("err %d\n", errno);
-	dprintf(STDERR_FILENO, "gnl = %s\n", ft_get_next_line(data->file.out_fd));
-	dprintf(STDERR_FILENO, "HELLO\n");
-//	temp = dup(data->fd_pipe1[READ_END]);
-	//data->file.in_fd = open ("../infile", )
 	write_fdin_to_fdout(data->fd_pipe1[READ_END], data->file.out_fd);
-	dup2(data->file.out_fd, STDOUT_FILENO);
-	//write_fdin_to_fdout(data->fd_pipe1[READ_END], STDOUT_FILENO);
-//	open(data->fd_pipe1[READ_END]);
-	
-	//print_fd(data->file.out_fd);
-	//dup2(data->file.out_fd, STDOUT_FILENO); //here dup2 create block the output
+	close(data->file.out_fd);
 	rl_on_new_line();
 	return (2);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_exec_args.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
+/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 14:57:17 by demre             #+#    #+#             */
-/*   Updated: 2024/03/14 14:42:36 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/14 17:23:41 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ static void	exec_command(t_minishell *data, char **args, int start, int end)
 	char		*cmd_with_path;
 
 	env = environ;
+	if (pipe(data->fd_pipe2) == -1)
+		return ; // handle pipe error
 	pid2 = fork();
 //	if (pid2 == -1)
 //		display_error_and_exit("Fork error", commands);
@@ -68,28 +70,25 @@ void	exec_args(t_minishell *data)
 	{
 		start_index = i;
 		while (data->args[i] && !is_linker(data->args[i]))
-			i++; // linker now at index i, beginning of cmd at start_index
+			i++;
 		dprintf(STDERR_FILENO, "\nlinker or eof at i = %d\n", i); //
 		if (!data->args[i] || ft_strcmp(data->args[i], "|") == 0)
 		{
-			dprintf(STDERR_FILENO, "args[start_index]: %s\n", data->args[start_index]); //
-			if (pipe(data->fd_pipe2) == -1)
-				return ; // handle pipe error
+			dprintf(STDERR_FILENO, "Executing args[%d]: %s\n", start_index, data->args[start_index]); //
 			exec_command(data, data->args, start_index, i);
 			data->fd_pipe1[READ_END] = data->fd_pipe2[READ_END];
-		dprintf(STDERR_FILENO, "\npipes_fd\n", i); //
-			print_pipes_fd(data);
 		}
 		else
 		{
+			if (start_index == 0 && !is_linker(data->args[start_index]))
+			{
+				dprintf(STDERR_FILENO, "Executing args[%d]: %s\n", start_index, data->args[start_index]); //
+				exec_command(data, data->args, start_index, i);
+				data->fd_pipe1[READ_END] = data->fd_pipe2[READ_END];
+			}
 			handle_redirection(&(data->args[i++]), data);
-			// < infile
-			// fd_file = open(infile)
-			// data->fd_pipe1[READ_END] = fd_file;
 		}
 		i++;
 	}
-//	dprintf(STDERR_FILENO, "data->fd_pipe1[READ_END]: %d\n", data->fd_pipe1[READ_END]); //
-//	check_open_fd(); // pour voir quels fd sont ouverts/fermés
 	write_fdin_to_fdout(data->fd_pipe1[READ_END], STDOUT_FILENO);
 }
