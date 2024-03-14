@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:00 by demre             #+#    #+#             */
-/*   Updated: 2024/03/13 20:35:31 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/14 12:39:14 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int		process_args(t_minishell *data);
 int		execute_command(t_minishell *data, int i);
 
 void	exec_args(t_minishell *data);
-int		exec_cmd_if_builtin(char **cmd);
+int		exec_cmd_if_builtin(char **args, int *start);
 
 // Path
 

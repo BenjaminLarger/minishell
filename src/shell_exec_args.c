@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 14:57:17 by demre             #+#    #+#             */
-/*   Updated: 2024/03/13 21:27:48 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/14 12:39:48 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,8 @@ static void	exec_command(t_minishell *data, char **args, int start, int end)
 		close(data->fd_pipe2[WRITE_END]);
 
 		args[end] = NULL;
-		if (exec_cmd_if_builtin(&(args[start])) == SUCCESS)
+		// SUCCESS, EXEC_FAIL (builtin exist, mais exec failed), NOT_BUILTIN
+		if (exec_cmd_if_builtin(args, &start) == SUCCESS)
 		{
 			exit(EXIT_SUCCESS);
 		}
