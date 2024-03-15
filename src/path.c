@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:12:28 by demre             #+#    #+#             */
-/*   Updated: 2024/03/13 20:50:32 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/15 21:28:45 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 /**
  * @brief Retrieves the directories listed in the PATH environment variable
- *        and appends a forward slash to each path.
+ * and appends a forward slash to each path.
  */
 static int	get_all_paths_from_env(char ***paths)
 {
@@ -79,6 +79,13 @@ static int	add_path_to_command(char const *cmd, char **cmd_with_path, char **pat
 	return (SUCCESS);
 }
 
+/**
+ * @brief Retrieves the full path of a command executable `cmd` in the 
+ * directories specified by the PATH environment variable. If found, it saves 
+ * the full path of the command in the `cmd_with_path` parameter.
+ * @return Returns SUCCESS (0) if the command is found and its full path is 
+ * retrieved successfully, otherwise returns FAILURE (1).
+ */
 int	get_cmd_with_path(char const *cmd, char **cmd_with_path)
 {
 	char	**paths;

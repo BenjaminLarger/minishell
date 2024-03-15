@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 19:04:16 by demre             #+#    #+#             */
-/*   Updated: 2024/03/14 12:39:57 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/15 21:34:20 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@
  * @param cmd command with its parameters
  * @return SUCCESS if cmd correctly executed, FAILURE otherwise
  */
-int	exec_cmd_if_builtin(char **args, int *start)
+int	exec_cmd_if_builtin(char **args)
 {
-	if (args && start)
+	if (args)
 	{
 //		int i = 0;
 //		while (args[i])

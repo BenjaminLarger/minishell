@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 15:24:35 by blarger           #+#    #+#             */
-/*   Updated: 2024/03/14 17:19:41 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/15 21:24:48 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,11 @@ int	is_string_all_space(char const *str)
 	return (1);
 }
 
+/**
+ * @brief Checks if a given string is a redirection linker.
+ * @return Returns TRUE (1) if str is '|', '<', '<<', '>', '>>', otherwise 
+ * returns FALSE (0).
+ */
 int is_linker(char *str)
 {
 	if (ft_strcmp(str, "|") == 0
@@ -41,6 +46,7 @@ int is_linker(char *str)
 		return (TRUE);
 	return (FALSE);
 }
+
 int	count_commands(char **args)
 {
 	int	n;
@@ -52,6 +58,9 @@ int	count_commands(char **args)
 	return (n);
 }
 
+/**
+ * @brief Writes to fd_out after reading from fd_in
+ */
 void	write_fdin_to_fdout(int fd_in, int fd_out)
 {
 	char	buffer[4096];

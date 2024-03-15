@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:00 by demre             #+#    #+#             */
-/*   Updated: 2024/03/14 17:18:09 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/15 21:36:36 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,14 @@ int		process_args(t_minishell *data);
 int		execute_command(t_minishell *data, int i);
 
 void	exec_args(t_minishell *data);
-int		exec_cmd_if_builtin(char **args, int *start);
+void	get_cmd_without_redirections(t_minishell *data, char ***cmd,
+	int start, int end);
+void	exec_command(t_minishell *data, char **cmd);
+int		exec_cmd_if_builtin(char **args);
 
 // Path
 
-int	get_cmd_with_path(char const *cmd, char **cmd_with_path);
+int		get_cmd_with_path(char const *cmd, char **cmd_with_path);
 
 // Handle input
 // input.c, input_assign_tokens.c, input_count_tokens.c
@@ -95,8 +98,10 @@ void	builtin_unset(char **args);
 void	handle_last_exit_status_cmd(char **args);
 
 //Handle redirection
-int		handle_redirection(char **args, t_minishell *data);
-void	process_input_redirection(char **args, t_minishell *data);
+int		handle_redirection(char **args, t_minishell *data); //old
+void	process_input_redirection(char **args, t_minishell *data); //old
+void	handle_redirections_until_next_pipe(t_minishell *data, char **args,
+	int start, int end);
 
 // Free arrays
 // cleanup_free_arrays.c
