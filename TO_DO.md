@@ -21,3 +21,6 @@ ls "-l" devrait marcher
 ls: "-l": No such file or directory
 ou 
 ls -l | grep "1 d"
+
+2)
+exit should work if preceded by spaces... '  	  exit'
