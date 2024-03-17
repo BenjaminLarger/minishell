@@ -6,11 +6,18 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 14:57:17 by demre             #+#    #+#             */
-/*   Updated: 2024/03/17 12:24:18 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/17 13:13:48 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void	reset(t_minishell *data, int *start_index, int i)
+{
+	*start_index = i;
+	data->file.has_infile = FALSE;
+	data->file.has_outfile = FALSE;
+}
 
 int	exec_args(t_minishell *data)
 {
@@ -23,7 +30,7 @@ int	exec_args(t_minishell *data)
 	print_array(data->args); //
 	while (i < data->n_args && data->args[i]) // && data->args[i + 1])
 	{
-		start_index = i;
+		reset(data, &start_index, i);
 		while (data->args[i] && ft_strcmp(data->args[i], "|"))
 			i++;
 		dprintf(STDERR_FILENO, "\nPipe or eof at i = %d\n", i); //

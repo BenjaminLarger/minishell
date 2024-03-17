@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 20:35:01 by demre             #+#    #+#             */
-/*   Updated: 2024/03/17 12:46:19 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/17 17:19:57 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int	get_cmd_without_redirections(t_minishell *data, char ***cmd,
 	int	cmd_args_count;
 
 	count_number_of_command_arguments(data, start, end, &cmd_args_count);
-	dprintf(STDERR_FILENO, "\nstart %d, end %d, *cmd_args_count %d\n", start, end, cmd_args_count); //
+	dprintf(STDERR_FILENO, "\nget_cmd: start %d, end %d, *cmd_args_count %d\n", start, end, cmd_args_count); //
 	if (assign_command_arguments(data, cmd, start, cmd_args_count) == FAILURE)
 		return (FAILURE);
 	return (SUCCESS);

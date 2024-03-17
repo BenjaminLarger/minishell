@@ -11,6 +11,6 @@ test.c
 *.dSYM
 
 minishell
-infile
-outfile
+infile*
+outfile*
 output
