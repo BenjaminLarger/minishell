@@ -26,6 +26,7 @@ ls >> outfile1 -l > outfile2	// print 'ls -l' to outfile2, and leave outfile unc
 cat < infile -e			// read infile and add cat -e
 cat < infile1 -e < infile2	// read infile2 and add cat -e. Stop if no infile1.
 cat < infile1 > outfile -e < infile2	// read infile2, add cat -e, write to outfile
+cat < infile < infile2 > outfile -e > outfile2	// read infile2, add cat -e, create empty outfile, write to outfile2
 
 If (chmod u-w outfile) and (no infile2)
 	cat < infile > outfile -e < infile2

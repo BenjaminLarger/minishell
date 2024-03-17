@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 14:57:17 by demre             #+#    #+#             */
-/*   Updated: 2024/03/17 13:13:48 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/17 17:51:33 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,17 @@ static void	reset(t_minishell *data, int *start_index, int i)
 	*start_index = i;
 	data->file.has_infile = FALSE;
 	data->file.has_outfile = FALSE;
+}
+/**
+ * @brief Write to output file if this command group has an output redirection.
+ */
+static void	write_to_output_if_needed(t_minishell *data)
+{
+	if (data->file.has_outfile == TRUE)
+	{
+		write_fdin_to_fdout(data->fd_pipe1[READ_END], data->file.out_fd);
+		close(data->file.out_fd);
+	}
 }
 
 int	exec_args(t_minishell *data)
@@ -41,6 +52,7 @@ int	exec_args(t_minishell *data)
 		if (cmd && *cmd)
 			exec_command(data, cmd);
 		free_string_array(cmd);
+		write_to_output_if_needed(data);
 		i++;
 	}
 	write_fdin_to_fdout(data->fd_pipe1[READ_END], STDOUT_FILENO);
