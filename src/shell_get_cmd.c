@@ -6,57 +6,71 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 20:35:01 by demre             #+#    #+#             */
-/*   Updated: 2024/03/15 21:41:23 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/17 12:46:19 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/**
- * @brief Save the command and its parameters to cmd array by removing 
- * redirection indicators and the associated filenames from command group 
- * (until next pipe or end-of-line). 
- */
-void	get_cmd_without_redirections(t_minishell *data, char ***cmd,
-	int start, int end)
+static void	count_number_of_command_arguments(t_minishell *data,
+	int start, int end, int *cmd_args_count)
 {
 	int	i;
-	int	j;
-	int	cmd_args_count;
 
 	i = start;
-	cmd_args_count = 0;
+	*cmd_args_count = 0;
 	while (i < end && data->args[i])
 	{
 		if (!is_linker(data->args[i]))
-			cmd_args_count++;
+			(*cmd_args_count)++;
 		else if (is_linker(data->args[i]))
 			i++;
 		i++;
 	}
-	dprintf(STDERR_FILENO, "\nstart %d, end %d, cmd_args_count %d\n", start, end, cmd_args_count); //
+}
+
+static int	assign_command_arguments(t_minishell *data, char ***cmd,
+	int arg_index, int cmd_args_count)
+{
+	int	cmd_index;
+
 	*cmd = (char **)malloc((cmd_args_count + 1) * sizeof(char *));
 	if (!(*cmd))
-		return ; // malloc failure
-	i = start;
-	j = 0;
-	while (j < cmd_args_count)
+		return (FAILURE);
+	cmd_index = 0;
+	while (cmd_index < cmd_args_count)
 	{
-		if (!is_linker(data->args[i]))
+		if (!is_linker(data->args[arg_index]))
 		{
-			(*cmd)[j] = ft_strdup(data->args[i]);
+			(*cmd)[cmd_index] = ft_strdup(data->args[arg_index]);
 			if (!(*cmd))
 			{
-				free_n_string_array(cmd, j);
-				return ; // malloc failure
+				free_n_string_array(*cmd, cmd_index);
+				return (FAILURE);
 			}
-//		dprintf(STDERR_FILENO, "data->args[%d] %p\n", i, data->args[i]); //
-//		dprintf(STDERR_FILENO, "(*cmd)[%d] %p\n", j, (*cmd)[j]); //
-			j++;
+			cmd_index++;
 		}
-		else if (is_linker(data->args[i]))
-			i++;
-		i++;
+		else if (is_linker(data->args[arg_index]))
+			arg_index++;
+		arg_index++;
 	}
-	(*cmd)[j] = NULL;
+	(*cmd)[cmd_index] = NULL;
+	return (SUCCESS);
+}
+
+/**
+ * @brief Assign the command and its parameters to cmd array by removing 
+ * redirection indicators and the associated filenames from command group 
+ * (until next pipe or end-of-line). 
+ */
+int	get_cmd_without_redirections(t_minishell *data, char ***cmd,
+	int start, int end)
+{
+	int	cmd_args_count;
+
+	count_number_of_command_arguments(data, start, end, &cmd_args_count);
+	dprintf(STDERR_FILENO, "\nstart %d, end %d, *cmd_args_count %d\n", start, end, cmd_args_count); //
+	if (assign_command_arguments(data, cmd, start, cmd_args_count) == FAILURE)
+		return (FAILURE);
+	return (SUCCESS);
 }

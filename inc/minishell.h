@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:00 by demre             #+#    #+#             */
-/*   Updated: 2024/03/15 21:36:36 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/17 12:23:20 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,8 @@ int		run_shell_loop(t_minishell *data);
 int		process_args(t_minishell *data);
 int		execute_command(t_minishell *data, int i);
 
-void	exec_args(t_minishell *data);
-void	get_cmd_without_redirections(t_minishell *data, char ***cmd,
+int		exec_args(t_minishell *data);
+int		get_cmd_without_redirections(t_minishell *data, char ***cmd,
 	int start, int end);
 void	exec_command(t_minishell *data, char **cmd);
 int		exec_cmd_if_builtin(char **args);

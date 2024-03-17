@@ -6,13 +6,13 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 14:57:17 by demre             #+#    #+#             */
-/*   Updated: 2024/03/15 21:36:06 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/17 12:24:18 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	exec_args(t_minishell *data)
+int	exec_args(t_minishell *data)
 {
 	int		i;
 	int		start_index;
@@ -29,11 +29,13 @@ void	exec_args(t_minishell *data)
 		dprintf(STDERR_FILENO, "\nPipe or eof at i = %d\n", i); //
 
 		handle_redirections_until_next_pipe(data, data->args, start_index, i);
-		get_cmd_without_redirections(data, &cmd, start_index, i);
+		if (get_cmd_without_redirections(data, &cmd, start_index, i) == FAILURE)
+			return (FAILURE); // malloc failure
 		if (cmd && *cmd)
 			exec_command(data, cmd);
 		free_string_array(cmd);
 		i++;
 	}
 	write_fdin_to_fdout(data->fd_pipe1[READ_END], STDOUT_FILENO);
+	return (SUCCESS);
 }

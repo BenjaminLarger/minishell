@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 14:31:29 by demre             #+#    #+#             */
-/*   Updated: 2024/03/15 14:03:13 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/17 12:47:56 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ int	run_shell_loop(t_minishell *data)
 				kill_and_exit(data, EXIT_FAILURE); // malloc or other failure
 		//	if (process_args(data) == FAILURE)
 		//		kill_and_exit(data, errno);
-			exec_args(data);
+			if (exec_args(data) == FAILURE)
+				kill_and_exit(data, EXIT_FAILURE); // malloc failure
 			free_string_array(data->args);
 		}
 		else if (!data->prompt) // when ctrl-d is pressed
