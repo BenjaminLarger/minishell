@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dev_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
+/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 16:07:07 by demre             #+#    #+#             */
-/*   Updated: 2024/03/14 14:42:57 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/17 18:42:55 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,5 +94,5 @@ void	print_fd(int fd)
 
 void	print_pipes_fd(t_minishell *data)
 {
-	dprintf(2, "data->fd_pipe1[READ_END]: %d, data->fd_pipe1[WRITE_END]: %d, data->fd_pipe2[READ_END]: %d, data->fd_pipe2[WRITE_END]: %d\n", data->fd_pipe1[READ_END], data->fd_pipe1[WRITE_END], data->fd_pipe2[READ_END], data->fd_pipe2[WRITE_END]);
+	dprintf(2, "data->fd_pipe1[READ_END]: %d, data->fd_pipe1[WRITE_END]: %d, data->fd_pipe2[READ_END]: %d, data->fd_pipe2[WRITE_END]: %d, data->file.in_fd: %d, data->file.out_fd: %d, data->file.heredoc_pipe[READ_END]: %d, data->file.heredoc_pipe[WRITE_END]: %d\n", data->fd_pipe1[READ_END], data->fd_pipe1[WRITE_END], data->fd_pipe2[READ_END], data->fd_pipe2[WRITE_END], data->file.in_fd, data->file.out_fd, data->file.heredoc_pipe[READ_END], data->file.heredoc_pipe[WRITE_END]);
 }

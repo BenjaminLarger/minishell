@@ -44,3 +44,17 @@ If (no outfile) and (no infile2)
 
 	cat < < infile > outfile -e < infile2  (double linker)
 	bash: syntax error near unexpected token `<'	(no outfile created)
+
+In bash:
+cat -e << eof1 < infile << eof2
+> aa
+> eof1
+> bb
+> eof2
+bb$
+cat -e << eof1 < infile << eof2 < infile
+> aa
+> eof1
+> bb
+> eof2
+whateverwaininfile$

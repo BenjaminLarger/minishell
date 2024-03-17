@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 16:30:35 by demre             #+#    #+#             */
-/*   Updated: 2024/03/15 18:52:33 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/17 18:22:22 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,10 @@ typedef struct s_file
 {
 	int		in_fd;
 	int		out_fd;
+	int		heredoc_pipe[2];
 	int		has_infile;
 	int		has_outfile;
+	int		has_heredoc;
 	int		fd1_limited;
 	char	*filename1;
 	char	*filename2;

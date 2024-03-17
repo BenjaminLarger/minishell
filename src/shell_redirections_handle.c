@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 14:57:17 by demre             #+#    #+#             */
-/*   Updated: 2024/03/17 17:54:45 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/17 18:39:39 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,30 +38,53 @@ static void	handle_input_redirection(t_minishell *data, char **args)
 		perror("bash");
 		// handle it
 	}
+	if (data->file.has_heredoc == TRUE)
+	{
+		close(data->file.heredoc_pipe[READ_END]);
+		data->file.has_heredoc = FALSE;
+	}
 	data->file.has_infile = TRUE;
 //	data->fd_pipe1[READ_END] = data->file.in_fd;
 }
 
 static void	handle_here_document(t_minishell *data, char **args)
 {
-	int		pipefd[2];
 	char	*line;
-
+	
+	print_array(args);
 	if (is_linker(args[1]) == TRUE)
 		perror_msg_kill_free(SYNTAX, data);
-	if (pipe(pipefd) == -1)
+
+	if (data->file.has_heredoc == TRUE)
+		close(data->file.heredoc_pipe[READ_END]);
+	if (pipe(data->file.heredoc_pipe) == -1)
 		perror("pipe error");
 	while (1)
 	{
 		line = readline("> ");
 		if (!ft_strcmp(line, args[1]))
-			break ;
-		write(pipefd[WRITE_END], line, strlen(line));
-		write(pipefd[WRITE_END], "\n", 1);
+		{
+			free(line);
+			break;
+		}
+		write(data->file.heredoc_pipe[WRITE_END], line, strlen(line));
+		write(data->file.heredoc_pipe[WRITE_END], "\n", 1);
 		free(line);
 	}
-	close(pipefd[WRITE_END]);
-	data->fd_pipe1[READ_END] = pipefd[READ_END];
+	close(data->file.heredoc_pipe[WRITE_END]);
+//	data->fd_pipe1[READ_END] = pipefd[READ_END];
+
+	if (data->file.has_infile == TRUE)
+	{
+		close(data->file.in_fd);
+		data->file.has_infile = FALSE;
+	}
+	data->file.has_heredoc = TRUE;
+//	data->file.in_fd = data->file.heredoc_pipe[READ_END];
+//	data->fd_pipe1[READ_END] = data->file.heredoc_pipe[READ_END];
+//	dup2(data->file.heredoc_pipe[READ_END], data->file.in_fd);
+//	close(data->file.heredoc_pipe[READ_END]);
+
 }
 
 /**
@@ -76,6 +99,12 @@ void	update_pipe_with_infile(t_minishell *data)
 	//	data->fd_pipe1[READ_END] = data->file.in_fd;
 		dup2(data->file.in_fd, data->fd_pipe1[READ_END]);
 		close(data->file.in_fd);
+	}
+	if (data->file.has_heredoc == TRUE)
+	{
+	//	data->fd_pipe1[READ_END] = data->file.in_fd;
+		dup2(data->file.heredoc_pipe[READ_END], data->fd_pipe1[READ_END]);
+		close(data->file.heredoc_pipe[READ_END]);
 	}
 }
 
