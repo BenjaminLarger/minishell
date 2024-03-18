@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:00 by demre             #+#    #+#             */
-/*   Updated: 2024/03/18 15:23:36 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/18 16:45:48 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int		exec_args(t_minishell *data);
 int		get_cmd_without_redirections(t_minishell *data, char ***cmd,
 	int start, int end);
 void	exec_command(t_minishell *data, char **cmd);
-int		exec_cmd_if_builtin(char **args);
+int		exec_cmd_if_builtin(char **args, t_minishell *data);
 
 // Path
 

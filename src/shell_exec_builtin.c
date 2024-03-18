@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_exec_builtin.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
+/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 19:04:16 by demre             #+#    #+#             */
-/*   Updated: 2024/03/15 21:34:20 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/18 16:48:25 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,18 +17,39 @@
  * @param cmd command with its parameters
  * @return SUCCESS if cmd correctly executed, FAILURE otherwise
  */
-int	exec_cmd_if_builtin(char **args)
+
+static int	is_builtin(char **args)
 {
-	if (args)
-	{
-//		int i = 0;
-//		while (args[i])
-//		{
-//			dprintf(STDERR_FILENO, "args[%d]: %s\n", i, args[i]); // delete
-//			i++;
-//		}
+	if (!ft_strcmp(args[0], "echo"))
+		return (SUCCESS);
+	else if (!ft_strcmp(args[0], "pwd"))
+		return (SUCCESS);
+	else if (!ft_strcmp(args[0], "cd"))
+		return (SUCCESS);
+	else if (!ft_strcmp(args[0], "export"))
+		return (SUCCESS);
+	else if (!ft_strcmp(args[0], "env"))
+		return (SUCCESS);
+	else
 		return (FAILURE);
+}
+
+int	exec_cmd_if_builtin(char **args, t_minishell *data)
+{
+	if (is_builtin(args) == SUCCESS)
+	{
+		if (!ft_strcmp(args[0], "echo"))
+			builtin_echo(&(args[0]));
+		else if (!ft_strcmp(args[0], "pwd"))
+			builtin_pwd();
+		else if (!ft_strcmp(args[0], "cd"))
+			builtin_cd(args[1], data);
+		else if (!ft_strcmp(args[0], "export"))
+			builtin_export(data->args);
+		else if (!ft_strcmp(args[0], "env"))
+			builtin_env();
+		return (SUCCESS);
 	}
 	else
-		return (SUCCESS);
+		return (FAILURE);
 }

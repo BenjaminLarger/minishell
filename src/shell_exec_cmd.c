@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 20:35:01 by demre             #+#    #+#             */
-/*   Updated: 2024/03/18 15:24:13 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/18 16:50:08 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,8 @@ void	exec_command(t_minishell *data, char **cmd)
 		close(data->fd_pipe2[WRITE_END]);
 
 		// SUCCESS, EXEC_FAIL (builtin exist, mais exec failed), NOT_BUILTIN
-		if (exec_cmd_if_builtin(cmd) == SUCCESS)
-		{
+		if (exec_cmd_if_builtin(cmd, data) == SUCCESS)
 			exit(EXIT_SUCCESS);
-		}
 		else
 		{
 			if (get_cmd_with_path(cmd[0], &cmd_with_path) == FAILURE)

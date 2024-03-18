@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structures.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
+/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 16:30:35 by demre             #+#    #+#             */
-/*   Updated: 2024/03/17 18:22:22 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/18 16:47:53 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ typedef struct s_minishell
 {
 	char	*prompt;
 	char	**args;
-	bool	args_to_free;
+	bool	args_to_free; //prob delete
 	int		n_args;
 	pid_t	pid1;
 	int		is_exit;
@@ -52,6 +52,7 @@ typedef struct s_minishell
 	int		fd_pipe1[2];
 	int		fd_pipe2[2];
 	char	*cd_last_dir;
+	int		cd;
 }		t_minishell;
 
 /**
