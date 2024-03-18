@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_variable_handling.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
+/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/10 08:18:40 by blarger           #+#    #+#             */
-/*   Updated: 2024/03/10 09:40:22 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/18 13:03:48 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,12 @@ If args[i] start by "$", we search for its corresponding value,
 and swap it if we find it.
 If the corresponding value does not exist, we return a single '\0'
 mallocated. */
+
+/* bash-3.2$ echo '$USER'
+$USER
+bash-3.2$ echo "$USER"
+demre
+ */
 
 void	handle_env_variable(char **args)
 {

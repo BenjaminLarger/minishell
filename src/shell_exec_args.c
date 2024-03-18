@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 14:57:17 by demre             #+#    #+#             */
-/*   Updated: 2024/03/17 17:58:20 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/18 12:43:29 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ static void	reset(t_minishell *data, int *start_index, int i)
 	*start_index = i;
 	data->file.has_infile = FALSE;
 	data->file.has_outfile = FALSE;
+	data->file.has_heredoc = FALSE;
 }
 
 /**

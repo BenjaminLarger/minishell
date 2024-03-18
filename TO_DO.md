@@ -3,6 +3,10 @@
 
 2) Gérer les permissions des fichiers lors des redirections
 
+3) Ajouter variable d'environnement $ dans le custom split 
+void	handle_env_variable(char **args)
+
+4) Update variable global dans le shell avec errno avant de fermer child shell
 --------
 
 # CRASH:
@@ -27,3 +31,4 @@ echo hello "bye"
 
 2)
 exit should work if preceded by spaces... '  	  exit'. Write builtin
+
