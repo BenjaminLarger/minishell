@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
+/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:00 by demre             #+#    #+#             */
-/*   Updated: 2024/03/17 12:23:20 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/18 13:28:20 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ void	handle_last_exit_status_cmd(char **args);
 //Handle redirection
 int		handle_redirection(char **args, t_minishell *data); //old
 void	process_input_redirection(char **args, t_minishell *data); //old
-void	handle_redirections_until_next_pipe(t_minishell *data, char **args,
+int		handle_redirections_until_next_pipe(t_minishell *data, char **args,
 	int start, int end);
 
 // Free arrays

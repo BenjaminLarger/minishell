@@ -3,40 +3,50 @@
 /*                                                        :::      ::::::::   */
 /*   shell_redirections_handle.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
+/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 14:57:17 by demre             #+#    #+#             */
-/*   Updated: 2024/03/18 13:12:20 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/18 15:14:07 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	handle_output_redirection(t_minishell *data, char **args)
+static int	handle_output_redirection(t_minishell *data, char **args)
 {
 	if (data->file.has_outfile == TRUE)
 		close(data->file.out_fd);
-	if (!ft_strcmp(args[0], ">"))
-		data->file.out_fd = open(args[1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	else if (!ft_strcmp(args[0], ">>"))
+	if (!ft_strcmp(args[0], ">>"))
 		data->file.out_fd = open(args[1], O_WRONLY | O_CREAT | O_APPEND, 0644);
+	else if (!ft_strcmp(args[0], ">"))
+	{
+		if (access(args[1], W_OK) == -1)
+		{
+			perror("Minish: ");
+			return (FAILURE);
+		}
+		data->file.out_fd = open(args[1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		//dprintf(STDERR_FILENO, "outfdfile = %d\n", data->file.out_fd);
+	}
 	if (data->file.out_fd < 0)
 	{
-		perror("bash");
-		// handle it
+		perror("Minish: ");
+		return (FAILURE);
 	}
 	data->file.has_outfile = TRUE;
+	//write_fdin_to_fdout(data->fd_pipe1[READ_END], data->file.out_fd);
+	return (SUCCESS);
 }
 
-static void	handle_input_redirection(t_minishell *data, char **args)
+static int	handle_input_redirection(t_minishell *data, char **args)
 {
 	if (data->file.has_infile == TRUE)
 		close(data->file.in_fd);
 	data->file.in_fd = open(args[1], O_RDONLY);
-	if (data->file.in_fd < 0)
+	if (data->file.in_fd < 0 || access(args[1], R_OK) == -1)
 	{
-		perror("bash");
-		// handle it
+		perror("Minish: ");
+		return (FAILURE);
 	}
 	if (data->file.has_heredoc == TRUE)
 	{
@@ -45,20 +55,23 @@ static void	handle_input_redirection(t_minishell *data, char **args)
 	}
 	data->file.has_infile = TRUE;
 //	data->fd_pipe1[READ_END] = data->file.in_fd;
+	return (SUCCESS);
 }
 
-static void	handle_here_document(t_minishell *data, char **args)
+static int	handle_here_document(t_minishell *data, char **args)
 {
 	char	*line;
 	
 	print_array(args);
 	if (is_linker(args[1]) == TRUE)
 		perror_msg_kill_free(SYNTAX, data);
-
 	if (data->file.has_heredoc == TRUE)
 		close(data->file.heredoc_pipe[READ_END]);
 	if (pipe(data->file.heredoc_pipe) == -1)
-		perror("pipe error");
+	{
+		perror("Minish: ");
+		return (FAILURE);
+	}
 	while (1)
 	{
 		line = readline("> ");
@@ -84,7 +97,7 @@ static void	handle_here_document(t_minishell *data, char **args)
 //	data->fd_pipe1[READ_END] = data->file.heredoc_pipe[READ_END];
 //	dup2(data->file.heredoc_pipe[READ_END], data->file.in_fd);
 //	close(data->file.heredoc_pipe[READ_END]);
-
+	return (SUCCESS);
 }
 
 /**
@@ -112,25 +125,28 @@ void	update_pipe_with_infile(t_minishell *data)
 /**
  * @brief Handle all redirections until next pipe or end-of-line.
  */
-void	handle_redirections_until_next_pipe(t_minishell *data, char **args,
+int	handle_redirections_until_next_pipe(t_minishell *data, char **args,
 	int start, int end)
 {
 	int	i;
+	int	is_success;
 
 	i = start;
+	is_success = 0;
 	while (i < end && args[i])
 	{
 		if (is_linker(args[i]) && args[i + 1] && is_linker(args[i + 1]))
 			perror_msg_kill_free(TOKEN, data); // display args[i + 1] in err
 		else if (!ft_strcmp(args[i], "<"))
-			handle_input_redirection(data, &args[i]);
+			is_success = handle_input_redirection(data, &args[i]);
 		else if (!ft_strcmp(args[i], ">"))
-			handle_output_redirection(data, &args[i]);
+			is_success = handle_output_redirection(data, &args[i]);
 		else if (!ft_strcmp(args[i], "<<"))
-			handle_here_document(data, &args[i]);
+			is_success = handle_here_document(data, &args[i]);
 		else if (!ft_strcmp(args[i], ">>"))
-			handle_output_redirection(data, &args[i]);
+			is_success = handle_output_redirection(data, &args[i]);
 		i++;
 	}
 	update_pipe_with_infile(data);
+	return (is_success);
 }
