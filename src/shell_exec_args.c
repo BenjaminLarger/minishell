@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 14:57:17 by demre             #+#    #+#             */
-/*   Updated: 2024/03/18 15:10:19 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/18 17:21:20 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ static void	reset(t_minishell *data, int *start_index, int i)
 	data->file.has_infile = FALSE;
 	data->file.has_outfile = FALSE;
 	data->file.has_heredoc = FALSE;
+	data->cd_to_execute = FALSE;
 }
 
 /**
@@ -49,7 +50,6 @@ int	exec_args(t_minishell *data)
 		dprintf(STDERR_FILENO, "\nPipe or eof at i = %d\n", i); //
 		if (handle_redirections_until_next_pipe(data, data->args, start_index, i) == SUCCESS)
 		{
-			dprintf(STDERR_FILENO, "outfdfile2 = %d\n", data->file.out_fd);
 			if (get_cmd_without_redirections(data, &cmd, start_index, i) == FAILURE)
 				return (FAILURE); // malloc failure
 			if (cmd && *cmd)

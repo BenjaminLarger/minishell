@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 19:04:16 by demre             #+#    #+#             */
-/*   Updated: 2024/03/18 16:48:25 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/18 17:26:06 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,10 @@ int	exec_cmd_if_builtin(char **args, t_minishell *data)
 		else if (!ft_strcmp(args[0], "pwd"))
 			builtin_pwd();
 		else if (!ft_strcmp(args[0], "cd"))
+		{
 			builtin_cd(args[1], data);
+			data->cd_to_execute = TRUE;//Doese not send data to father => send a message to father to execute cd ?
+		}
 		else if (!ft_strcmp(args[0], "export"))
 			builtin_export(data->args);
 		else if (!ft_strcmp(args[0], "env"))
