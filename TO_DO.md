@@ -17,6 +17,10 @@ array[1]: cat
 array[2]: -e
 array[3]: (null)
 
+2)
+Quand deux groupements avec guillemets sont en contact
+echo "hel""lo"
+
 --------
 
 # BUG:

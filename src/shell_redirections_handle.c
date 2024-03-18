@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 14:57:17 by demre             #+#    #+#             */
-/*   Updated: 2024/03/17 18:39:39 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/18 13:12:20 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,8 +103,9 @@ void	update_pipe_with_infile(t_minishell *data)
 	if (data->file.has_heredoc == TRUE)
 	{
 	//	data->fd_pipe1[READ_END] = data->file.in_fd;
-		dup2(data->file.heredoc_pipe[READ_END], data->fd_pipe1[READ_END]);
-		close(data->file.heredoc_pipe[READ_END]);
+		data->fd_pipe1[READ_END] = data->file.heredoc_pipe[READ_END];
+	//	dup2(data->file.heredoc_pipe[READ_END], data->fd_pipe1[READ_END]);
+	//	close(data->file.heredoc_pipe[READ_END]);
 	}
 }
 
