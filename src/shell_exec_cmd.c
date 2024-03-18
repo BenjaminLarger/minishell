@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_exec_cmd.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
+/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 20:35:01 by demre             #+#    #+#             */
-/*   Updated: 2024/03/15 21:34:57 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/18 15:24:13 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,7 @@ void	exec_command(t_minishell *data, char **cmd)
 			execve(cmd_with_path, &(cmd[0]), env);
 	//		handle_exec_error(cmd[0]);
 			free(cmd_with_path);
-			dprintf(STDERR_FILENO, "exec failed: %s\n", cmd[0]); // delete
-			perror("execve error");
+			print_error_cmd(cmd[0]);
 			exit(EXIT_FAILURE);
 		}
 	}

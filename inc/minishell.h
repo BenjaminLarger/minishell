@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:00 by demre             #+#    #+#             */
-/*   Updated: 2024/03/18 13:28:20 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/18 15:23:36 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,7 @@ int		is_string_all_space(char const *str);
 //errros_handling.c
 char	*get_linker(char *linker);
 void	perror_msg_kill_free(char *msg, t_minishell *data);
+void	print_error_cmd(char *cmd);
 
 // Dev functions
 
