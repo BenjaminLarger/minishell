@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_process_args.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
+/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 15:24:35 by blarger           #+#    #+#             */
-/*   Updated: 2024/03/15 21:24:48 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/18 18:38:50 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ void	write_fdin_to_fdout(int fd_in, int fd_out)
 		if (bytes_read < 0)
 		{
 			perror("read from pipe error");
+			
 			exit(EXIT_FAILURE);
 		}
 		write(fd_out, buffer, bytes_read);

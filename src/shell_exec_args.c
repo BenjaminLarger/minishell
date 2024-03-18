@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 14:57:17 by demre             #+#    #+#             */
-/*   Updated: 2024/03/18 17:21:20 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/18 18:46:37 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void	reset(t_minishell *data, int *start_index, int i)
 	data->file.has_infile = FALSE;
 	data->file.has_outfile = FALSE;
 	data->file.has_heredoc = FALSE;
-	data->cd_to_execute = FALSE;
+	data->execve_used = FALSE;
 }
 
 /**
@@ -53,12 +53,16 @@ int	exec_args(t_minishell *data)
 			if (get_cmd_without_redirections(data, &cmd, start_index, i) == FAILURE)
 				return (FAILURE); // malloc failure
 			if (cmd && *cmd)
-				exec_command(data, cmd);
+			{
+				if (exec_cmd_if_builtin(cmd, data) == FAILURE)
+					exec_command(data, cmd);
+			}
 			free_string_array(cmd);
 			write_to_output_if_needed(data);
 		}
 		i++;
 	}
-	write_fdin_to_fdout(data->fd_pipe1[READ_END], STDOUT_FILENO);
+	if (data->execve_used == TRUE)
+		write_fdin_to_fdout(data->fd_pipe1[READ_END], STDOUT_FILENO);
 	return (SUCCESS);
 }

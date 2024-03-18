@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 16:30:35 by demre             #+#    #+#             */
-/*   Updated: 2024/03/18 17:19:37 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/18 18:44:39 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ typedef struct s_file
 	bool	write_access_2;
 }	t_file;
 
-
 /**
  * @brief Structure representing the shared data and parameters.
  */
@@ -52,7 +51,7 @@ typedef struct s_minishell
 	int		fd_pipe1[2];
 	int		fd_pipe2[2];
 	char	*cd_last_dir;
-	int		cd_to_execute;
+	int		execve_used;
 }		t_minishell;
 
 /**

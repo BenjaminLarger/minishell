@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 16:15:50 by blarger           #+#    #+#             */
-/*   Updated: 2024/03/18 17:10:17 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/18 18:54:59 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,11 @@ void	builtin_cd(char *arg, t_minishell *data) //Check the leaks. Else it should 
 	cur_dir = getcwd(cur_dir, sizeof(cur_dir));
 	if (arg == NULL)
 		arg = getenv("HOME");
-	if (!ft_strncmp(arg, "-", 1))
+	if (!ft_strcmp(arg, "-"))
 		return (cd_back_to_prev_cur_dir(arg, cur_dir, data));
-	else if (*arg == '~')
+	if (!ft_strcmp(arg, "~"))
 		dispatch_home_dir(arg, cur_dir, data);
-	else if (*arg != '.' && arg[1] != '\0')
+	else if (!ft_strcmp(arg, "."))
 	{
 		if (chdir(arg))
 		{
@@ -73,6 +73,8 @@ void	builtin_cd(char *arg, t_minishell *data) //Check the leaks. Else it should 
 			ft_putstr_fd(FILE, 2);
 		}
 	}
+	else if (!ft_strcmp(arg, ".."))
+		chdir(arg);
 	ft_strlcpy(data->cd_last_dir, cur_dir, ft_strlen(data->cd_last_dir) + 1);
 	free(cur_dir);
 }

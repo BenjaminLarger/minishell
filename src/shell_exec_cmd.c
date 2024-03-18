@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 20:35:01 by demre             #+#    #+#             */
-/*   Updated: 2024/03/18 17:25:22 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/18 18:45:50 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	exec_command(t_minishell *data, char **cmd)
 	char		**env;
 	char		*cmd_with_path;
 	
+	data->execve_used = TRUE;
 	print_array(cmd); //
 	env = environ;
 	if (pipe(data->fd_pipe2) == -1)
@@ -32,30 +33,21 @@ void	exec_command(t_minishell *data, char **cmd)
 		dup2(data->fd_pipe2[WRITE_END], STDOUT_FILENO); 
 		close(data->fd_pipe1[READ_END]);
 		close(data->fd_pipe2[WRITE_END]);
-
 		// SUCCESS, EXEC_FAIL (builtin exist, mais exec failed), NOT_BUILTIN
-		if (exec_cmd_if_builtin(cmd, data) == SUCCESS)
-		{
-			exit(EXIT_SUCCESS);
-		}
-		else
-		{
-			if (get_cmd_with_path(cmd[0], &cmd_with_path) == FAILURE)
-				exit(EXIT_FAILURE); // check free
-			dprintf(STDERR_FILENO, "cmd_with_path: %s\n", cmd_with_path); //
-			execve(cmd_with_path, &(cmd[0]), env);
-	//		handle_exec_error(cmd[0]);
-			free(cmd_with_path);
-			print_error_cmd(cmd[0]);
-			exit(EXIT_FAILURE);
-		}
+		if (get_cmd_with_path(cmd[0], &cmd_with_path) == FAILURE)
+			exit(EXIT_FAILURE); // check free
+		dprintf(STDERR_FILENO, "cmd_with_path: %s\n", cmd_with_path); //
+		execve(cmd_with_path, &(cmd[0]), env);
+//		handle_exec_error(cmd[0]);
+		free(cmd_with_path);
+		print_error_cmd(cmd[0]);
+		exit(EXIT_FAILURE);
 	}
 	else if (pid2 > 0)
 	{
 		close(data->fd_pipe1[READ_END]);
 		close(data->fd_pipe2[WRITE_END]);
 		waitpid(pid2, NULL, 0);
-		dprintf(2, "FATHER\n");
 		data->fd_pipe1[READ_END] = data->fd_pipe2[READ_END];
 	}
 }
