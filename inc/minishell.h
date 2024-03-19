@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:00 by demre             #+#    #+#             */
-/*   Updated: 2024/03/19 13:13:17 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/19 15:39:13 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,7 @@ int		count_commands(char **args);
 void	write_fdin_to_fdout(int fd_in, int fd_out);
 int		is_string_all_space(char const *str);
 int		command_with_pipe(char **args);
+void	check_and_replace_last_exit_status_call(char **args, t_minishell *data);
 
 //errros_handling.c
 char	*get_linker(char *linker);

@@ -36,11 +36,3 @@ ou
 echo hello "bye"
 = hello bye
 
-2) 
-exit should work if preceded by spaces... '  	  exit'. Write builtin
-bash-3.2$ "    exit"
-bash:     exit: command not found
-		!=
-bash-3.2$     exit
-exit
-=> ft_split
