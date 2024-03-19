@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 12:44:26 by blarger           #+#    #+#             */
-/*   Updated: 2024/03/12 12:01:00 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/19 16:53:15 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ void	builtin_echo(char **args)
 
 	i = 1;
 	start = true;
+	if (!args[1] || args[1][0] == '\0')
+		return ((void)printf("\n"));
 	if (!ft_strncmp(args[i], "-n", 2))
 	{
 		i++;

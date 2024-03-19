@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 14:57:17 by demre             #+#    #+#             */
-/*   Updated: 2024/03/19 11:25:18 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/19 16:44:43 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void	reset(t_minishell *data, int *start_index, int i)
 	data->file.has_infile = FALSE;
 	data->file.has_outfile = FALSE;
 	data->file.has_heredoc = FALSE;
-	data->execve_used = FALSE;
+	data->executed_command = FALSE;
 }
 
 /**
@@ -41,7 +41,8 @@ int	exec_args(t_minishell *data)
 
 	i = 0;
 	start_index = 0;
-	print_array(data->args); //
+	print_array(data->args);
+	data->last_exit_status = 0;
 	while (i < data->n_args && data->args[i]) // && data->args[i + 1])
 	{
 		reset(data, &start_index, i);
@@ -59,7 +60,7 @@ int	exec_args(t_minishell *data)
 		}
 		i++;
 	}
-	if (data->execve_used == TRUE)
+	if (data->executed_command == TRUE)
 		write_fdin_to_fdout(data->fd_pipe1[READ_END], STDOUT_FILENO);
 	return (SUCCESS);
 }

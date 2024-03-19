@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 16:30:35 by demre             #+#    #+#             */
-/*   Updated: 2024/03/18 18:44:39 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/19 16:39:54 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ typedef struct s_minishell
 	int		fd_pipe1[2];
 	int		fd_pipe2[2];
 	char	*cd_last_dir;
-	int		execve_used;
+	int		executed_command;
+	int		last_exit_status;
 }		t_minishell;
 
 /**
