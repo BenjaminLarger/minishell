@@ -1,12 +1,5 @@
 # TODO:
-1) Implementer la fonction exec_cmd_if_builtin() dans le fichier shell_exec_builtin.c pour verifier et executer la commande si elle est builtin. Elle est appelée au moment d’executer les commandes dans exec_command(), fichier shell_exec_args.c
-
-2) Gérer les permissions des fichiers lors des redirections //done
-
-3) Ajouter variable d'environnement $ dans le custom split 
-void	handle_env_variable(char **args)
-
-4) Update variable global dans le shell avec errno avant de fermer child shell
+1) Update variable global dans le shell avec errno avant de fermer child shell
 --------
 
 # CRASH:
@@ -22,8 +15,7 @@ Quand deux groupements avec guillemets sont en contact
 echo "hel""lo"
 
 3) 
-n'imprimait pas correctement quand on chaine des commandes builtin avec d'autres:
-echo hello | cat -e ne marche pas
+echo $variable_qui_n'existe_pas
 --------
 
 # BUG:

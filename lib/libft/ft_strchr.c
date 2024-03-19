@@ -6,12 +6,17 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 13:05:35 by demre             #+#    #+#             */
-/*   Updated: 2023/12/02 19:40:08 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/19 15:11:33 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
+/**
+ * @brief Locate first occurence of character in string
+ * @return A pointer to the first occurrence of character in str. If the 
+ * character is not found, the function returns a null pointer.
+ */
 char	*ft_strchr(const char *s, int c)
 {
 	while (*s != '\0' && (unsigned char)*s != (unsigned char)c)

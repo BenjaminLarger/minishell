@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/02 14:01:44 by demre             #+#    #+#             */
-/*   Updated: 2024/03/02 21:13:13 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/19 15:12:02 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,17 +52,20 @@ static void	increase_quote_count(t_index_data *d, enum e_quote type_of_quotes)
  */
 static int	store_token(char **tokens, char const *str, t_index_data *d)
 {
-// Option not to include quotes when saving token
-//	if ((str[d->start] == '\'' && str[d->i - 1] == '\'')
-//		|| (str[d->start] == '\"' && str[d->i - 1] == '\"'))
-//		tokens[d->j] = ft_substr(str, d->start + 1, (d->i - d->start - 2));
-//	else
-	tokens[d->j] = ft_substr(str, d->start, (d->i - d->start));
+	if (str[d->start] == '\'' && str[d->i - 1] == '\'')
+		tokens[d->j] = ft_substr(str, d->start + 1, (d->i - d->start - 2));
+	else if (str[d->start] == '\"' && str[d->i - 1] == '\"')
+		tokens[d->j] = ft_substr_with_env_var(&str[d->start + 1],
+			0, (d->i - d->start - 2));
+	else
+		tokens[d->j] = ft_substr_with_env_var(&str[d->start],
+			0, (d->i - d->start));
 	if (!tokens[d->j])
 	{
 		free_n_string_array(tokens, d->j);
 		return (FAILURE);
 	}
+	dprintf(2, "tokens[d->j]: %s\n", tokens[d->j]);
 	d->j++;
 	return (SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:00 by demre             #+#    #+#             */
-/*   Updated: 2024/03/19 15:39:13 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/19 16:16:02 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,8 @@ void	set_parent_exit_signal_action(void);
 // shell.c, shell_process_args.c
 
 int		run_shell_loop(t_minishell *data);
-int		process_args(t_minishell *data);
-int		execute_command(t_minishell *data, int i);
+int		process_args(t_minishell *data); // delete?
+int		execute_command(t_minishell *data, int i); // delete?
 
 int		exec_args(t_minishell *data);
 int		get_cmd_without_redirections(t_minishell *data, char ***cmd,
@@ -77,6 +77,8 @@ char	*read_input(char *prompt);
 int		split_input_into_args(t_minishell *data);
 int		count_tokens(char const *str);
 int		assign_tokens(char **tokens, char const *str);
+char	*ft_substr_with_env_var(char const *input, int input_idx,
+	int input_len);
 
 //Process
 	//Here_file
