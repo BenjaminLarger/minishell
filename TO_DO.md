@@ -1,5 +1,5 @@
 # TODO:
-1) Update variable global dans le shell avec errno avant de fermer child shell
+1) Update variable global dans le shell avec errno avant de fermer child shell //to test, should be good
 --------
 
 # CRASH:

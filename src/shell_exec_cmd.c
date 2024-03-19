@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 20:35:01 by demre             #+#    #+#             */
-/*   Updated: 2024/03/19 19:13:21 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/19 19:51:18 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	exec_command(t_minishell *data, char **cmd)
 	if (is_env_changing_builtin(cmd, data) == TRUE)
 		return ;
 	data->executed_command = TRUE;
-	print_array(cmd); //
+	print_array(cmd);
 	env = environ;
 	if (pipe(data->fd_pipe2) == -1)
 		return ; // handle pipe error
@@ -61,8 +61,8 @@ void	exec_command(t_minishell *data, char **cmd)
 				data->last_exit_status = errno;
 				//data->last_exit_status = 127;
 			}
-			/* else
-				data->last_exit_status = 0; */
+			else
+				data->last_exit_status = data->file.exit_status;
 		}
 		data->fd_pipe1[READ_END] = data->fd_pipe2[READ_END];
 	}

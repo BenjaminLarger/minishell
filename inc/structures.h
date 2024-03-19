@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 16:30:35 by demre             #+#    #+#             */
-/*   Updated: 2024/03/19 16:39:54 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/19 19:43:21 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 
 typedef struct s_file
 {
+	int		exit_status;
 	int		in_fd;
 	int		out_fd;
 	int		heredoc_pipe[2];
