@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/02 21:44:40 by demre             #+#    #+#             */
-/*   Updated: 2024/03/18 15:38:45 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/19 12:32:09 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	execute_command(t_minishell *data, int i)
 	else if (!ft_strcmp(data->args[i], "cd"))
 		builtin_cd(data->args[i], data);
 	else if (!ft_strcmp(data->args[i], "export"))
-		builtin_export(data->args);
+		builtin_export(data->args, data);
 	else if (!ft_strcmp(data->args[i], "env"))
 	{
 		builtin_env();

@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 14:57:17 by demre             #+#    #+#             */
-/*   Updated: 2024/03/18 18:46:37 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/19 11:25:18 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,7 @@ int	exec_args(t_minishell *data)
 			if (get_cmd_without_redirections(data, &cmd, start_index, i) == FAILURE)
 				return (FAILURE); // malloc failure
 			if (cmd && *cmd)
-			{
-				if (exec_cmd_if_builtin(cmd, data) == FAILURE)
-					exec_command(data, cmd);
-			}
+				exec_command(data, cmd);
 			free_string_array(cmd);
 			write_to_output_if_needed(data);
 		}

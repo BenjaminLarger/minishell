@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 16:15:50 by blarger           #+#    #+#             */
-/*   Updated: 2024/03/18 18:54:59 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/19 12:15:41 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,46 +47,18 @@ use cases :
 -> cd /.../
 		 */
 
-static void	cd_back_to_prev_cur_dir(char *arg, char *cur_dir,
-				t_minishell *data);
-static void	dispatch_home_dir(char *arg, char *cur_dir, t_minishell *data);
-static char	*get_home_path(void);
-
-void	builtin_cd(char *arg, t_minishell *data) //Check the leaks. Else it should works perfectly
+static char	*get_home_path(void)
 {
-	char	*cur_dir;
-
-	cur_dir = NULL;
-	cur_dir = getcwd(cur_dir, sizeof(cur_dir));
-	if (arg == NULL)
-		arg = getenv("HOME");
-	if (!ft_strcmp(arg, "-"))
-		return (cd_back_to_prev_cur_dir(arg, cur_dir, data));
-	if (!ft_strcmp(arg, "~"))
-		dispatch_home_dir(arg, cur_dir, data);
-	else if (!ft_strcmp(arg, "."))
+	if (getenv("HOME"))
 	{
-		if (chdir(arg))
-		{
-			ft_putstr_fd("bash: cd: ", 2);
-			ft_putstr_fd(arg, 2);
-			ft_putstr_fd(FILE, 2);
-		}
+		return (getenv("HOME"));
 	}
-	else if (!ft_strcmp(arg, ".."))
-		chdir(arg);
-	ft_strlcpy(data->cd_last_dir, cur_dir, ft_strlen(data->cd_last_dir) + 1);
-	free(cur_dir);
-}
-
-static void	cd_back_to_prev_cur_dir(char *arg, char *cur_dir, t_minishell *data)
-{
-	if (chdir(data->cd_last_dir) && arg)
-		ft_putstr_fd("bash: cd: OLDPWD not set\n", 2);
+	else if (getenv(""))
+		return (getenv("ZDOTDIR"));
+	else if (getenv("USER_ZDOTDIR"))
+		return (getenv("USER_ZDOTDIR"));
 	else
-		printf("%s\n", data->cd_last_dir);
-	ft_strlcpy(data->cd_last_dir, cur_dir, ft_strlen(cur_dir) + 1);
-	free(cur_dir);
+		return (NULL);
 }
 
 static void	dispatch_home_dir(char *arg, char *cur_dir, t_minishell *data)
@@ -118,16 +90,39 @@ static void	dispatch_home_dir(char *arg, char *cur_dir, t_minishell *data)
 	free(path);
 }
 
-static char	*get_home_path(void)
+static void	cd_back_to_prev_cur_dir(char *arg, char *cur_dir, t_minishell *data)
 {
-	if (getenv("HOME"))
-	{
-		return (getenv("HOME"));
-	}
-	else if (getenv(""))
-		return (getenv("ZDOTDIR"));
-	else if (getenv("USER_ZDOTDIR"))
-		return (getenv("USER_ZDOTDIR"));
+	if (chdir(data->cd_last_dir) && arg)
+		ft_putstr_fd("bash: cd: OLDPWD not set\n", 2);
 	else
-		return (NULL);
+		printf("%s\n", data->cd_last_dir);
+	ft_strlcpy(data->cd_last_dir, cur_dir, ft_strlen(cur_dir) + 1);
+	free(cur_dir);
+}
+
+void	builtin_cd(char *arg, t_minishell *data) //Check the leaks. Else it should works perfectly
+{
+	char	*cur_dir;
+
+	if (command_with_pipe(data->args) == TRUE)
+		return ;
+	cur_dir = NULL;
+	cur_dir = getcwd(cur_dir, sizeof(cur_dir));
+	if (arg == NULL)
+		arg = getenv("HOME");
+	if (!ft_strcmp(arg, "-"))
+		return (cd_back_to_prev_cur_dir(arg, cur_dir, data));
+	if (!ft_strcmp(arg, "~"))
+		dispatch_home_dir(arg, cur_dir, data);
+	else if (ft_strcmp(arg, "."))
+	{
+		if (chdir(arg))
+		{
+			ft_putstr_fd("bash: cd: ", 2);
+			ft_putstr_fd(arg, 2);
+			ft_putstr_fd(FILE, 2);
+		}
+	}
+	ft_strlcpy(data->cd_last_dir, cur_dir, ft_strlen(data->cd_last_dir) + 1);
+	free(cur_dir);
 }

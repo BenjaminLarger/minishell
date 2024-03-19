@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 15:24:35 by blarger           #+#    #+#             */
-/*   Updated: 2024/03/18 18:38:50 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/19 12:15:51 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,4 +80,18 @@ void	write_fdin_to_fdout(int fd_in, int fd_out)
 		}
 		write(fd_out, buffer, bytes_read);
 	}
+}
+
+int	command_with_pipe(char **args)
+{
+	int	i;
+
+	i = 0;
+	while (args[i])
+	{
+		if (!ft_strcmp("|", args[i]))
+			return (TRUE);
+		i++;
+	}
+	return (FALSE);
 }

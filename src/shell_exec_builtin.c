@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 19:04:16 by demre             #+#    #+#             */
-/*   Updated: 2024/03/18 18:47:39 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/19 13:23:07 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,11 @@ static int	is_builtin(char **args)
 		return (SUCCESS);
 	else if (!ft_strcmp(args[0], "pwd"))
 		return (SUCCESS);
-	else if (!ft_strcmp(args[0], "cd"))
-		return (SUCCESS);
 	else if (!ft_strcmp(args[0], "export"))
 		return (SUCCESS);
 	else if (!ft_strcmp(args[0], "env"))
+		return (SUCCESS);
+	else if (!ft_strcmp(args[0], "exit"))
 		return (SUCCESS);
 	else
 		return (FAILURE);
@@ -43,16 +43,42 @@ int	exec_cmd_if_builtin(char **args, t_minishell *data)
 			builtin_echo(&(args[0]));
 		else if (!ft_strcmp(args[0], "pwd"))
 			builtin_pwd();
-		else if (!ft_strcmp(args[0], "cd"))
-		{
-			builtin_cd(args[1], data);
-		}
-		else if (!ft_strcmp(args[0], "export"))
-			builtin_export(data->args);
 		else if (!ft_strcmp(args[0], "env"))
 			builtin_env();
+		else if (!ft_strcmp(args[0], "export"))
+			builtin_export(args, data);
+		else if (!ft_strcmp(args[0], "exit"))
+			builtin_exit(data);
 		return (SUCCESS);
 	}
 	else
 		return (FAILURE);
+}
+
+int	is_env_changing_builtin(char **cmd, t_minishell *data)
+{
+	int	i;
+
+	i = 0;
+	if (!ft_strcmp(cmd[0], "cd"))
+	{
+		builtin_cd(cmd[1], data);
+		return (TRUE);
+	}
+	else if (!ft_strcmp(cmd[0], "export") && cmd[1] != NULL)
+	{
+		builtin_export(cmd, data);
+		return (TRUE);
+	}
+	else if (!ft_strcmp(cmd[0], "unset"))
+	{
+		builtin_unset(cmd);
+		return (TRUE);
+	}
+	else if (!ft_strcmp(cmd[0], "exit"))
+	{
+		builtin_exit(data);
+		return (TRUE);
+	}
+	return (FALSE);
 }

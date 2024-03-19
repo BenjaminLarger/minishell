@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:00 by demre             #+#    #+#             */
-/*   Updated: 2024/03/18 16:45:48 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/19 13:13:17 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ int		get_cmd_without_redirections(t_minishell *data, char ***cmd,
 	int start, int end);
 void	exec_command(t_minishell *data, char **cmd);
 int		exec_cmd_if_builtin(char **args, t_minishell *data);
+int		is_env_changing_builtin(char **cmd, t_minishell *data);
 
 // Path
 
@@ -90,8 +91,9 @@ void	builtin_echo(char **args);
 void	builtin_pwd(void);
 void	builtin_env(void);
 void	builtin_cd(char *arg, t_minishell *data);
-void	builtin_export(char **args);
+void	builtin_export(char **args, t_minishell *data);
 void	builtin_unset(char **args);
+void	builtin_exit(t_minishell *data);
 
 
 //Handle $? last exit command
@@ -115,6 +117,7 @@ int		is_linker(char *str);
 int		count_commands(char **args);
 void	write_fdin_to_fdout(int fd_in, int fd_out);
 int		is_string_all_space(char const *str);
+int		command_with_pipe(char **args);
 
 //errros_handling.c
 char	*get_linker(char *linker);

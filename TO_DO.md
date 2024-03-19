@@ -17,10 +17,13 @@ array[1]: cat
 array[2]: -e
 array[3]: (null)
 
-2)
+2) 
 Quand deux groupements avec guillemets sont en contact
 echo "hel""lo"
 
+3) 
+n'imprimait pas correctement quand on chaine des commandes builtin avec d'autres:
+echo hello | cat -e ne marche pas
 --------
 
 # BUG:
@@ -33,6 +36,11 @@ ou
 echo hello "bye"
 = hello bye
 
-2)
+2) 
 exit should work if preceded by spaces... '  	  exit'. Write builtin
-
+bash-3.2$ "    exit"
+bash:     exit: command not found
+		!=
+bash-3.2$     exit
+exit
+=> ft_split

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
+/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 14:31:29 by demre             #+#    #+#             */
-/*   Updated: 2024/03/17 12:47:56 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/19 13:23:26 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,14 @@ static void	kill_and_exit(t_minishell *data, int exit_status)
 int	run_shell_loop(t_minishell *data)
 {
 	data->prompt = NULL;
+	data->is_exit = FALSE;
 	set_child_sigint_action();
 	set_child_exit_signal_action();
 	close(data->fd_pipe1[WRITE_END]);
-	while (!(data->prompt) || ft_strncmp(data->prompt, "exit", 4) != 0)
+	while (!(data->prompt) || data->is_exit == FALSE)
 	{
 		data->prompt = read_input(data->prompt);
-		if (data->prompt && *(data->prompt) && ft_strncmp(data->prompt, "exit", 4)
+		if (data->prompt && *(data->prompt) && data->is_exit == FALSE
 			&& !is_string_all_space(data->prompt))
 		{
 			if (split_input_into_args(data) == FAILURE)

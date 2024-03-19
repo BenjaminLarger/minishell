@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 20:35:01 by demre             #+#    #+#             */
-/*   Updated: 2024/03/18 18:45:50 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/19 12:41:16 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,9 @@ void	exec_command(t_minishell *data, char **cmd)
 	extern char	**environ;
 	char		**env;
 	char		*cmd_with_path;
-	
+
+	if (is_env_changing_builtin(cmd, data) == TRUE)
+		return ;
 	data->execve_used = TRUE;
 	print_array(cmd); //
 	env = environ;
@@ -33,6 +35,8 @@ void	exec_command(t_minishell *data, char **cmd)
 		dup2(data->fd_pipe2[WRITE_END], STDOUT_FILENO); 
 		close(data->fd_pipe1[READ_END]);
 		close(data->fd_pipe2[WRITE_END]);
+		if (exec_cmd_if_builtin(cmd, data) == SUCCESS)
+			exit(EXIT_SUCCESS);
 		// SUCCESS, EXEC_FAIL (builtin exist, mais exec failed), NOT_BUILTIN
 		if (get_cmd_with_path(cmd[0], &cmd_with_path) == FAILURE)
 			exit(EXIT_FAILURE); // check free
