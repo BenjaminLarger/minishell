@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_process_args.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
+/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 15:24:35 by blarger           #+#    #+#             */
-/*   Updated: 2024/03/19 12:15:51 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/19 19:41:52 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 /**
  * @brief Checks if a string only consists of whitespace
- * @param str 
  * @return (1) if TRUE, (0) otherwise
  */
 int	is_string_all_space(char const *str)
@@ -35,7 +34,7 @@ int	is_string_all_space(char const *str)
  * @return Returns TRUE (1) if str is '|', '<', '<<', '>', '>>', otherwise 
  * returns FALSE (0).
  */
-int is_linker(char *str)
+int	is_linker(char *str)
 {
 	if (ft_strcmp(str, "|") == 0
 		|| ft_strcmp(str, "<") == 0
@@ -93,5 +92,22 @@ int	command_with_pipe(char **args)
 			return (TRUE);
 		i++;
 	}
+	return (FALSE);
+}
+
+/**
+ * @brief Checks if a character is valid to name an environment variable.
+ * Valid characters include alphanumeric characters (a-z, A-Z, 0-9) and 
+ * underscore (_).
+ * @param c The character to be checked.
+ * @return TRUE (1) if the character is valid, FALSE (0) otherwise.
+ */
+int	is_valid_ev_character(char c)
+{
+	if ((c >= '0' && c <= '9')
+		|| (c >= 'a' && c <= 'z')
+		|| (c >= 'A' && c <= 'Z')
+		|| (c == '_'))
+		return (TRUE);
 	return (FALSE);
 }

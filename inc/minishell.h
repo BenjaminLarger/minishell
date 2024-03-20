@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:00 by demre             #+#    #+#             */
-/*   Updated: 2024/03/19 15:13:21 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/19 20:12:46 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,7 @@ char	*read_input(char *prompt);
 int		split_input_into_args(t_minishell *data);
 int		count_tokens(char const *str);
 int		assign_tokens(char **tokens, char const *str);
-char	*ft_substr_with_env_var(char const *input, int input_idx,
-	int input_len);
+char	*ft_substr_with_env_var(char const *input, int input_len);
 
 //Process
 	//Here_file
@@ -120,6 +119,7 @@ int		count_commands(char **args);
 void	write_fdin_to_fdout(int fd_in, int fd_out);
 int		is_string_all_space(char const *str);
 int		command_with_pipe(char **args);
+int		is_valid_ev_character(char c);
 
 //errros_handling.c
 char	*get_linker(char *linker);
