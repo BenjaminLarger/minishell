@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 15:16:11 by demre             #+#    #+#             */
-/*   Updated: 2024/03/20 13:38:08 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/20 17:52:29 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,17 +28,17 @@ static int	calculate_expanded_length(char const *input, int input_len)
 	int		ev_start;
 	int		i;
 	char	*temp_ev_name;
-
+	
 	expanded_length = 0;
 	i = 0;
 	while (i < input_len && input[i])
 	{
-	dprintf(2, "input: %s, input_len: %d, i: %d, input[i]: %c, expanded_length: %d\n", input, input_len, i, input[i], expanded_length);
+//	dprintf(2, "input: %s, input_len: %d, i: %d, input[i]: %c, expanded_length: %d\n", input, input_len, i, input[i], expanded_length);
 		move_until_env_var(input, input_len, &i, &expanded_length);
-	dprintf(2, "input: %s, input_len: %d, i: %d, input[i]: %c, expanded_length: %d\n", input, input_len, i, input[i], expanded_length);
+//	dprintf(2, "input: %s, input_len: %d, i: %d, input[i]: %c, expanded_length: %d\n", input, input_len, i, input[i], expanded_length);
 		if (input[i] == '$' && (i + 1) < input_len && input[i + 1] && is_valid_ev_character(input[i + 1])) // && input[i + 1] != ' '
 		{
-			dprintf(2, "1\n");
+//			dprintf(2, "1\n");
 			ev_start = ++i;
 			while (i < input_len && is_valid_ev_character(input[i])) // && input[i] != '$' && input[i] != ' '
 				i++;
@@ -47,17 +47,17 @@ static int	calculate_expanded_length(char const *input, int input_len)
 				return (-1);
 			if (getenv(temp_ev_name))
 				expanded_length += ft_strlen(getenv(temp_ev_name));
-			dprintf(2, "temp_ev_name: %s, getenv(temp_ev_name): %s, expanded_length: %d, i: %d\n", temp_ev_name, getenv(temp_ev_name), expanded_length, i);
+//			dprintf(2, "temp_ev_name: %s, getenv(temp_ev_name): %s, expanded_length: %d, i: %d\n", temp_ev_name, getenv(temp_ev_name), expanded_length, i);
 			free(temp_ev_name);
 		}
 		else if (input[i++] == '$')
 		{
-			dprintf(2, "2\n");
+//			dprintf(2, "2\n");
 			expanded_length++;
 		}
 		else
 		{
-			dprintf(2, "3\n");
+//			dprintf(2, "3\n");
 			i++;
 		}
 	}
@@ -98,10 +98,10 @@ char	*substr_with_replaced_env_var(char const *input, int input_len)
 	while (exp_idx < expanded_length && input[i] != '\0')
 	{
 		if (input[i] == '$' && (i + 1) < input_len
-			&& input[i + 1] && is_valid_ev_character(input[i + 1])) // && input[i + 1] != ' ' 
+			&& input[i + 1] && is_valid_ev_character(input[i + 1]))
 		{
 			ev_start = ++i;
-			while (i < input_len && is_valid_ev_character(input[i])) // && input[i] != '$' && input[i] != ' '
+			while (i < input_len && is_valid_ev_character(input[i]))
 				i++;
 			temp_ev_name = ft_substr(input, ev_start, i - ev_start);
 			if (!temp_ev_name)

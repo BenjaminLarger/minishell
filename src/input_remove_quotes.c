@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 13:29:08 by demre             #+#    #+#             */
-/*   Updated: 2024/03/20 14:36:11 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/20 17:54:30 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ char	*str_without_quotes(char *with_quote)
 	n_dbl_quotes = 0;
 	while (with_quote[with_q_idx])
 	{
-	dprintf(2, "with_quote[%d]: %c, n_sgl_quotes: %d, n_dbl_quotes: %d\n", with_q_idx, with_quote[with_q_idx], n_sgl_quotes, n_dbl_quotes);
+//	dprintf(2, "with_quote[%d]: %c, n_sgl_quotes: %d, n_dbl_quotes: %d\n", with_q_idx, with_quote[with_q_idx], n_sgl_quotes, n_dbl_quotes);
 		if (with_quote[with_q_idx] == '\'' && n_dbl_quotes % 2 == 0)
 		{
 			n_sgl_quotes++;
