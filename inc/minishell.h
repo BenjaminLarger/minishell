@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:00 by demre             #+#    #+#             */
-/*   Updated: 2024/03/20 18:46:07 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/20 19:05:14 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,9 +105,6 @@ void	builtin_unset(char **args);
 void	builtin_exit(t_minishell *data);
 
 
-//Handle $? last exit command
-void	handle_last_exit_status_cmd(char **args, t_minishell *data);
-
 //Handle redirection
 int		handle_redirection(char **args, t_minishell *data); //old
 void	process_input_redirection(char **args, t_minishell *data); //old
@@ -119,6 +116,7 @@ int		handle_redirections_until_next_pipe(t_minishell *data, char **args,
 void	free_string_array(char **str_array);
 void	free_n_string_array(char **str_array, int n);
 void	free_array_string_array(char ***array);
+void	free_env_array(void);
 
 //utils
 char	*ft_strjoin_free(char *s1, char *s2);

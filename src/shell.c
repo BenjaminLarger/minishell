@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 14:31:29 by demre             #+#    #+#             */
-/*   Updated: 2024/03/20 18:45:04 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/20 19:11:33 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ static void	kill_and_exit(t_minishell *data, int exit_status)
 {
 	// free args
 	// close file descriptors
+	free_env_array();
 	close(data->fd_pipe1[READ_END]);
 	kill(data->pid1, SIGUSR1);
 	if (errno == 0)
@@ -25,12 +26,13 @@ static void	kill_and_exit(t_minishell *data, int exit_status)
 
 int	run_shell_loop(t_minishell *data)
 {
+	malloc_env_variables();
 	data->prompt = NULL;
 	data->is_exit = FALSE;
 	set_child_sigint_action();
 	set_child_exit_signal_action();
 	close(data->fd_pipe1[WRITE_END]);
-	malloc_env_variables();
+	data->last_exit_status = 0;
 	while (!(data->prompt) || data->is_exit == FALSE)
 	{
 		data->prompt = read_input(data->prompt);
@@ -43,7 +45,6 @@ int	run_shell_loop(t_minishell *data)
 		//		kill_and_exit(data, errno);
 			if (exec_args(data) == FAILURE)
 			{
-				dprintf(2, "errno = %d\n", errno);
 				kill_and_exit(data, errno);
 				//kill_and_exit(data, data->last_exit_status);
 				//kill_and_exit(data, EXIT_FAILURE); // malloc failure
@@ -55,6 +56,7 @@ int	run_shell_loop(t_minishell *data)
 //			rl_replace_line("minish> exit", 0);
 //			rl_redisplay();
 //			sleep(2);
+			free_env_array();
 			printf("contrl D pressed\n");
 			close(data->fd_pipe1[READ_END]);
 			printf("exit\n"); // to fix, not on same line
@@ -65,6 +67,7 @@ int	run_shell_loop(t_minishell *data)
 	if (data->prompt)
 		free(data->prompt);
 	close(data->fd_pipe1[READ_END]);
+	free_env_array();
 	printf("exit\n"); // keep
 	kill(data->pid1, SIGUSR1);
 	exit(EXIT_SUCCESS);

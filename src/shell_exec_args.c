@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 14:57:17 by demre             #+#    #+#             */
-/*   Updated: 2024/03/20 18:51:25 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/20 19:07:00 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ int	exec_args(t_minishell *data)
 	i = 0;
 	start_index = 0;
 	print_array(data->args);
-	data->last_exit_status = data->last_exit_status;
 	while (i < data->n_args && data->args[i]) // && data->args[i + 1])
 	{
 		reset(data, &start_index, i);

@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/02 14:34:07 by demre             #+#    #+#             */
-/*   Updated: 2024/03/13 16:11:44 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/20 19:12:30 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,17 @@ void	free_array_string_array(char ***array)
 		i++;
 	}
 	free(array);
+}
+
+void	free_env_array(void)
+{
+	extern char	**environ;
+	int	i;
+
+	i = 0;
+	while (environ[i])
+	{
+		free(environ[i]);
+		i++;
+	}
 }
