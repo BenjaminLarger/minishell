@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 20:35:01 by demre             #+#    #+#             */
-/*   Updated: 2024/03/19 19:51:18 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/20 10:11:14 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,11 @@ void	exec_command(t_minishell *data, char **cmd)
 			exit(EXIT_FAILURE); // check free
 		dprintf(STDERR_FILENO, "cmd_with_path: %s\n", cmd_with_path); //
 		execve(cmd_with_path, &(cmd[0]), env);
+		errno = 127;
 //		handle_exec_error(cmd[0]);
 		free(cmd_with_path);
 		print_error_cmd(cmd[0]);
-		exit(EXIT_FAILURE);
+		exit(errno); //send exit error status 
 	}
 	else if (pid2 > 0)
 	{
@@ -58,12 +59,12 @@ void	exec_command(t_minishell *data, char **cmd)
 		{
 			if (WEXITSTATUS(status) != 0)
 			{
-				data->last_exit_status = errno;
+				dprintf(2, "errno exit status in first child = %d\n", (WEXITSTATUS(status)));
+				g_last_exit_status = WEXITSTATUS(status);
 				//data->last_exit_status = 127;
 			}
-			else
-				data->last_exit_status = data->file.exit_status;
 		}
+		dprintf(2, "errno exit status in first child = %d\n", (WEXITSTATUS(status)));
 		data->fd_pipe1[READ_END] = data->fd_pipe2[READ_END];
 	}
 }

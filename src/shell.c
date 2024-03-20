@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 14:31:29 by demre             #+#    #+#             */
-/*   Updated: 2024/03/19 13:23:26 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/20 10:13:40 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,12 @@ int	run_shell_loop(t_minishell *data)
 		//	if (process_args(data) == FAILURE)
 		//		kill_and_exit(data, errno);
 			if (exec_args(data) == FAILURE)
-				kill_and_exit(data, EXIT_FAILURE); // malloc failure
+			{
+				dprintf(2, "errno = %d\n", errno);
+				kill_and_exit(data, errno);
+				//kill_and_exit(data, data->last_exit_status);
+				//kill_and_exit(data, EXIT_FAILURE); // malloc failure
+			}
 			free_string_array(data->args);
 		}
 		else if (!data->prompt) // when ctrl-d is pressed
@@ -53,7 +58,7 @@ int	run_shell_loop(t_minishell *data)
 			close(data->fd_pipe1[READ_END]);
 			printf("exit\n"); // to fix, not on same line
 			kill(data->pid1, SIGUSR1);
-			exit(EXIT_SUCCESS);
+			exit(g_last_exit_status);
 		}
 	}
 	if (data->prompt)
