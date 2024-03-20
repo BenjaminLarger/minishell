@@ -1,5 +1,5 @@
 # TODO:
-1) Update variable global dans le shell avec errno avant de fermer child shell
+1) Update variable global dans le shell avec errno avant de fermer child shell //to test, should be good
 --------
 
 # CRASH:
@@ -20,10 +20,11 @@ echo $variable_qui_n'existe_pas
 
 # BUG:
 1) 
-exit should work if preceded by spaces... '  	  exit'. Write builtin
-bash-3.2$ "    exit"
-bash:     exit: command not found
-		!=
-bash-3.2$     exit
-exit
-=> ft_split
+ls "-l" devrait marcher
+ls: "-l": No such file or directory
+ou 
+ls -l | grep "1 d"
+ou
+echo hello "bye"
+= hello bye
+

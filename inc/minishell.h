@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:00 by demre             #+#    #+#             */
-/*   Updated: 2024/03/19 20:12:46 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/20 10:43:07 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,7 @@ void	write_fdin_to_fdout(int fd_in, int fd_out);
 int		is_string_all_space(char const *str);
 int		command_with_pipe(char **args);
 int		is_valid_ev_character(char c);
+void	check_and_replace_last_exit_status_call(char **args, t_minishell *data);
 
 //errros_handling.c
 char	*get_linker(char *linker);

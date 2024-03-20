@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
+/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:16:49 by demre             #+#    #+#             */
-/*   Updated: 2024/03/13 17:40:07 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/20 10:14:22 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ int	main(int argc, char **argv)
 		if (WIFEXITED(status))
 		{
 			g_last_exit_status = WEXITSTATUS(status); //$? handle
+			dprintf(2, "last exit status in grand parent = %d\n", g_last_exit_status);
 			int exit_status = WEXITSTATUS(status);
 			if (exit_status == 0) {
 				printf("Child process terminated successfully. Parent process exiting.\n");

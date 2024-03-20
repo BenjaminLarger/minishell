@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 14:57:17 by demre             #+#    #+#             */
-/*   Updated: 2024/03/18 15:14:07 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/19 16:42:27 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ static int	handle_output_redirection(t_minishell *data, char **args)
 	{
 		if (access(args[1], W_OK) == -1)
 		{
+			data->last_exit_status = errno;
 			perror("Minish: ");
 			return (FAILURE);
 		}
@@ -30,6 +31,7 @@ static int	handle_output_redirection(t_minishell *data, char **args)
 	}
 	if (data->file.out_fd < 0)
 	{
+		data->last_exit_status = 0;
 		perror("Minish: ");
 		return (FAILURE);
 	}
@@ -45,6 +47,7 @@ static int	handle_input_redirection(t_minishell *data, char **args)
 	data->file.in_fd = open(args[1], O_RDONLY);
 	if (data->file.in_fd < 0 || access(args[1], R_OK) == -1)
 	{
+		data->last_exit_status = errno;
 		perror("Minish: ");
 		return (FAILURE);
 	}
@@ -69,6 +72,7 @@ static int	handle_here_document(t_minishell *data, char **args)
 		close(data->file.heredoc_pipe[READ_END]);
 	if (pipe(data->file.heredoc_pipe) == -1)
 	{
+		data->last_exit_status = errno;
 		perror("Minish: ");
 		return (FAILURE);
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
+/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 12:43:06 by blarger           #+#    #+#             */
-/*   Updated: 2024/03/14 16:49:06 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/19 19:48:07 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,10 @@ static int	process_here_doc(char **args, t_minishell *data)
 	if (is_linker(args[1]) == TRUE)
 		perror_msg_kill_free(SYNTAX, data);
 	if (pipe(pipefd) == -1)
+	{
+		data->file.exit_status = errno;
 		perror("pipe error:");
+	}
 	while (1)
 	{
 		line = readline("> ");
@@ -53,8 +56,11 @@ static int	process_output(char **args, t_minishell *data)
 		data->file.out_fd = open(args[1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	else if (!ft_strcmp(args[0], ">>"))
 		data->file.out_fd = open(args[1], O_WRONLY | O_CREAT | O_APPEND, 0644);
-	if (data->file.out_fd < 0)
+	if (data->file.out_fd < 0 || access(args[1], W_OK) == -1)
+	{
+		data->file.exit_status = errno;
 		perror("bash");
+	}
 	write_fdin_to_fdout(data->fd_pipe1[READ_END], data->file.out_fd);
 	close(data->file.out_fd);
 	rl_on_new_line();
@@ -66,8 +72,10 @@ static int	process_input(char **args, t_minishell *data)
 	if (is_linker(args[1]) == TRUE)
 		perror_msg_kill_free(TOKEN, data);
 	data->file.in_fd = open(args[1], O_RDWR);
-	if (data->file.in_fd < 0)
+	if (data->file.in_fd < 0 || access(args[1], F_OK) == -1
+		|| access(args[1], R_OK) == -1)
 	{
+		data->file.exit_status = errno;
 		perror("bash");
 		//msg_kill_free(args[1], FILE, DO_NO_EXIT, data); perror handle error message => edit function
 	}
@@ -83,6 +91,7 @@ int	handle_redirection(char **args, t_minishell *data)
 {
 	/* if (!ft_strcmp(args[0], "|"))
 		perror_msg_kill_free(TOKEN, data); */
+	data->file.exit_status = 0;
 	if (!ft_strcmp(args[0], "<"))
 		return (process_input(args, data));
 	else if (!ft_strcmp(args[0], ">"))
