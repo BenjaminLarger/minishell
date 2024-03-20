@@ -6,11 +6,25 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 12:44:26 by blarger           #+#    #+#             */
-/*   Updated: 2024/03/19 19:55:06 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/20 19:28:15 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void	print_echo(char **args, bool start, int i, bool delete_newline)
+{
+	while (args[i] && is_linker(args[i]) == FALSE)
+	{
+		if (start == false)
+			printf(" ");
+		printf("%s", args[i]);
+		i++;
+		start = false;
+	}
+	if (delete_newline == false)
+		printf("\n");
+}
 
 void	builtin_echo(char **args)
 {
@@ -31,14 +45,5 @@ void	builtin_echo(char **args)
 	}
 	else
 		delete_newline = false;
-	while (args[i] && is_linker(args[i]) == FALSE)
-	{
-		if (start == false)
-			printf(" ");
-		printf("%s", args[i]);
-		i++;
-		start = false;
-	}
-	if (delete_newline == false)
-		printf("\n");
+	print_echo(args, start, i, delete_newline);
 }

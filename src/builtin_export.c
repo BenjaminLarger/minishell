@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 09:34:57 by blarger           #+#    #+#             */
-/*   Updated: 2024/03/20 18:33:36 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/20 19:29:40 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	**concat_and_add_env(char **env, char *new_content)
 
 	if (!(ft_strchr(new_content, '=')) || ft_strlen(new_content) < 3
 		|| new_content[ft_strlen(new_content) - 1] == '=')
-		return env;
+		return (env);
 	actual_env_len = 0;
 	while (env[actual_env_len])
 		actual_env_len++;

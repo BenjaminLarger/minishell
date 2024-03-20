@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 14:57:17 by demre             #+#    #+#             */
-/*   Updated: 2024/03/20 18:53:23 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/20 19:35:50 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ static int	handle_output_redirection(t_minishell *data, char **args)
 		return (FAILURE);
 	}
 	data->file.has_outfile = TRUE;
-	//write_fdin_to_fdout(data->fd_pipe1[READ_END], data->file.out_fd);
 	return (SUCCESS);
 }
 
@@ -49,14 +48,29 @@ static int	handle_input_redirection(t_minishell *data, char **args)
 		data->file.has_heredoc = FALSE;
 	}
 	data->file.has_infile = TRUE;
-//	data->fd_pipe1[READ_END] = data->file.in_fd;
 	return (SUCCESS);
+}
+
+static void	read_herefile_util(t_minishell *data, char **args)
+{
+	char	*line;
+
+	while (1)
+	{
+		line = readline("> ");
+		if (!ft_strcmp(line, args[1]))
+		{
+			free(line);
+			break ;
+		}
+		write(data->file.heredoc_pipe[WRITE_END], line, strlen(line));
+		write(data->file.heredoc_pipe[WRITE_END], "\n", 1);
+		free(line);
+	}
 }
 
 static int	handle_here_document(t_minishell *data, char **args)
 {
-	char	*line;
-	
 	print_array(args);
 	if (is_linker(args[1]) == TRUE)
 		perror_msg_kill_free(SYNTAX, data);
@@ -68,31 +82,14 @@ static int	handle_here_document(t_minishell *data, char **args)
 		perror("Minish: ");
 		return (FAILURE);
 	}
-	while (1)
-	{
-		line = readline("> ");
-		if (!ft_strcmp(line, args[1]))
-		{
-			free(line);
-			break;
-		}
-		write(data->file.heredoc_pipe[WRITE_END], line, strlen(line));
-		write(data->file.heredoc_pipe[WRITE_END], "\n", 1);
-		free(line);
-	}
+	read_herefile_util(data, args);
 	close(data->file.heredoc_pipe[WRITE_END]);
-//	data->fd_pipe1[READ_END] = pipefd[READ_END];
-
 	if (data->file.has_infile == TRUE)
 	{
 		close(data->file.in_fd);
 		data->file.has_infile = FALSE;
 	}
 	data->file.has_heredoc = TRUE;
-//	data->file.in_fd = data->file.heredoc_pipe[READ_END];
-//	data->fd_pipe1[READ_END] = data->file.heredoc_pipe[READ_END];
-//	dup2(data->file.heredoc_pipe[READ_END], data->file.in_fd);
-//	close(data->file.heredoc_pipe[READ_END]);
 	return (SUCCESS);
 }
 
