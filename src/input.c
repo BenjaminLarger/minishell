@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:16 by demre             #+#    #+#             */
-/*   Updated: 2024/03/13 16:37:47 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/20 11:50:50 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,13 +47,13 @@ int		split_input_into_args(t_minishell *data)
 //	if (data->args_to_free == true)
 //		free_string_array(data->args);
 	data->n_args = count_tokens(data->prompt);
-//	printf("%s, n_args: %d\n", data->prompt, data->n_args); //
+	printf("%s, n_args: %d\n", data->prompt, data->n_args); //
 	data->args = (char **)malloc((data->n_args + 1) * sizeof(char *));
 	if (!data->args)
 		return (errno);
 	if (data->prompt && assign_tokens(data->args, data->prompt) == FAILURE)
 		return (FAILURE);
-	// print_array(data->args);
+	print_array(data->args);
 	
 	return (SUCCESS);
 }

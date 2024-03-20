@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:00 by demre             #+#    #+#             */
-/*   Updated: 2024/03/20 10:43:07 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/20 15:57:54 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,16 @@ char	*read_input(char *prompt);
 int		split_input_into_args(t_minishell *data);
 int		count_tokens(char const *str);
 int		assign_tokens(char **tokens, char const *str);
-char	*ft_substr_with_env_var(char const *input, int input_len);
+char	*substr_with_replaced_env_var(char const *input, int input_len);
+char	*str_without_quotes(char *str);
+
+
+// Handle input utils
+
+int	is_sgl_linker(char const *str);
+int	is_dbl_linker(char const *str);
+int	isspace_outside_quotes(int c, t_index_data *d);
+int	islinker_outside_quotes(char const *str, t_index_data *d);
 
 //Process
 	//Here_file

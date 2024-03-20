@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/02 14:01:44 by demre             #+#    #+#             */
-/*   Updated: 2024/03/19 20:12:33 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/20 16:20:11 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 /**
  * @brief Initialise variables used in the index-related data structure.
- * @param t Pointer to the index data structure to be initialised.
  */
 static void	initialise_index_data(t_index_data *d)
 {
@@ -26,64 +25,53 @@ static void	initialise_index_data(t_index_data *d)
 }
 
 /**
- * @brief Increase the count of single or double quotes based on the type 
- * specified.
- * @param d Pointer to the index data structure containing quote counts.
- * @param type_of_quotes Type of quotes to increase count (single_quote or 
- * double_quote).
- */
-static void	increase_quote_count(t_index_data *d, enum e_quote type_of_quotes)
-{
-	if (type_of_quotes == single_quote)
-		d->n_sgl_quotes++;
-	else if (type_of_quotes == double_quote)
-		d->n_dbl_quotes++;
-	d->i++;
-}
-
-/**
  * @brief Store a token extracted from the input string into the tokens array.
  * This function extracts a substring from the input string based on start and 
  * end indices, allocates memory for it, and stores it in the tokens array.
- * @param tokens Pointer to the array of strings where tokens will be stored.
- * @param str Pointer to the input string.
- * @param d Pointer to the index data structure containing indices and quote counts.
  * @return int SUCCESS if storing the token is successful, FAILURE otherwise.
  */
 static int	store_token(char **tokens, char const *str, t_index_data *d)
 {
-	if (str[d->start] == '\'' && str[d->i - 1] == '\'')
-		tokens[d->j] = ft_substr(str, d->start + 1, (d->i - d->start - 2));
-	else if (str[d->start] == '\"' && str[d->i - 1] == '\"')
-		tokens[d->j] = ft_substr_with_env_var(&str[d->start + 1], (d->i - d->start - 2));
-	else
-		tokens[d->j] = ft_substr_with_env_var(&str[d->start], (d->i - d->start));
-	if (!tokens[d->j])
+	char	*temp_string;
+
+	temp_string = substr_with_replaced_env_var(&str[d->start],
+			(d->i - d->start));
+	if (!temp_string)
 	{
 		free_n_string_array(tokens, d->j);
 		return (FAILURE);
 	}
-	dprintf(2, "tokens[d->j]: %s\n", tokens[d->j]);
+	dprintf(2, "temp_string: %s\n", temp_string);
+
+	if (!ft_strchr(temp_string, '\'') && !ft_strchr(temp_string, '\"'))
+		tokens[d->j] = ft_strdup(temp_string);
+	else
+		tokens[d->j] = str_without_quotes(temp_string);
+	if (!tokens[d->j])
+	{
+		free_n_string_array(tokens, d->j);
+		free(temp_string);
+		return (FAILURE);
+	}
+	free(temp_string);
+	dprintf(2, "tokens[d->j]: %s\n\n", tokens[d->j]);
 	d->j++;
 	return (SUCCESS);
 }
 
 /**
- * @brief Move the index to the next non-whitespace character outside of quotes.
- * @param str Pointer to the input string.
- * @param d Pointer to the index data structure containing indices and quote 
- * counts.
+ * @brief Increase the count of single or double quotes if the quote character
+ * is not already within quotes, by checking that the opposite type of quotes
+ * is an even number.
  */
-static void	find_next_non_whitespace_outside_quotes(char const *str,
+static void	increase_quote_count_if_outside_quotes(char const *str,
 	t_index_data *d)
 {
-	while (str[d->i]
-		&& ((d->n_sgl_quotes % 2 == 0 && d->n_dbl_quotes % 2 == 0
-				&& !ft_isspace(str[d->i]))
-			|| (d->n_sgl_quotes % 2 == 1 && str[d->i] != '\'')
-			|| (d->n_dbl_quotes % 2 == 1 && str[d->i] != '\"'))
-	)
-		d->i++;
+	if (str[d->i] == '\'' && d->n_dbl_quotes % 2 == 0)
+		d->n_sgl_quotes++;
+	else if (str[d->i] == '\"' && d->n_sgl_quotes % 2 == 0)
+		d->n_dbl_quotes++;
+	d->i++;
 }
 
 /**
@@ -98,28 +86,47 @@ int	assign_tokens(char **tokens, char const *str)
 	t_index_data	d;
 
 	initialise_index_data(&d);
+	printf("ft_strlen(str): %d\n", ft_strlen(str));
 	while (str[d.i])
 	{
 		while (ft_isspace(str[d.i]))
 			d.i++;
 		d.start = d.i;
-		if (str[d.i] == '\'')
-			increase_quote_count(&d, single_quote);
-		else if (str[d.i] == '\"')
-			increase_quote_count(&d, double_quote);
-		find_next_non_whitespace_outside_quotes(str, &d);
-		if (d.n_sgl_quotes % 2 == 1 && str[d.i] == '\'')
-			increase_quote_count(&d, single_quote);
-		else if (d.n_dbl_quotes % 2 == 1 && str[d.i] == '\"')
-			increase_quote_count(&d, double_quote);
-//		printf("d.start: %d, %c ", d.start, str[d.start]);
-//		printf("d.i: %d, %c, sgl: %d, dbl: %d\n", d.i, str[d.i], d.n_sgl_quotes, d.n_dbl_quotes);
+		printf("starting arg at %d, str[%d]: %c\n", d.start, d.start, str[d.start]);
+
+		while (str[d.i] && !isspace_outside_quotes(str[d.i], &d)
+			&& !islinker_outside_quotes(&str[d.i], &d))
+		{
+		printf("looping, i: %d, str[%d]: %c, d.n_sgl_quotes: %d, d.n_dbl_quotes: %d\n", d.i, d.i, str[d.i], d.n_sgl_quotes, d.n_dbl_quotes);
+			if (str[d.i] == '\'' || str[d.i] == '\"')
+				increase_quote_count_if_outside_quotes(str, &d);
+			else
+				d.i++;
+		}
 		if (d.n_sgl_quotes % 2 == 1 || d.n_dbl_quotes % 2 == 1)
 			return (FAILURE);
-//		printf("d.start: %d, %c, d.i: %d, %c\n", d.start, str[d.start], d.i, str[d.i]);
+
+		printf("d.start: %d, d.i: %d, str[%d]: %c, sgl: %d, dbl: %d\n", d.start, d.i, d.i, str[d.i], d.n_sgl_quotes, d.n_dbl_quotes);
 		if (d.start < d.i)
+		{
 			if (store_token(tokens, str, &d) == FAILURE)
 				return (FAILURE);
+		}
+		else if (islinker_outside_quotes(&str[d.i], &d))
+		{
+			if (is_dbl_linker(&str[d.i]))
+			{
+				d.start = d.i;
+				d.i += 2;
+			}
+			else
+			{
+				d.start = d.i;
+				d.i += 1;
+			}
+			if (store_token(tokens, str, &d) == FAILURE)
+				return (FAILURE);
+		}
 	}
 	tokens[d.j] = NULL;
 	return (SUCCESS);
