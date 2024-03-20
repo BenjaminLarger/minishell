@@ -6,14 +6,13 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:16:49 by demre             #+#    #+#             */
-/*   Updated: 2024/03/20 10:14:22 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/20 18:44:34 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 int g_signal = 0;
-int	g_last_exit_status = 0;
 
 int	main(int argc, char **argv)
 {
@@ -40,8 +39,8 @@ int	main(int argc, char **argv)
 
 		if (WIFEXITED(status))
 		{
-			g_last_exit_status = WEXITSTATUS(status); //$? handle
-			dprintf(2, "last exit status in grand parent = %d\n", g_last_exit_status);
+			data.last_exit_status = WEXITSTATUS(status); //$? handle
+			dprintf(2, "last exit status in grand parent = %d\n", data.last_exit_status);
 			int exit_status = WEXITSTATUS(status);
 			if (exit_status == 0) {
 				printf("Child process terminated successfully. Parent process exiting.\n");
@@ -49,7 +48,7 @@ int	main(int argc, char **argv)
 				printf("Child process terminated with error (exit status: %d). Parent process continuing.\n", exit_status);
 			}
 		} else {
-			g_last_exit_status = 0; //$? handle
+			data.last_exit_status = 0; //$? handle
 			printf("Child process terminated abnormally. Parent process continuing.\n");
 		}
 	}

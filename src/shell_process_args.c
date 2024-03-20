@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/02 21:44:40 by demre             #+#    #+#             */
-/*   Updated: 2024/03/19 12:32:09 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/20 18:46:33 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int	process_args(t_minishell *data)
 	//split_args_into_cmds(data);
 	//print_all_cmds_and_linkers(data);
 	data->save_stdin_fd = dup(STDIN_FILENO);
-	handle_last_exit_status_cmd(data->args);
+	handle_last_exit_status_cmd(data->args, data);
 	handle_env_variable(data->args);
 	process_args_loop(data);
 	dup2(data->save_stdin_fd, STDIN_FILENO);

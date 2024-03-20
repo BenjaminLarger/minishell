@@ -30,7 +30,7 @@ SRCS		:= main.c \
 	shell_redirections_handle.c shell_get_cmd.c shell_exec_cmd.c \
 	builtin_exit.c \
 	redirections.c \
-	utils_joinfree.c utils_process_args.c \
+	utils_joinfree.c utils_process_args.c utils_builtin.c \
 	cleanup_free_arrays.c \
 	error_handling.c \
 	dev_utils.c \

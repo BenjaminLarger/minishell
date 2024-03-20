@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 14:57:17 by demre             #+#    #+#             */
-/*   Updated: 2024/03/19 16:42:27 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/20 18:53:23 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,8 @@ static int	handle_output_redirection(t_minishell *data, char **args)
 	if (!ft_strcmp(args[0], ">>"))
 		data->file.out_fd = open(args[1], O_WRONLY | O_CREAT | O_APPEND, 0644);
 	else if (!ft_strcmp(args[0], ">"))
-	{
-		if (access(args[1], W_OK) == -1)
-		{
-			data->last_exit_status = errno;
-			perror("Minish: ");
-			return (FAILURE);
-		}
 		data->file.out_fd = open(args[1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		//dprintf(STDERR_FILENO, "outfdfile = %d\n", data->file.out_fd);
-	}
-	if (data->file.out_fd < 0)
+	if (access(args[1], W_OK) == -1 || data->file.out_fd < 0)
 	{
 		data->last_exit_status = 0;
 		perror("Minish: ");
@@ -45,9 +36,10 @@ static int	handle_input_redirection(t_minishell *data, char **args)
 	if (data->file.has_infile == TRUE)
 		close(data->file.in_fd);
 	data->file.in_fd = open(args[1], O_RDONLY);
-	if (data->file.in_fd < 0 || access(args[1], R_OK) == -1)
+	if (access(args[1], F_OK) == -1 || access(args[1], R_OK) == -1
+		|| data->file.in_fd < 0)
 	{
-		data->last_exit_status = errno;
+		data->last_exit_status = 1;
 		perror("Minish: ");
 		return (FAILURE);
 	}

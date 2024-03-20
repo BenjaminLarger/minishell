@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 09:34:57 by blarger           #+#    #+#             */
-/*   Updated: 2024/03/19 12:30:22 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/20 18:33:36 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,50 +14,32 @@
 
 #define SEPARATOR "="
 
-static void	display_exported_variable(void);
-static void	define_env_variable(char *arg);
-static int	count_value_len(char *arg);
-
-/* TO IMPLEMENT
--> Without any arguments, the command will generate or display all
-	exported variables. 
-
-You can also assign a value before exporting a function as shown
--> export name[=value]
--> export students
- */
-
-/* IMPORTANT
-We should be able to set as many env variable as there are cmds
-(ex: export name_1=value_1 ...  name_n=value_n) */
-
-/* FUNCTIONS
-The setenv() function adds the variable name to the environment
-       with the value value, if name does not already exist.  If name
-       does exist in the environment, then its value is changed to value
-       if overwrite is nonzero; if overwrite is zero, then the value of
-       name is not changed */
-
-/* HEDGE CASES
-if there is no '=' (the SEPARATOR), we do nothing */
-
-void	builtin_export(char **args, t_minishell *data)
+char	**concat_and_add_env(char **env, char *new_content)
 {
-	int	i;
+	char	**new_env;
+	int		i;
+	int		actual_env_len;
 
-	i = 1;
-	if (!args[1])
-		return (display_exported_variable());
-	else if (command_with_pipe(data->args) == TRUE)
-		return ;
-	else
+	if (!(ft_strchr(new_content, '=')) || ft_strlen(new_content) < 3
+		|| new_content[ft_strlen(new_content) - 1] == '=')
+		return env;
+	actual_env_len = 0;
+	while (env[actual_env_len])
+		actual_env_len++;
+	i = 0;
+	new_env = (char **)malloc(sizeof(char *) * (actual_env_len + 2));
+	if (!new_env)
+		return (NULL); //Hanlde malloc failure
+	while (i < actual_env_len)
 	{
-		while (args[i])
-		{
-			define_env_variable(args[i]);
-			i++;
-		}
+		new_env[i] = ft_strdup(env[i]);
+		free(env[i]);
+		i++;
 	}
+	new_env[i] = ft_strdup(new_content);
+	i++;
+	new_env[i] = NULL;
+	return (new_env);
 }
 
 static void	display_exported_variable(void)
@@ -73,34 +55,22 @@ static void	display_exported_variable(void)
 	}
 }
 
-static void	define_env_variable(char *arg)
-{
-	char	*name;
-	char	*value;
-	int		len;
-
-	len = count_value_len(arg);
-	if (len == 0)
-		return ;
-	value = ft_strchr(arg, '=');
-	value++;
-	name = strtok(arg, SEPARATOR);
-	setenv(name, value, 1);
-}
-
-static int	count_value_len(char *arg)
+void	builtin_export(char **args, t_minishell *data)
 {
 	int	i;
-	int	count;
+	extern char	**environ;
 
-	i = 0;
-	count = 0;
-	while (arg[i] && arg[i] != SEPARATOR[0])
-		i++;
-	while (arg[i])
+	i = 1;
+	if (!args[1])
+		return (display_exported_variable());
+	else if (command_with_pipe(data->args) == TRUE)
+		return ;
+	else
 	{
-		count++;
-		i++;
+		while (args[i])
+		{
+			environ = concat_and_add_env(environ, args[i]);
+			i++;
+		}
 	}
-	return (count);
 }

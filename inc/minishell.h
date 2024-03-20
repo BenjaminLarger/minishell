@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
+/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:00 by demre             #+#    #+#             */
-/*   Updated: 2024/03/20 15:57:54 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/20 18:46:07 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@
 # define WRITE_END 1
 
 extern int	g_signal;
-extern int	g_last_exit_status;
 
 // Signal handling
 
@@ -107,7 +106,7 @@ void	builtin_exit(t_minishell *data);
 
 
 //Handle $? last exit command
-void	handle_last_exit_status_cmd(char **args);
+void	handle_last_exit_status_cmd(char **args, t_minishell *data);
 
 //Handle redirection
 int		handle_redirection(char **args, t_minishell *data); //old
@@ -130,6 +129,7 @@ int		is_string_all_space(char const *str);
 int		command_with_pipe(char **args);
 int		is_valid_ev_character(char c);
 void	check_and_replace_last_exit_status_call(char **args, t_minishell *data);
+void	malloc_env_variables(void);
 
 //errros_handling.c
 char	*get_linker(char *linker);

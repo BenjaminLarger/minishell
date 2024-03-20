@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 14:31:29 by demre             #+#    #+#             */
-/*   Updated: 2024/03/20 10:13:40 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/20 18:45:04 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ int	run_shell_loop(t_minishell *data)
 	set_child_sigint_action();
 	set_child_exit_signal_action();
 	close(data->fd_pipe1[WRITE_END]);
+	malloc_env_variables();
 	while (!(data->prompt) || data->is_exit == FALSE)
 	{
 		data->prompt = read_input(data->prompt);
@@ -58,7 +59,7 @@ int	run_shell_loop(t_minishell *data)
 			close(data->fd_pipe1[READ_END]);
 			printf("exit\n"); // to fix, not on same line
 			kill(data->pid1, SIGUSR1);
-			exit(g_last_exit_status);
+			exit(data->last_exit_status);
 		}
 	}
 	if (data->prompt)
