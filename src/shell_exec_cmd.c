@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 20:35:01 by demre             #+#    #+#             */
-/*   Updated: 2024/03/21 15:35:50 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/21 18:37:21 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ void	exec_command(t_minishell *data, char **cmd)
 			exit(EXIT_FAILURE); // check free
 		dprintf(STDERR_FILENO, "cmd_with_path: %s\n", cmd_with_path); //
 		execve(cmd_with_path, &(cmd[0]), env);
-		dprintf(2, "problem command\n");
 		free(cmd_with_path);
 		print_error_cmd(cmd[0]);
 		exit(127); //send exit error status 
