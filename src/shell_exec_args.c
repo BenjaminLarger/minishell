@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 14:57:17 by demre             #+#    #+#             */
-/*   Updated: 2024/03/20 19:07:00 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/21 10:01:01 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	exec_args(t_minishell *data)
 			free_string_array(cmd);
 			write_to_output_if_needed(data);
 		}
-		dprintf(2, "exit status =%d\n", data->last_exit_status);
+		dprintf(2, "exec args exit status =%d\n", data->last_exit_status);
 		i++;
 	}
 	if (data->executed_command == TRUE)

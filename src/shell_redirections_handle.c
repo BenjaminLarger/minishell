@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 14:57:17 by demre             #+#    #+#             */
-/*   Updated: 2024/03/20 19:35:50 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/21 17:45:26 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,48 +48,6 @@ static int	handle_input_redirection(t_minishell *data, char **args)
 		data->file.has_heredoc = FALSE;
 	}
 	data->file.has_infile = TRUE;
-	return (SUCCESS);
-}
-
-static void	read_herefile_util(t_minishell *data, char **args)
-{
-	char	*line;
-
-	while (1)
-	{
-		line = readline("> ");
-		if (!ft_strcmp(line, args[1]))
-		{
-			free(line);
-			break ;
-		}
-		write(data->file.heredoc_pipe[WRITE_END], line, strlen(line));
-		write(data->file.heredoc_pipe[WRITE_END], "\n", 1);
-		free(line);
-	}
-}
-
-static int	handle_here_document(t_minishell *data, char **args)
-{
-	print_array(args);
-	if (is_linker(args[1]) == TRUE)
-		perror_msg_kill_free(SYNTAX, data);
-	if (data->file.has_heredoc == TRUE)
-		close(data->file.heredoc_pipe[READ_END]);
-	if (pipe(data->file.heredoc_pipe) == -1)
-	{
-		data->last_exit_status = errno;
-		perror("Minish: ");
-		return (FAILURE);
-	}
-	read_herefile_util(data, args);
-	close(data->file.heredoc_pipe[WRITE_END]);
-	if (data->file.has_infile == TRUE)
-	{
-		close(data->file.in_fd);
-		data->file.has_infile = FALSE;
-	}
-	data->file.has_heredoc = TRUE;
 	return (SUCCESS);
 }
 

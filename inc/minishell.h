@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:00 by demre             #+#    #+#             */
-/*   Updated: 2024/03/20 19:05:14 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/21 17:46:00 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,6 @@ int		assign_tokens(char **tokens, char const *str);
 char	*substr_with_replaced_env_var(char const *input, int input_len);
 char	*str_without_quotes(char *str);
 
-
 // Handle input utils
 
 int	is_sgl_linker(char const *str);
@@ -104,7 +103,6 @@ void	builtin_export(char **args, t_minishell *data);
 void	builtin_unset(char **args);
 void	builtin_exit(t_minishell *data);
 
-
 //Handle redirection
 int		handle_redirection(char **args, t_minishell *data); //old
 void	process_input_redirection(char **args, t_minishell *data); //old
@@ -128,6 +126,7 @@ int		command_with_pipe(char **args);
 int		is_valid_ev_character(char c);
 void	check_and_replace_last_exit_status_call(char **args, t_minishell *data);
 void	malloc_env_variables(void);
+int		handle_here_document(t_minishell *data, char **args);
 
 //errros_handling.c
 char	*get_linker(char *linker);

@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 19:04:16 by demre             #+#    #+#             */
-/*   Updated: 2024/03/19 16:48:44 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/21 09:55:28 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ int	exec_cmd_if_builtin(char **args, t_minishell *data)
 			builtin_export(args, data);
 		else if (!ft_strcmp(args[0], "exit"))
 			builtin_exit(data);
+		dprintf(2, "HERE builtin\n");
 		return (SUCCESS);
 	}
 	else

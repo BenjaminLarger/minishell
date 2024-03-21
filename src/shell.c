@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 14:31:29 by demre             #+#    #+#             */
-/*   Updated: 2024/03/20 19:11:33 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/21 11:36:45 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,15 +60,17 @@ int	run_shell_loop(t_minishell *data)
 			printf("contrl D pressed\n");
 			close(data->fd_pipe1[READ_END]);
 			printf("exit\n"); // to fix, not on same line
+			dprintf(2, "shell exit status =%d\n", data->last_exit_status);
 			kill(data->pid1, SIGUSR1);
 			exit(data->last_exit_status);
 		}
 	}
 	if (data->prompt)
 		free(data->prompt);
+	dprintf(2, "exit son = %d\n", data->last_exit_status);
 	close(data->fd_pipe1[READ_END]);
 	free_env_array();
 	printf("exit\n"); // keep
 	kill(data->pid1, SIGUSR1);
-	exit(EXIT_SUCCESS);
+	exit(data->last_exit_status);
 }

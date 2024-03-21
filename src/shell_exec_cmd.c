@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 20:35:01 by demre             #+#    #+#             */
-/*   Updated: 2024/03/20 18:47:21 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/21 15:35:50 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,15 @@ void	exec_command(t_minishell *data, char **cmd)
 		close(data->fd_pipe1[READ_END]);
 		close(data->fd_pipe2[WRITE_END]);
 		if (exec_cmd_if_builtin(cmd, data) == SUCCESS)
-			exit(EXIT_SUCCESS);
+		{
+			exit(data->last_exit_status);
+		}
 		// SUCCESS, EXEC_FAIL (builtin exist, mais exec failed), NOT_BUILTIN
 		if (get_cmd_with_path(cmd[0], &cmd_with_path) == FAILURE)
 			exit(EXIT_FAILURE); // check free
 		dprintf(STDERR_FILENO, "cmd_with_path: %s\n", cmd_with_path); //
 		execve(cmd_with_path, &(cmd[0]), env);
+		dprintf(2, "problem command\n");
 		free(cmd_with_path);
 		print_error_cmd(cmd[0]);
 		exit(127); //send exit error status 
@@ -52,7 +55,9 @@ void	exec_command(t_minishell *data, char **cmd)
 	{
 		close(data->fd_pipe1[READ_END]);
 		close(data->fd_pipe2[WRITE_END]);
+		dprintf(2, "waiting\n");
 		waitpid(pid2, &status, 0);
+		dprintf(2, "done waiting\n");
 		if (WIFEXITED(status))
 		{
 			if (WEXITSTATUS(status) != 0)
