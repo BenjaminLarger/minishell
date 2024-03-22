@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 13:29:08 by demre             #+#    #+#             */
-/*   Updated: 2024/03/22 19:00:52 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/22 19:28:52 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,22 +35,13 @@ static int	calculate_no_quote_str_length(char *with_quote)
 	return (no_quote_len);
 }
 
-char	*remove_quotes_from_str(char *with_quote)
+static void	loop_and_remove_quotes(char *with_quote, char **no_quote)
 {
-	char	*no_quote;
-	int		no_quote_len;
 	int		no_q_idx;
 	int		with_q_idx;
 	int		n_sgl_quotes;
 	int		n_dbl_quotes;
 
-	no_quote_len = calculate_no_quote_str_length(with_quote);
-
-	dprintf(2, "with_quote: %s, with_quote_len: %d, no_quote_len: %d\n", with_quote, ft_strlen(with_quote), no_quote_len);
-
-	no_quote = (char *)malloc((no_quote_len + 1) * sizeof(char));
-	if (!no_quote)
-		return (NULL);
 	no_q_idx = 0;
 	with_q_idx = 0;
 	n_sgl_quotes = 0;
@@ -69,8 +60,23 @@ char	*remove_quotes_from_str(char *with_quote)
 			with_q_idx++;
 		}
 		else
-			no_quote[no_q_idx++] = with_quote[with_q_idx++];
+			(*no_quote)[no_q_idx++] = with_quote[with_q_idx++];
 	}
-	no_quote[no_q_idx] = '\0';
+	(*no_quote)[no_q_idx] = '\0';
+}
+
+char	*remove_quotes_from_str(char *with_quote)
+{
+	char	*no_quote;
+	int		no_quote_len;	
+
+	no_quote_len = calculate_no_quote_str_length(with_quote);
+
+	dprintf(2, "with_quote: %s, with_quote_len: %d, no_quote_len: %d\n", with_quote, ft_strlen(with_quote), no_quote_len);
+
+	no_quote = (char *)malloc((no_quote_len + 1) * sizeof(char));
+	if (!no_quote)
+		return (NULL);
+	loop_and_remove_quotes(with_quote, &no_quote);
 	return (no_quote); 
 }
