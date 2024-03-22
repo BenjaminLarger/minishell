@@ -43,7 +43,9 @@ herefile  => << infile grep READ | cat >> outfile
 ==6593==Hint: this fault was caused by a dereference of a high value address (see register values below).  Dissassemble the provided pc to learn which register was used.
     #0 0x10066e512 in ft_strcmp+0x12 (minishell:x86_64+0x100027512)
 
-9) 
+9)  
+Wrong n_args when using <<
+ie: cat << a | cat << b
 --------
 
 # BUG:

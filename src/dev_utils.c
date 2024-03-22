@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dev_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
+/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 16:07:07 by demre             #+#    #+#             */
-/*   Updated: 2024/03/22 11:42:25 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/22 12:12:56 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,13 @@ void print_pipe_contents(int pipefd)
 	}
 }
 
-void check_open_fd()
+void check_open_fd(char *message)
 {
 	int	fd;
 	
+	if (ft_strlen(message) > 0)
+		fprintf(stderr, "%s\n", message);
+
 	for (fd = 3; fd <= 10; fd++) {
 		if (fcntl(fd, F_GETFD) != -1)
 			fprintf(stderr, "fd %d open\n", fd);
