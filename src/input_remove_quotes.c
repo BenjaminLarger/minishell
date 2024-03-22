@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 13:29:08 by demre             #+#    #+#             */
-/*   Updated: 2024/03/20 17:54:30 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/22 19:00:52 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static int	calculate_no_quote_str_length(char *with_quote)
 	return (no_quote_len);
 }
 
-char	*str_without_quotes(char *with_quote)
+char	*remove_quotes_from_str(char *with_quote)
 {
 	char	*no_quote;
 	int		no_quote_len;

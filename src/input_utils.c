@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 15:51:27 by demre             #+#    #+#             */
-/*   Updated: 2024/03/20 16:23:37 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/22 18:45:49 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,4 +52,25 @@ int	islinker_outside_quotes(char const *str, t_index_data *d)
 		return (TRUE);
 	else
 		return (FALSE);
+}
+
+int	is_outside_quotes(t_token_data *t)
+{
+	if (t->n_sgl_quotes % 2 == 0 && t->n_dbl_quotes % 2 == 0)
+		return (TRUE);
+	else
+		return (FALSE);
+}
+
+/**
+ * @brief Increase quote count if the character is a quote, while not within
+ * a pair of the opposite type of quotes.
+ */
+void	increase_quote_count_if_outside_quotes(char const *str, int i,
+	int *n_sgl_quotes, int *n_dbl_quotes)
+{
+	if (str[i] == '\'' && *n_dbl_quotes % 2 == 0)
+		(*n_sgl_quotes)++;
+	else if (str[i] == '\"' && *n_sgl_quotes % 2 == 0)
+		(*n_dbl_quotes)++;
 }

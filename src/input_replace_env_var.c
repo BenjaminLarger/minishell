@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 15:16:11 by demre             #+#    #+#             */
-/*   Updated: 2024/03/20 17:52:29 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/22 18:59:08 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ static int	get_expanded_length(char const *input, int input_len,
 	return (*expanded_length);
 }
 
-char	*substr_with_replaced_env_var(char const *input, int input_len)
+char	*replace_env_var_in_substr(char const *input, int input_len)
 {
 	char	*expanded;
 	int		expanded_length;

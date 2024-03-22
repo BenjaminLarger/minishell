@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structures.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
+/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 16:30:35 by demre             #+#    #+#             */
-/*   Updated: 2024/03/21 18:42:56 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/22 19:06:58 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,15 +65,6 @@ enum	e_signal
 	no_signal,
 	ctrlc_signal,
 	exit_signal
-};
-
-/**
- * @brief Enumerates the type of quotes for tokens.
- */
-enum	e_quote
-{
-	single_quote,
-	double_quote
 };
 
 /**
