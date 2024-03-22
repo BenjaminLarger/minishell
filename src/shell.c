@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
+/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 14:31:29 by demre             #+#    #+#             */
-/*   Updated: 2024/03/21 11:36:45 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/22 17:40:11 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,16 @@ int	run_shell_loop(t_minishell *data)
 				kill_and_exit(data, EXIT_FAILURE); // malloc or other failure
 		//	if (process_args(data) == FAILURE)
 		//		kill_and_exit(data, errno);
-			if (exec_args(data) == FAILURE)
+			if (data->n_args > 0)
 			{
-				kill_and_exit(data, errno);
-				//kill_and_exit(data, data->last_exit_status);
-				//kill_and_exit(data, EXIT_FAILURE); // malloc failure
+				if (exec_args(data) == FAILURE)
+				{
+					kill_and_exit(data, errno);
+					//kill_and_exit(data, data->last_exit_status);
+					//kill_and_exit(data, EXIT_FAILURE); // malloc failure
+				}
+				free_string_array(data->args);
 			}
-			free_string_array(data->args);
 		}
 		else if (!data->prompt) // when ctrl-d is pressed
 		{

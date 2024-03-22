@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:16 by demre             #+#    #+#             */
-/*   Updated: 2024/03/20 17:55:42 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/22 17:40:50 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,10 @@ int		split_input_into_args(t_minishell *data)
 {
 	data->n_args = count_tokens(data->prompt);
 	printf("%s, n_args: %d\n", data->prompt, data->n_args); //
-	data->args = (char **)malloc((data->n_args + 1) * sizeof(char *));
+	if (data->n_args == 0)
+		return (SUCCESS);
+	else
+		data->args = (char **)malloc((data->n_args + 1) * sizeof(char *));
 	if (!data->args)
 		return (errno);
 	if (data->prompt && assign_tokens(data->args, data->prompt) == FAILURE)
