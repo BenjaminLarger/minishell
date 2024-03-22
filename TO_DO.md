@@ -22,9 +22,6 @@ bash: syntax error near unexpected token `newline'
 3) 
 ctr-c in here file after a few repetition crashes
 
-4) 
-ctr-c after executing "cat" without argument twice does not wait for input.
-
 5) 
 ctr-d after executing "cat" without argument should display a new prompt
 

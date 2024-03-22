@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 16:15:50 by blarger           #+#    #+#             */
-/*   Updated: 2024/03/19 12:15:41 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/22 13:58:31 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,14 +66,14 @@ static void	dispatch_home_dir(char *arg, char *cur_dir, t_minishell *data)
 	char	*path;
 
 	path = NULL;
-	if ((arg[1] == '/' || arg[1] == '\0') && get_home_path()) //cd ~ doit etre capable de rediriger vers Users/blarger meme apres "unset HOME" command
+	if ((arg[1] == '/' || arg[1] == '\0') && get_home_path())
 	{
 		path = gnl_strjoin(get_home_path(), arg + 1);
 		arg = path;
 	}
 	else
 	{
-		ft_putstr_fd("bash: cd: ", 2);
+		ft_putstr_fd("minish: cd: ", 2);
 		ft_putstr_fd(arg, 2);
 		write(1, " ", 1);
 		ft_putstr_fd(FILE, 2);
@@ -81,7 +81,7 @@ static void	dispatch_home_dir(char *arg, char *cur_dir, t_minishell *data)
 	}
 	if (chdir(arg))
 	{
-		ft_putstr_fd("bash: cd: ", 2);
+		ft_putstr_fd("minish: cd: ", 2);
 		ft_putstr_fd(path, 2);
 		write(1, " ", 1);
 		ft_putstr_fd(FILE, 2);
@@ -92,8 +92,9 @@ static void	dispatch_home_dir(char *arg, char *cur_dir, t_minishell *data)
 
 static void	cd_back_to_prev_cur_dir(char *arg, char *cur_dir, t_minishell *data)
 {
+	dprintf(2, "CD to %s\n", data->cd_last_dir);
 	if (chdir(data->cd_last_dir) && arg)
-		ft_putstr_fd("bash: cd: OLDPWD not set\n", 2);
+		ft_putstr_fd("minish: cd: OLDPWD not set\n", 2);
 	else
 		printf("%s\n", data->cd_last_dir);
 	ft_strlcpy(data->cd_last_dir, cur_dir, ft_strlen(cur_dir) + 1);
@@ -112,14 +113,15 @@ void	builtin_cd(char *arg, t_minishell *data) //Check the leaks. Else it should 
 		arg = getenv("HOME");
 	if (!ft_strcmp(arg, "-"))
 		return (cd_back_to_prev_cur_dir(arg, cur_dir, data));
-	if (!ft_strcmp(arg, "~"))
+	if (!ft_strncmp(arg, "~", 1))
 		dispatch_home_dir(arg, cur_dir, data);
 	else if (ft_strcmp(arg, "."))
 	{
 		if (chdir(arg))
 		{
-			ft_putstr_fd("bash: cd: ", 2);
+			ft_putstr_fd("minish: cd: ", 2);
 			ft_putstr_fd(arg, 2);
+			ft_putchar_fd(' ', 2);
 			ft_putstr_fd(FILE, 2);
 		}
 	}
