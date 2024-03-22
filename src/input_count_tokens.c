@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/02 14:01:55 by demre             #+#    #+#             */
-/*   Updated: 2024/03/20 17:55:03 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/22 16:58:32 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,29 +51,28 @@ static int	is_outside_quotes(int c, t_token_data *t)
 int	count_tokens(char const *str)
 {
 	t_token_data	t;
-
+	
 	initialise_token_data(&t);
 	if (!str || str[0] == '\0')
 		return (0);
 	while (str[t.i])
 	{
 		increase_quote_count_if_outside_quotes(str, &t);
-		if (t.i == 0 && !ft_isspace(str[t.i]))
-			t.n_tokens++;
-		else if (ft_isspace(str[t.i])
-			&& t.n_sgl_quotes % 2 == 0 && t.n_dbl_quotes % 2 == 0)
-			t.is_inside_token = FALSE;
-		else if (is_outside_quotes(str[t.i], &t) && is_dbl_linker(&str[t.i]))
-		{
-			t.is_inside_token = FALSE;
-			t.n_tokens++;
-		}
-		else if (is_outside_quotes(str[t.i], &t) && is_sgl_linker(&str[t.i]))
+		if (is_dbl_linker(&str[t.i]) && is_outside_quotes(str[t.i], &t))
 		{
 			t.is_inside_token = FALSE;
 			t.n_tokens++;
 			t.i++;
 		}
+		else if (is_sgl_linker(&str[t.i]) && is_outside_quotes(str[t.i], &t))
+		{
+			t.is_inside_token = FALSE;
+			t.n_tokens++;
+		}
+		else if (ft_isspace(str[t.i]) && is_outside_quotes(str[t.i], &t))
+			t.is_inside_token = FALSE;
+		else if (t.i == 0 && !ft_isspace(str[t.i]))
+			t.n_tokens++;
 		else if (t.is_inside_token == FALSE)
 		{
 			t.is_inside_token = TRUE;
