@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 14:57:17 by demre             #+#    #+#             */
-/*   Updated: 2024/03/21 17:45:26 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/22 09:54:48 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	update_pipe_with_infile(t_minishell *data)
 	//	data->fd_pipe1[READ_END] = data->file.in_fd;
 		data->fd_pipe1[READ_END] = data->file.heredoc_pipe[READ_END];
 	//	dup2(data->file.heredoc_pipe[READ_END], data->fd_pipe1[READ_END]);
-	//	close(data->file.heredoc_pipe[READ_END]);
+		//close(data->file.heredoc_pipe[READ_END]);
 	}
 }
 

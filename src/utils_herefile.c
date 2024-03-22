@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 17:44:46 by blarger           #+#    #+#             */
-/*   Updated: 2024/03/21 19:40:11 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/22 11:36:47 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,19 @@
 static void	child_sigint_handler_herefile(int sig)
 {
 	(void)sig;
-	printf("ctrl-c pressed in here file\n"); //
+	//dprintf(2, "The child_sigint_handler_herefile ID is %d\n", getpid());
+	//dprintf(2, "ctrl-c pressed in here file -> EXIT_FAILURE\n"); //
+	exit(EXIT_FAILURE);
+}
+
+static void	father_sigint_handler_herefile(int sig)
+{
+	(void)sig;
+	printf("ctrl-c pressed in here file parent catch\n"); //
 	//free(content);
-	/* rl_on_new_line();
+	rl_on_new_line();
 	rl_replace_line("", 0);
-	rl_redisplay(); */
+	rl_redisplay();
 	exit(EXIT_FAILURE);
 }
 
@@ -32,12 +40,20 @@ static void set_child_sigint_action_herefile(void)
 	sigaction(SIGINT, &act, NULL);
 }
 
+static void	set_father_sigint_action_herefile(void)
+{
+	struct sigaction	act;
+
+	ft_bzero(&act, sizeof(act));
+	act.sa_handler = &father_sigint_handler_herefile;
+	sigaction(SIGINT, &act, NULL);
+}
+
 static void	write_herefile(t_minishell *data, char	*content)
 {
 	close(data->file.heredoc_pipe[READ_END]);
 	write(data->file.heredoc_pipe[WRITE_END], content, ft_strlen(content));
 	close(data->file.heredoc_pipe[WRITE_END]);
-	free(content);
 	if (data->file.has_infile == TRUE)
 	{
 		close(data->file.in_fd);
@@ -56,6 +72,7 @@ static void	read_herefile_util(t_minishell *data, char **args, char	*content)
 {
 	char	*line;
 
+	dprintf(2, "The child herefile ID is %d\n", getpid());
 	set_child_sigint_action_herefile();
 	data->file.ctr_d_pressed = false;
 	while (1)
@@ -76,8 +93,9 @@ static void	read_herefile_util(t_minishell *data, char **args, char	*content)
 		content = ft_strjoin_free(content, "\n");
 		free(line);
 	}
-	if (data->file.ctr_d_pressed ==  false)
-		write_herefile(data, content);
+	write_herefile(data, content);
+	free(content);
+	exit(EXIT_SUCCESS);
 }
 /**
  * @brief Handle here document using readline. Handle ctr-d ok.
@@ -93,19 +111,33 @@ void	read_here_pipe(t_minishell *data, pid_t here_pid)
 {
 	int	status;
 
+	close(data->file.heredoc_pipe[WRITE_END]);
+	dprintf(2, "The parent herefile ID is %d\n", getpid());
+	if (!data)
+		set_father_sigint_action_herefile();
 	dprintf(2, "here father waiting\n");
 	waitpid(here_pid, &status, 0);
+	set_child_sigint_action();
 	dprintf(2, "FATHER can process\n");
 	if (WIFEXITED(status))
 	{
+		data->last_exit_status = WEXITSTATUS(status);
 		if (WEXITSTATUS(status) != 0)
 		{
-			dprintf(2, "ctr-c pressed, caught in father here fork = %d\n", (WEXITSTATUS(status)));
-			data->last_exit_status = WEXITSTATUS(status);
+			//data->file.has_heredoc = FALSE;
+			data->file.has_heredoc = TRUE;
+			close(data->file.heredoc_pipe[READ_END]);
+			//dprintf(2, "ctr-c pressed, caught in father here fork = %d\n", (WEXITSTATUS(status)));
+			//rl_on_new_line();
+			//rl_replace_line("", 0);
+			//rl_redisplay();
+			//data->fd_pipe1[READ_END] = 0;
+		}
+		else
+		{
+			data->file.has_heredoc = TRUE;
 		}
 	}
-	close(data->file.heredoc_pipe[WRITE_END]);
-	data->file.has_heredoc = TRUE;
 	if (data->file.has_infile == TRUE)
 	{
 		close(data->file.in_fd);
