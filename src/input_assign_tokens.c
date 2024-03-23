@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/02 14:01:44 by demre             #+#    #+#             */
-/*   Updated: 2024/03/22 19:03:30 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/23 16:12:10 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ int	assign_tokens(char **tokens, char const *str)
 		{
 //		printf("looping, i: %d, str[%d]: %c, d.n_sgl_quotes: %d, d.n_dbl_quotes: %d\n", d.i, d.i, str[d.i], d.n_sgl_quotes, d.n_dbl_quotes);
 			if (str[d.i] == '\'' || str[d.i] == '\"')
-				increase_quote_count_if_outside_quotes(str, d.i,
+				increase_quote_count_if_outside_quotes(str[d.i],
 					&d.n_sgl_quotes, &d.n_dbl_quotes);
 			d.i++;
 		}

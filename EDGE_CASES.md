@@ -66,11 +66,18 @@ bash-3.2$ echo "$USER"
 demre
 bash-3.2$ echo '$USER'
 $USER
-bash-3.2$ echo "'$USER'"
+bash-3.2$ echo " '$USER' "
 'demre'
-bash-3.2$ echo '"$USER"'
+bash-3.2$ echo ' "$USER" '
 "$USER"
 bash-3.2$ echo "   $USER$USER    Q"
    demredemre    Q
 bash-3.2$ echo "   $USER     $USER    Q"
    demre     demre    Q
+bash-3.2$ echo $USER"$USER"'$USER' " '$USER' $"$' "$USER" '
+demredemre$USER 'demre' $ "$USER"
+
+bash-3.2$ echo $"er"
+er
+bash-3.2$ echo $ "er"
+$ er

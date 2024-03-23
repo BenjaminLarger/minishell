@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/02 14:01:55 by demre             #+#    #+#             */
-/*   Updated: 2024/03/22 18:40:53 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/23 16:13:28 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	count_tokens(char const *str)
 		return (0);
 	while (str[t.i])
 	{
-		increase_quote_count_if_outside_quotes(str, t.i, &t.n_sgl_quotes,
+		increase_quote_count_if_outside_quotes(str[t.i], &t.n_sgl_quotes,
 			&t.n_dbl_quotes);
 		if (is_dbl_linker(&str[t.i]) && is_outside_quotes(&t))
 			handle_two_character_linker(&t);

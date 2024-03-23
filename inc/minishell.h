@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:00 by demre             #+#    #+#             */
-/*   Updated: 2024/03/22 19:01:03 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/23 16:48:00 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,8 @@ int		split_input_into_args(t_minishell *data);
 int		count_tokens(char const *str);
 int		assign_tokens(char **tokens, char const *str);
 char	*replace_env_var_in_substr(char const *input, int input_len);
+int		get_ev_str_expanded_len(char const *input, int input_len,
+	int *expanded_len);
 char	*remove_quotes_from_str(char *str);
 
 // Handle input utils
@@ -84,10 +86,12 @@ char	*remove_quotes_from_str(char *str);
 int		is_sgl_linker(char const *str);
 int		is_dbl_linker(char const *str);
 int		is_outside_quotes(t_token_data *t);
-void	increase_quote_count_if_outside_quotes(char const *str, int i,
-	int *n_sgl_quotes, int *n_dbl_quotes);
 int		isspace_outside_quotes(int c, t_index_data *d);
 int		islinker_outside_quotes(char const *str, t_index_data *d);
+void	increase_quote_count_if_outside_quotes(char c,
+	int *n_sgl_quotes, int *n_dbl_quotes);
+int		is_valid_ev_dollar_sign(char c, int *n_sgl_quotes, int *n_dbl_quotes,
+	int *first_quote);
 
 //Process
 	//Here_file

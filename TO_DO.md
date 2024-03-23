@@ -3,21 +3,30 @@
 
 2) doubt => check this : Set the $PATH to a multiple directory value (directory1:directory2) and ensure that directories are checked in order from left to right.
 
+3) 
+'$' shouldn't be displayed when in front of quotes
+bash-3.2$ echo $"USER"
+USER
+bash-3.2$ echo $ "USER"
+$ USER
+bash-3.2$ echo $US"ER"
+ER
+
+4)  
+env var in heredoc should be replaced
+bash-3.2$ cat << eof
+> $USER
+> eof
+demre
+
 
 --------
 
 # CRASH:
-1) 
-fix replacing env var within single quotes
-bash-3.2$ echo "$USER"'$USER'
-demre$USER
-bash-3.2$ echo "$USER'$USER'"
-demre'demre'
-
-2) 
+1)  
 ctr-c in here file after a few repetition crashes
 
-3) 
+2) 
 ctr-d after executing "cat" without argument should display a new prompt
 
 

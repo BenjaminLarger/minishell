@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 16:30:35 by demre             #+#    #+#             */
-/*   Updated: 2024/03/22 19:06:58 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/23 16:34:11 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,16 @@ enum	e_signal
 };
 
 /**
+ * @brief Enumerates the type of quotes.
+ */
+enum	e_quote_type
+{
+	no_quote,
+	single_quote,
+	double_quote
+};
+
+/**
  * @brief Structure to hold token-related data when counting number of tokens.
  */
 typedef struct s_token_data
@@ -90,5 +100,32 @@ typedef struct s_index_data
 	int	n_sgl_quotes;
 	int	n_dbl_quotes;
 }				t_index_data;
+
+/**
+ * @brief Structure to hold data during the calculation of the length of the
+ * expanded string before replacing the environment variables.
+ */
+typedef struct s_expanded_data
+{
+	char	*temp_ev_name;
+	int		expanded_len;
+	int		ev_start;
+	int		n_sgl_quotes;
+	int		n_dbl_quotes;
+	int		first_quote;
+}				t_expanded_data;
+
+typedef struct s_replace_ev_data
+{
+	char	*expanded;
+	int		expanded_len;
+	int		exp_idx;
+	char	*temp_ev_value;
+	char	*temp_ev_name;
+	int		ev_start;
+	int		n_sgl_quotes;
+	int		n_dbl_quotes;
+	int		first_quote;
+}				t_replace_ev_data;
 
 #endif
