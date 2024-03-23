@@ -19,6 +19,12 @@ bash-3.2$ cat << eof
 > eof
 demre
 
+5)  
+echo -n ne marche pas si -n n'est pas en params[1].
+ex: 
+echo hello -n
+> hello -n
+
 
 --------
 
