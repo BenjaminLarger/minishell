@@ -21,7 +21,7 @@ HEADERS		= -I $(HEADER_DIR) -I ${LIBFT} -I$(HOME)/.brew/opt/readline/include
 ## SOURCE ##
 SRCS		:= main.c \
 	shell.c \
-	input.c input_assign_tokens.c input_count_tokens.c input_tokens_utils.c \
+	input.c input_tokens_assign.c input_tokens_count.c input_tokens_utils.c \
 	input_env_var_count.c input_env_var_replace.c \
 	input_remove_quotes.c input_utils.c \
 	signal_handle.c signal_sigint.c signal_exit.c \

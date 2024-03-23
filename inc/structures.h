@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 16:30:35 by demre             #+#    #+#             */
-/*   Updated: 2024/03/23 16:34:11 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/23 17:48:07 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,6 @@ typedef struct s_token_data
  */
 typedef struct s_index_data
 {
-	int	i;
 	int	j;
 	int	start;
 	int	n_sgl_quotes;
