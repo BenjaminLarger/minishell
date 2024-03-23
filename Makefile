@@ -26,7 +26,7 @@ SRCS		:= main.c \
 	input_remove_quotes.c input_utils.c \
 	signal_handle.c signal_sigint.c signal_exit.c \
 	builtin_cd.c builtin_echo.c builtin_pwd.c builtin_env.c \
-	builtin_export.c env_variable_handling.c \
+	builtin_export.c \
 	shell_exec_args.c path.c shell_exec_builtin.c builtin_unset.c\
 	shell_redirections_handle.c shell_get_cmd.c shell_exec_cmd.c \
 	builtin_exit.c \

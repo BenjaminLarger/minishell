@@ -6,14 +6,14 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:00 by demre             #+#    #+#             */
-/*   Updated: 2024/03/23 16:48:00 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/23 18:18:30 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 # include <unistd.h>
-#include <strings.h>
+# include <strings.h>
 # include <stdlib.h>
 # include <fcntl.h>
 # include <stdbool.h>
@@ -55,9 +55,6 @@ void	set_parent_exit_signal_action(void);
 // shell.c, shell_process_args.c
 
 int		run_shell_loop(t_minishell *data);
-int		process_args(t_minishell *data); // delete?
-int		execute_command(t_minishell *data, int i); // delete?
-
 int		exec_args(t_minishell *data);
 int		get_cmd_without_redirections(t_minishell *data, char ***cmd,
 	int start, int end);
@@ -93,13 +90,6 @@ void	increase_quote_count_if_outside_quotes(char c,
 int		is_valid_ev_dollar_sign(char c, int *n_sgl_quotes, int *n_dbl_quotes,
 	int *first_quote);
 
-//Process
-	//Here_file
-void	read_from_input(t_minishell *data);
-
-//Handle environment variable($USER)
-void	handle_env_variable(char **args);
-
 //Execute commands
 	//BuiltsIn
 void	builtin_echo(char **args);
@@ -111,8 +101,7 @@ void	builtin_unset(char **args);
 void	builtin_exit(t_minishell *data);
 
 //Handle redirection
-int		handle_redirection(char **args, t_minishell *data); //old
-void	process_input_redirection(char **args, t_minishell *data); //old
+
 int		handle_redirections_until_next_pipe(t_minishell *data, char **args,
 	int start, int end);
 
@@ -136,6 +125,7 @@ void	malloc_env_variables(void);
 int		handle_here_document(t_minishell *data, char **args);
 
 //errros_handling.c
+
 char	*get_linker(char *linker);
 void	perror_msg_kill_free(char *msg, t_minishell *data);
 void	print_error_cmd(char *cmd);
