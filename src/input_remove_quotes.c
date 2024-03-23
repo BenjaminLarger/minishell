@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 13:29:08 by demre             #+#    #+#             */
-/*   Updated: 2024/03/22 19:28:52 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/23 17:59:47 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static int	calculate_no_quote_str_length(char *with_quote)
 			n_sgl_quotes++;
 		else if (with_quote[i] == '\"' && n_sgl_quotes % 2 == 0)
 			n_dbl_quotes++;
-		i++;		
+		i++;
 	}
 	no_quote_len = ft_strlen(with_quote) - n_sgl_quotes - n_dbl_quotes;
 	return (no_quote_len);
@@ -71,12 +71,10 @@ char	*remove_quotes_from_str(char *with_quote)
 	int		no_quote_len;	
 
 	no_quote_len = calculate_no_quote_str_length(with_quote);
-
-	dprintf(2, "with_quote: %s, with_quote_len: %d, no_quote_len: %d\n", with_quote, ft_strlen(with_quote), no_quote_len);
-
+dprintf(2, "with_quote: %s, with_quote_len: %d, no_quote_len: %d\n", with_quote, ft_strlen(with_quote), no_quote_len); //
 	no_quote = (char *)malloc((no_quote_len + 1) * sizeof(char));
 	if (!no_quote)
 		return (NULL);
 	loop_and_remove_quotes(with_quote, &no_quote);
-	return (no_quote); 
+	return (no_quote);
 }
