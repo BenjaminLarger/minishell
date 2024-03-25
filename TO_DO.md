@@ -41,9 +41,4 @@ ctr-d after executing "cat" without argument should display a new prompt
 
 # BUG:
 
-1) 
-< and <<  is expecting a file. Set relevant error
-bash-3.2$ <<
-bash: syntax error near unexpected token `newline'
-
-2) cat on 2 consecutive prompts fail
+1) cat on 2 consecutive prompts fail

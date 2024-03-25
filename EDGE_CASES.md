@@ -81,3 +81,33 @@ bash-3.2$ echo $"er"
 er
 bash-3.2$ echo $ "er"
 $ er
+
+-----
+
+bash-3.2$ ls <
+bash: syntax error near unexpected token `newline'
+bash-3.2$ <
+bash: syntax error near unexpected token `newline'
+bash-3.2$ >
+bash: syntax error near unexpected token `newline'
+bash-3.2$ <<
+bash: syntax error near unexpected token `newline'
+bash-3.2$ >>
+bash: syntax error near unexpected token `newline'
+bash-3.2$ < <<
+bash: syntax error near unexpected token `<<'
+bash-3.2$ ls < |
+bash: syntax error near unexpected token `|'
+bash-3.2$ ls > |
+bash: syntax error near unexpected token `|'
+bash-3.2$ ls | <
+bash: syntax error near unexpected token `newline'
+
+bash-3.2$ <>>
+bash: syntax error near unexpected token `>'
+bash-3.2$ <<>>
+bash: syntax error near unexpected token `>>'
+bash-3.2$ <<>
+bash: syntax error near unexpected token `>'
+bash-3.2$ <<<
+bash: syntax error near unexpected token `newline'

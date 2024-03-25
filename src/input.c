@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:16 by demre             #+#    #+#             */
-/*   Updated: 2024/03/25 12:40:11 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/25 14:42:27 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ char	*read_input(char *prompt)
  * @param t_minishell Structure representing the shared data and parameters.
  * @return 
  */
-int		split_input_into_args(t_minishell *data)
+int	split_input_into_args(t_minishell *data)
 {
 	int	error;
 
@@ -49,6 +49,5 @@ int		split_input_into_args(t_minishell *data)
 			return (error); // ERR_SINGLE_QUOTE or ERR_MALLOC, not implemented
 	}
 //	print_array(data->args);
-	
 	return (SUCCESS);
 }

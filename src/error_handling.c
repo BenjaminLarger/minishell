@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 08:58:59 by blarger           #+#    #+#             */
-/*   Updated: 2024/03/25 13:48:40 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/25 14:40:33 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,14 @@ char	*get_linker_for_error(char *linker)
 {
 	if (ft_strncmp(linker, "|", 1) == 0)
 		return ("`|'");
-	else if (ft_strncmp(linker, "<", 1) == 0)
-		return ("`<'");
 	else if (ft_strncmp(linker, "<<", 2) == 0)
 		return ("`<<'");
-	else if (ft_strncmp(linker, ">", 1) == 0)
-		return ("`>'");
+	else if (ft_strncmp(linker, "<", 1) == 0)
+		return ("`<'");
 	else if (ft_strncmp(linker, ">>", 2) == 0)
 		return ("`>>'");
+	else if (ft_strncmp(linker, ">", 1) == 0)
+		return ("`>'");
 	return (NULL);
 }
 
@@ -45,5 +45,15 @@ void	print_error_cmd(char *cmd)
 {
 	ft_putstr_fd(COM, 2);
 	ft_putstr_fd(cmd, 2);
+	ft_putchar_fd('\n', 2);
+}
+
+void	print_error_syntax(char *arg)
+{
+	ft_putstr_fd(SYNTAX, 2);
+	if (arg)
+		ft_putstr_fd(get_linker_for_error(arg), 2);
+	else
+		ft_putstr_fd("`newline'", 2);
 	ft_putchar_fd('\n', 2);
 }

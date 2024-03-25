@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:00 by demre             #+#    #+#             */
-/*   Updated: 2024/03/25 13:53:43 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/25 14:41:34 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,7 @@ int		handle_here_document(t_minishell *data, char **args);
 char	*get_linker_for_error(char *linker);
 void	perror_msg_kill_free(char *msg, t_minishell *data);
 void	print_error_cmd(char *cmd);
+void	print_error_syntax(char *arg);
 
 // Dev functions
 
