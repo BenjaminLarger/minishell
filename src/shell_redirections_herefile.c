@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 17:44:46 by blarger           #+#    #+#             */
-/*   Updated: 2024/03/25 16:14:14 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/25 16:34:05 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ static void	read_herefile_util(t_minishell *data, char **args)
 	data->file.ctr_d_pressed = false;
 	content = ft_calloc(1, sizeof(char));
 	if (!content)
-		return (FAILURE); //Handle malloc failure
+		exit(FAILURE); //Handle malloc failure
 	while (1)
 	{
 		line = readline("> ");
