@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/02 14:01:44 by demre             #+#    #+#             */
-/*   Updated: 2024/03/23 17:55:43 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/25 12:31:23 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,27 +58,27 @@ static int	store_token(char **tokens, char const *str, t_index_data *data,
 	return (SUCCESS);
 }
 
-static void	set_start_and_increment_index(int *start, int *index, int increment)
+static void	set_start_and_increment_index(int *start, int *i, int increment)
 {
-	*start = *index;
-	*index += increment;
+	*start = *i;
+	*i += increment;
 }
 
 static int	call_store_tokens(char **tokens, char const *str,
-	t_index_data *data, int i)
+	t_index_data *data, int *i)
 {
-	if (data->start < i)
+	if (data->start < *i)
 	{
-		if (store_token(tokens, str, data, i) == FAILURE)
+		if (store_token(tokens, str, data, *i) == FAILURE)
 			return (FAILURE);
 	}
-	else if (islinker_outside_quotes(&str[i], data))
+	else if (islinker_outside_quotes(&str[*i], data))
 	{
-		if (is_dbl_linker(&str[i]))
-			set_start_and_increment_index(&data->start, &i, 2);
+		if (is_dbl_linker(&str[*i]))
+			set_start_and_increment_index(&data->start, i, 2);
 		else
-			set_start_and_increment_index(&data->start, &i, 1);
-		if (store_token(tokens, str, data, i) == FAILURE)
+			set_start_and_increment_index(&data->start, i, 1);
+		if (store_token(tokens, str, data, *i) == FAILURE)
 			return (FAILURE);
 	}
 	return (SUCCESS);
@@ -109,9 +109,9 @@ int	assign_tokens(char **tokens, char const *str)
 			increase_quote_count_if_outside_quotes(str[i++],
 				&data.n_sgl_quotes, &data.n_dbl_quotes);
 		if (data.n_sgl_quotes % 2 == 1 || data.n_dbl_quotes % 2 == 1)
-			return (FAILURE);
-		if (call_store_tokens(tokens, str, &data, i) == FAILURE)
-			return (FAILURE);
+			return (FAILURE); // ERR_SINGLE_QUOTE
+		if (call_store_tokens(tokens, str, &data, &i) == FAILURE)
+			return (FAILURE); // ERR_MALLOC
 	}
 	tokens[data.j] = NULL;
 	return (SUCCESS);
