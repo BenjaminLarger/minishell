@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_herefile.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
+/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 17:44:46 by blarger           #+#    #+#             */
-/*   Updated: 2024/03/22 11:36:47 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/25 13:28:12 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,8 +160,8 @@ int	handle_here_document(t_minishell *data, char **args)
 	if (!content)
 		return (FAILURE); //Handle malloc failure
 	print_array(args);
-	if (is_linker(args[1]) == TRUE)
-		perror_msg_kill_free(SYNTAX, data);
+//	if (is_linker(args[1]) == TRUE)
+//		perror_msg_kill_free(SYNTAX, data); // handled in check_tokens_syntax
 	if (pipe(data->file.heredoc_pipe) == -1)
 	{
 		data->last_exit_status = errno;

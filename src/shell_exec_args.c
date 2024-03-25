@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_exec_args.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
+/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 14:57:17 by demre             #+#    #+#             */
-/*   Updated: 2024/03/21 10:01:01 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/25 13:14:47 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	reset(t_minishell *data, int *start_index, int i)
 /**
  * @brief Write to output file if this command group has an output redirection.
  */
-static void	write_to_output_if_needed(t_minishell *data)
+static void	write_to_outfile_if_needed(t_minishell *data)
 {
 	if (data->file.has_outfile == TRUE)
 	{
@@ -41,13 +41,13 @@ int	exec_args(t_minishell *data)
 
 	i = 0;
 	start_index = 0;
-	print_array(data->args);
-	while (i < data->n_args && data->args[i]) // && data->args[i + 1])
+	print_array(data->args); //
+	while (i < data->n_args && data->args[i])
 	{
 		reset(data, &start_index, i);
 		while (data->args[i] && ft_strcmp(data->args[i], "|"))
 			i++;
-		dprintf(STDERR_FILENO, "\nPipe or eof at i = %d\n", i); //
+		dprintf(2, "\nPipe or eof at i = %d\n", i); //
 		if (handle_redirections_until_next_pipe(data, data->args, start_index, i) == SUCCESS)
 		{
 			if (get_cmd_without_redirections(data, &cmd, start_index, i) == FAILURE)
@@ -55,7 +55,7 @@ int	exec_args(t_minishell *data)
 			if (cmd && *cmd)
 				exec_command(data, cmd);
 			free_string_array(cmd);
-			write_to_output_if_needed(data);
+			write_to_outfile_if_needed(data);
 		}
 		dprintf(2, "exec args exit status =%d\n", data->last_exit_status);
 		i++;

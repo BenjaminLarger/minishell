@@ -6,13 +6,13 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 14:31:29 by demre             #+#    #+#             */
-/*   Updated: 2024/03/22 17:40:11 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/25 13:21:27 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	kill_and_exit(t_minishell *data, int exit_status)
+/* static void	kill_and_exit(t_minishell *data, int exit_status)
 {
 	// free args
 	// close file descriptors
@@ -22,7 +22,7 @@ static void	kill_and_exit(t_minishell *data, int exit_status)
 	if (errno == 0)
 		exit(exit_status);
 	exit(errno);
-}
+} */
 
 int	run_shell_loop(t_minishell *data)
 {
@@ -40,14 +40,19 @@ int	run_shell_loop(t_minishell *data)
 			&& !is_string_all_space(data->prompt))
 		{
 			if (split_input_into_args(data) == FAILURE)
-				kill_and_exit(data, EXIT_FAILURE); // malloc or other failure
+				continue ; // malloc or single quote
+			if (check_tokens_syntax(data->args) == FAILURE)
+				continue ; // syntax error
 		//	if (process_args(data) == FAILURE)
 		//		kill_and_exit(data, errno);
 			if (data->n_args > 0)
 			{
 				if (exec_args(data) == FAILURE)
 				{
-					kill_and_exit(data, errno);
+					free_string_array(data->args);
+					//print_error ?
+					continue ;
+				//	kill_and_exit(data, errno);
 					//kill_and_exit(data, data->last_exit_status);
 					//kill_and_exit(data, EXIT_FAILURE); // malloc failure
 				}

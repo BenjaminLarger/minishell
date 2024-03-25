@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 14:57:17 by demre             #+#    #+#             */
-/*   Updated: 2024/03/22 13:22:12 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/25 12:45:12 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,9 +87,7 @@ int	handle_redirections_until_next_pipe(t_minishell *data, char **args,
 	is_success = 0;
 	while (i < end && args[i])
 	{
-		if (is_linker(args[i]) && args[i + 1] && is_linker(args[i + 1]))
-			perror_msg_kill_free(TOKEN, data); // display args[i + 1] in err
-		else if (!ft_strcmp(args[i], "<"))
+		if (!ft_strcmp(args[i], "<"))
 			is_success = handle_input_redirection(data, &args[i]);
 		else if (!ft_strcmp(args[i], ">"))
 			is_success = handle_output_redirection(data, &args[i]);

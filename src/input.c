@@ -6,23 +6,11 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:16 by demre             #+#    #+#             */
-/*   Updated: 2024/03/22 17:40:50 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/25 12:40:11 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// Prompt user for input => readline function => download readline
-// Add each line to the history (global variable ?)
-// Handle whitespace
-// History => Type a command line, then use ctrl-C and press "Enter". The buffer should be clean and there should be nothing left to execute.
-// Can we navigate through history using Up and Down? Can we retry some command?
-// Execute commands that should not work like 'dsbksdgbksdghsd'. Ensure minishell doesn't crash and prints an error.
-// 'cat | cat | ls' should behave in a "normal way".
-// Try to execute a long command with a ton of arguments.
-// handle empty value
-// Handle only space or tab
-// If readline read an empty line => return NULL 
 
 char	*read_input(char *prompt)
 {
@@ -44,6 +32,8 @@ char	*read_input(char *prompt)
  */
 int		split_input_into_args(t_minishell *data)
 {
+	int	error;
+
 	data->n_args = count_tokens(data->prompt);
 	printf("%s, n_args: %d\n", data->prompt, data->n_args); //
 	if (data->n_args == 0)
@@ -51,9 +41,13 @@ int		split_input_into_args(t_minishell *data)
 	else
 		data->args = (char **)malloc((data->n_args + 1) * sizeof(char *));
 	if (!data->args)
-		return (errno);
-	if (data->prompt && assign_tokens(data->args, data->prompt) == FAILURE)
-		return (FAILURE);
+		return (errno); // ERR_MALLOC
+	if (data->prompt)
+	{
+		error = assign_tokens(data->args, data->prompt);
+		if (error != SUCCESS)
+			return (error); // ERR_SINGLE_QUOTE or ERR_MALLOC, not implemented
+	}
 //	print_array(data->args);
 	
 	return (SUCCESS);

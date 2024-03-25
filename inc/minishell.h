@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:00 by demre             #+#    #+#             */
-/*   Updated: 2024/03/23 18:18:30 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/25 13:53:43 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ char	*read_input(char *prompt);
 int		split_input_into_args(t_minishell *data);
 int		count_tokens(char const *str);
 int		assign_tokens(char **tokens, char const *str);
+int		check_tokens_syntax(char **args);
 char	*replace_env_var_in_substr(char const *input, int input_len);
 int		get_ev_str_expanded_len(char const *input, int input_len,
 	int *expanded_len);
@@ -115,6 +116,7 @@ void	free_env_array(void);
 //utils
 char	*ft_strjoin_free(char *s1, char *s2);
 int		is_linker(char *str);
+int		is_redirection(char *str);
 int		count_commands(char **args);
 void	write_fdin_to_fdout(int fd_in, int fd_out);
 int		is_string_all_space(char const *str);
@@ -126,14 +128,14 @@ int		handle_here_document(t_minishell *data, char **args);
 
 //errros_handling.c
 
-char	*get_linker(char *linker);
+char	*get_linker_for_error(char *linker);
 void	perror_msg_kill_free(char *msg, t_minishell *data);
 void	print_error_cmd(char *cmd);
 
 // Dev functions
 
 void	print_array(char **array);
-void	check_open_fd();
+void	check_open_fd(char *message);
 void	ft_leaks(void);
 void	print_fd(int fd);
 void	print_pipes_fd(t_minishell *data);

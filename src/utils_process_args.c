@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 15:24:35 by blarger           #+#    #+#             */
-/*   Updated: 2024/03/19 19:41:52 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/25 13:53:21 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,17 @@ int	is_linker(char *str)
 {
 	if (ft_strcmp(str, "|") == 0
 		|| ft_strcmp(str, "<") == 0
+		|| ft_strcmp(str, "<<") == 0
+		|| ft_strcmp(str, ">") == 0
+		|| ft_strcmp(str, ">>") == 0
+	)
+		return (TRUE);
+	return (FALSE);
+}
+
+int	is_redirection(char *str)
+{
+	if (ft_strcmp(str, "<") == 0
 		|| ft_strcmp(str, "<<") == 0
 		|| ft_strcmp(str, ">") == 0
 		|| ft_strcmp(str, ">>") == 0
