@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_herefile.c                                   :+:      :+:    :+:   */
+/*   shell_redirections_herefile.c                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 17:44:46 by blarger           #+#    #+#             */
-/*   Updated: 2024/03/25 13:28:12 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/25 16:14:14 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,13 +68,18 @@ static void	write_herefile(t_minishell *data, char	*content)
  * setting child_sigint_handler_herefile as exit(EXIT_FAILURE) when reached.
 	
  */
-static void	read_herefile_util(t_minishell *data, char **args, char	*content)
+static void	read_herefile_util(t_minishell *data, char **args)
 {
 	char	*line;
+	char	*content;
+	char	*env_var_replaced;
 
 	dprintf(2, "The child herefile ID is %d\n", getpid());
 	set_child_sigint_action_herefile();
 	data->file.ctr_d_pressed = false;
+	content = ft_calloc(1, sizeof(char));
+	if (!content)
+		return (FAILURE); //Handle malloc failure
 	while (1)
 	{
 		line = readline("> ");
@@ -93,8 +98,11 @@ static void	read_herefile_util(t_minishell *data, char **args, char	*content)
 		content = ft_strjoin_free(content, "\n");
 		free(line);
 	}
-	write_herefile(data, content);
-	free(content);
+	env_var_replaced = replace_env_var_in_substr(content, ft_strlen(content));
+	if (!env_var_replaced)
+		exit(EXIT_FAILURE); // malloc failure
+	write_herefile(data, env_var_replaced);
+	free(env_var_replaced);
 	exit(EXIT_SUCCESS);
 }
 /**
@@ -143,12 +151,10 @@ void	read_here_pipe(t_minishell *data, pid_t here_pid)
 		close(data->file.in_fd);
 		data->file.has_infile = FALSE;
 	}
-	//free(content);
 }
 
 int	handle_here_document(t_minishell *data, char **args)
 {
-	char	*content;
 	pid_t	here_pid;
 
 	if (!args[1])
@@ -156,12 +162,8 @@ int	handle_here_document(t_minishell *data, char **args)
 		data->last_exit_status = 258;
 		return (FAILURE);
 	}
-	content = ft_calloc(1, sizeof(char));
-	if (!content)
-		return (FAILURE); //Handle malloc failure
 	print_array(args);
-//	if (is_linker(args[1]) == TRUE)
-//		perror_msg_kill_free(SYNTAX, data); // handled in check_tokens_syntax
+	
 	if (pipe(data->file.heredoc_pipe) == -1)
 	{
 		data->last_exit_status = errno;
@@ -174,7 +176,7 @@ int	handle_here_document(t_minishell *data, char **args)
 	if (here_pid < 0)
 		return (FAILURE);
 	else if (here_pid == 0)
-		read_herefile_util(data, args, content);
+		read_herefile_util(data, args);
 	else
 		read_here_pipe(data, here_pid);
 	dprintf(2, "HERE SUCCESS\n");

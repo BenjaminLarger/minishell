@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_joinfree.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
+/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 09:30:08 by blarger           #+#    #+#             */
-/*   Updated: 2024/03/11 13:44:56 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/25 15:35:50 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ char	*ft_strjoin_free(char *s1, char *s2)
 		l2 = ft_strlen(s2);
 	str = (char *)malloc((l1 + l2 + 1) * sizeof(char));
 	if (!str)
-		return (0);
+		return (NULL);
 	i = 0;
 	while (i < l1)
 	{

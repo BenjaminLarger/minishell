@@ -26,11 +26,11 @@ SRCS		:= main.c \
 	input_remove_quotes.c input_utils.c input_tokens_check.c\
 	signal_handle.c signal_sigint.c signal_exit.c \
 	builtin_cd.c builtin_echo.c builtin_pwd.c builtin_env.c \
-	builtin_export.c \
+	builtin_export.c builtin_exit.c \
 	shell_exec_args.c path.c shell_exec_builtin.c builtin_unset.c\
 	shell_redirections_handle.c shell_get_cmd.c shell_exec_cmd.c \
-	builtin_exit.c \
-	utils_joinfree.c utils_process_args.c utils_builtin.c utils_herefile.c\
+	shell_redirections_herefile.c \
+	utils_joinfree.c utils_process_args.c utils_builtin.c \
 	cleanup_free_arrays.c \
 	error_handling.c \
 	dev_utils.c \

@@ -12,19 +12,6 @@ $ USER
 bash-3.2$ echo $US"ER"
 ER
 
-4)  
-env var in heredoc should be replaced
-bash-3.2$ cat << eof
-> $USER
-> eof
-demre
-
-5)  
-echo -n ne marche pas si -n n'est pas en params[1].
-ex: 
-echo hello -n
-> hello -n
-
 
 --------
 
@@ -35,6 +22,25 @@ ctr-c in here file after a few repetition crashes
 2) 
 ctr-d after executing "cat" without argument should display a new prompt
 
+3)  
+SEGV dans builtin_cd.c:128 quand on fait cd .. apres avoir supprimer le repertoire actuel. 
+bash-3.2$ pwd
+/Users/demre/Documents/test1
+bash-3.2$ ls
+bash-3.2$ mkdir test2
+bash-3.2$ ls
+test2
+bash-3.2$ cd test2/
+bash-3.2$ pwd
+/Users/demre/Documents/test1/test2
+bash-3.2$ rmdir ../test2/
+bash-3.2$ pwd							// n'affiche rien dans notre minishell
+/Users/demre/Documents/test1/test2
+bash-3.2$ cd ..							// SEGV
+bash-3.2$ pwd
+/Users/demre/Documents/test1
+bash-3.2$ ls
+bash-3.2$
 
 
 --------
@@ -42,3 +48,6 @@ ctr-d after executing "cat" without argument should display a new prompt
 # BUG:
 
 1) cat on 2 consecutive prompts fail
+   
+2)  
+On devrait pouvoir lancer minishell dans minishell et verifier le sous-niveau avec echo $SHLVL
