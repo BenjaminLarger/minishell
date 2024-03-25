@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 16:30:35 by demre             #+#    #+#             */
-/*   Updated: 2024/03/23 17:48:07 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/25 14:09:16 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,6 @@ enum	e_quote_type
  */
 typedef struct s_token_data
 {
-	int	i;
 	int	n_tokens;
 	int	is_inside_token;
 	int	n_sgl_quotes;

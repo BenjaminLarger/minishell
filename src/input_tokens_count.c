@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/02 14:01:55 by demre             #+#    #+#             */
-/*   Updated: 2024/03/23 17:49:18 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/25 14:10:11 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,18 +19,17 @@
 static void	initialise_token_data(t_token_data *data, int *i)
 {
 	*i = 0;
-	data->i = *i;
 	data->n_tokens = 0;
 	data->is_inside_token = TRUE;
 	data->n_sgl_quotes = 0;
 	data->n_dbl_quotes = 0;
 }
 
-static void	handle_two_character_linker(t_token_data *data)
+static void	handle_two_character_linker(t_token_data *data, int *i)
 {
 	data->is_inside_token = FALSE;
 	data->n_tokens++;
-	data->i++;
+	(*i)++;
 }
 
 static void	handle_one_character_linker(t_token_data *data)
@@ -58,7 +57,7 @@ int	count_tokens(char const *str)
 		increase_quote_count_if_outside_quotes(str[i], &data.n_sgl_quotes,
 			&data.n_dbl_quotes);
 		if (is_dbl_linker(&str[i]) && is_outside_quotes(&data))
-			handle_two_character_linker(&data);
+			handle_two_character_linker(&data, &i);
 		else if (is_sgl_linker(&str[i]) && is_outside_quotes(&data))
 			handle_one_character_linker(&data);
 		else if (ft_isspace(str[i]) && is_outside_quotes(&data))
