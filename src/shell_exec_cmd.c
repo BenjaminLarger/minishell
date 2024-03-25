@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_exec_cmd.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
+/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 20:35:01 by demre             #+#    #+#             */
-/*   Updated: 2024/03/21 18:37:21 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/25 16:49:18 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,9 @@ void	exec_command(t_minishell *data, char **cmd)
 	{
 		close(data->fd_pipe1[READ_END]);
 		close(data->fd_pipe2[WRITE_END]);
-		dprintf(2, "waiting\n");
+		dprintf(2, "waiting for pid2\n");
 		waitpid(pid2, &status, 0);
-		dprintf(2, "done waiting\n");
+		dprintf(2, "done waiting for pid2\n");
 		if (WIFEXITED(status))
 		{
 			if (WEXITSTATUS(status) != 0)

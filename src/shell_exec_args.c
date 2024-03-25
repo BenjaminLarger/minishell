@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 14:57:17 by demre             #+#    #+#             */
-/*   Updated: 2024/03/25 13:14:47 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/25 16:50:12 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	exec_args(t_minishell *data)
 			free_string_array(cmd);
 			write_to_outfile_if_needed(data);
 		}
-		dprintf(2, "exec args exit status =%d\n", data->last_exit_status);
+		dprintf(2, "exec_args exit status = %d\n", data->last_exit_status);
 		i++;
 	}
 	if (data->executed_command == TRUE)

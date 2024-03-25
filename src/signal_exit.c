@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signal_parent_exit.c                               :+:      :+:    :+:   */
+/*   signal_exit.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
+/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 11:30:46 by blarger           #+#    #+#             */
-/*   Updated: 2024/03/12 16:20:04 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/25 11:19:19 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,4 +33,5 @@ static void	child_exit_signal_handler(int sig)
 void	set_child_exit_signal_action(void)
 {
 	signal(SIGUSR1, child_exit_signal_handler);
+//	signal(SIGUSR1, SIG_IGN);
 }
