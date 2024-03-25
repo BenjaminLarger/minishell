@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_cd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
+/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 16:15:50 by blarger           #+#    #+#             */
-/*   Updated: 2024/03/22 13:58:31 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/25 13:07:54 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ static void	dispatch_home_dir(char *arg, char *cur_dir, t_minishell *data)
 	{
 		ft_putstr_fd("minish: cd: ", 2);
 		ft_putstr_fd(arg, 2);
-		write(1, " ", 1);
+		write(2, " ", 1);
 		ft_putstr_fd(FILE, 2);
 		return ;
 	}
@@ -83,7 +83,7 @@ static void	dispatch_home_dir(char *arg, char *cur_dir, t_minishell *data)
 	{
 		ft_putstr_fd("minish: cd: ", 2);
 		ft_putstr_fd(path, 2);
-		write(1, " ", 1);
+		write(2, " ", 1);
 		ft_putstr_fd(FILE, 2);
 	}
 	ft_strlcpy(data->cd_last_dir, cur_dir, ft_strlen(data->cd_last_dir) + 1);

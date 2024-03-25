@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errors.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
+/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:07 by demre             #+#    #+#             */
-/*   Updated: 2024/03/12 10:12:21 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/25 13:12:29 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,13 @@
 # define DUP2			"dup2 failed to create the duplication.\n"
 # define EXEC_FAIL		"sh: command not found: "
 # define ENV			"Can't find the environment"
-# define COM			"zsh: command not found: "
+# define COM			"minish: command not found: "
 # define FILE			"No such file or directory \n"
 # define PIPE			"Pipe creation failed."
 # define WAIT			"waitpid function failed to resume parent process.\n"
 # define CHILD			"Child process terminated abnormally\n"
-# define PERM			"zsh: permission denied: "
-# define TOKEN			"bash: syntax error near unexpected token"
-# define BASH			"bash : "
-# define SYNTAX			"bash: syntax error near unexpected token "
+# define PERM			"minish: permission denied: "
+# define BASH			"minish: "
+# define SYNTAX			"minish: syntax error near unexpected token "
 
 #endif

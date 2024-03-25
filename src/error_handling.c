@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   error_handling.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
+/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 08:58:59 by blarger           #+#    #+#             */
-/*   Updated: 2024/03/20 19:30:16 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/25 13:48:40 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*get_linker(char *linker)
+char	*get_linker_for_error(char *linker)
 {
 	if (ft_strncmp(linker, "|", 1) == 0)
 		return ("`|'");
@@ -21,7 +21,7 @@ char	*get_linker(char *linker)
 	else if (ft_strncmp(linker, "<<", 2) == 0)
 		return ("`<<'");
 	else if (ft_strncmp(linker, ">", 1) == 0)
-		return ("`<<'");
+		return ("`>'");
 	else if (ft_strncmp(linker, ">>", 2) == 0)
 		return ("`>>'");
 	return (NULL);
