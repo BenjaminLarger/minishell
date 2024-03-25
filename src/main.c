@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
+/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:16:49 by demre             #+#    #+#             */
-/*   Updated: 2024/03/20 18:44:34 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/25 19:44:03 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int g_signal = 0;
+int	g_signal = 0;
 
-int	main(int argc, char **argv)
+int	main(int argc, char **argv, char **envp)
 {
 	t_minishell	data;
-	int			status; // prob to delete
+//	int			status;
 
 	if (argc != 1 && argv)
 		return (EXIT_FAILURE); // "wrong arg number"
@@ -27,13 +27,19 @@ int	main(int argc, char **argv)
 	
 	if (pipe(data.fd_pipe1) == -1)
 		return (EXIT_FAILURE); //	"Pipe error"
-	data.pid1 = fork();
-	if (data.pid1 == -1)
-		return (EXIT_FAILURE); //	"Fork error"
-	else if (data.pid1 == 0)
-		run_shell_loop(&data);
-	else if (data.pid1 > 0)
-	{
+//	data.pid1 = fork();
+//	if (data.pid1 == -1)
+//		return (EXIT_FAILURE); //	"Fork error"
+//	else if (data.pid1 == 0)
+	
+	malloc_env_variables(&data, envp);
+	printf("ft_getenv(SHLVL): %s\n", ft_getenv(&data, "SHLVL"));
+
+	run_shell_loop(&data);
+
+
+//	else if (data.pid1 > 0)
+/* 	{
 		signal_handling(&data);
 		waitpid(data.pid1, &status, 0);
 
@@ -51,6 +57,7 @@ int	main(int argc, char **argv)
 			data.last_exit_status = 0; //$? handle
 			printf("Child process terminated abnormally. Parent process continuing.\n");
 		}
-	}
+	} */
+	free_string_array(data.env_msh);
 	return (EXIT_SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 20:35:01 by demre             #+#    #+#             */
-/*   Updated: 2024/03/25 16:49:18 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/25 18:49:14 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 void	exec_command(t_minishell *data, char **cmd)
 {
 	int			pid2;
-	extern char	**environ;
-	char		**env;
 	char		*cmd_with_path;
 	int			status;
 
@@ -25,7 +23,6 @@ void	exec_command(t_minishell *data, char **cmd)
 		return ;
 	data->executed_command = TRUE;
 	print_array(cmd);
-	env = environ;
 	if (pipe(data->fd_pipe2) == -1)
 		return ; // handle pipe error
 	pid2 = fork();
@@ -45,7 +42,7 @@ void	exec_command(t_minishell *data, char **cmd)
 		if (get_cmd_with_path(cmd[0], &cmd_with_path) == FAILURE)
 			exit(EXIT_FAILURE); // check free
 		dprintf(STDERR_FILENO, "cmd_with_path: %s\n", cmd_with_path); //
-		execve(cmd_with_path, &(cmd[0]), env);
+		execve(cmd_with_path, &(cmd[0]), data->env_msh);
 		free(cmd_with_path);
 		print_error_cmd(cmd[0]);
 		exit(127); //send exit error status 

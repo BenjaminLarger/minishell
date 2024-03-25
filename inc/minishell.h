@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:00 by demre             #+#    #+#             */
-/*   Updated: 2024/03/25 14:41:34 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/25 19:58:49 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,8 +123,9 @@ int		is_string_all_space(char const *str);
 int		command_with_pipe(char **args);
 int		is_valid_ev_character(char c);
 void	check_and_replace_last_exit_status_call(char **args, t_minishell *data);
-void	malloc_env_variables(void);
+void	malloc_env_variables(t_minishell *data, char **envp);
 int		handle_here_document(t_minishell *data, char **args);
+char	*ft_getenv(t_minishell *data, char *key);
 
 //errros_handling.c
 

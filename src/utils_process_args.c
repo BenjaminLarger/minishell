@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 15:24:35 by blarger           #+#    #+#             */
-/*   Updated: 2024/03/25 13:53:21 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/25 19:47:20 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,4 +121,28 @@ int	is_valid_ev_character(char c)
 		|| (c == '_'))
 		return (TRUE);
 	return (FALSE);
+}
+
+/**
+ * @brief Get the value associated with a given environment variable key.
+ * @param data A pointer to the structure containing environment variables.
+ * @param key The key (variable name) to search for in the environment 
+ * variables.
+ * @return A pointer to the 'value' associated with the given 'key' if found,
+ * NULL otherwise.
+ */
+char	*ft_getenv(t_minishell *data, char *key)
+{
+	int	i;
+	
+	i = 0;
+	while (data->env_msh[i])
+	{
+		if (ft_strncmp(data->env_msh[i], key, ft_strlen(key)) == 0)
+		{
+			return (ft_strchr(data->env_msh[i], '=') + 1);
+		}
+		i++;
+	}
+	return (NULL);
 }

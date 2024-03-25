@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 14:31:29 by demre             #+#    #+#             */
-/*   Updated: 2024/03/25 13:21:27 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/25 18:36:57 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@
 
 int	run_shell_loop(t_minishell *data)
 {
-	malloc_env_variables();
 	data->prompt = NULL;
 	data->is_exit = FALSE;
 	set_child_sigint_action();

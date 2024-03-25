@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 16:30:35 by demre             #+#    #+#             */
-/*   Updated: 2024/03/25 14:09:16 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/25 18:38:19 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ typedef struct s_minishell
 {
 	char	*prompt;
 	char	**args;
+	char	**env_msh;
 	bool	args_to_free; //prob delete
 	int		n_args;
 	pid_t	pid1;
