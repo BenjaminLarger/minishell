@@ -6,16 +6,11 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 16:15:50 by blarger           #+#    #+#             */
-/*   Updated: 2024/03/25 20:33:09 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/25 20:44:58 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include <errno.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
 
 //FUNCTIONS
 /* chdir will change the current directory of your program, probably a

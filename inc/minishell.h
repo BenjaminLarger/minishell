@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:00 by demre             #+#    #+#             */
-/*   Updated: 2024/03/25 20:28:24 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/25 20:40:03 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ int		is_valid_ev_dollar_sign(char c, int *n_sgl_quotes, int *n_dbl_quotes,
 	//BuiltsIn
 void	builtin_echo(char **args);
 void	builtin_pwd(void);
-void	builtin_env(void);
+void	builtin_env(t_minishell *data);
 void	builtin_cd(char *arg, t_minishell *data);
 void	builtin_export(char **args, t_minishell *data);
 void	builtin_unset(char **args);
@@ -113,7 +113,7 @@ int		handle_redirections_until_next_pipe(t_minishell *data, char **args,
 void	free_string_array(char **str_array);
 void	free_n_string_array(char **str_array, int n);
 void	free_array_string_array(char ***array);
-void	free_env_array(void);
+// void	free_env_array(void);
 
 //utils
 char	*ft_strjoin_free(char *s1, char *s2);

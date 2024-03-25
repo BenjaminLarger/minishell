@@ -6,22 +6,20 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 10:19:52 by blarger           #+#    #+#             */
-/*   Updated: 2024/03/13 16:18:47 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/25 20:38:00 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	builtin_env(void)
+void	builtin_env(t_minishell *data)
 {
-	extern char	**environ;
-	char		**s;
-
-	s = environ;
-	// add return if non valid command after env
-	while (*s)
+	int	i;
+	
+	i = 0;
+	while (data->env_msh[i])
 	{
-		printf("%s\n", *s);
-		s++;
+		printf("%s\n", data->env_msh[i]);
+		i++;
 	}
 }

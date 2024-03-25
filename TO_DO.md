@@ -5,13 +5,12 @@
 ex: export PATH=/usr/bin:/bin:/usr/local/bin
 
 3)  
-- On devrait pouvoir lancer minishell dans minishell et verifier le sous-niveau avec echo $SHLVL
-- Incrementer $SHLVL au lancement de minishell.
+- On devrait pouvoir lancer minishell dans minishell (on peut verifier le sous-niveau avec echo $SHLVL)
 
-4)  
-Peut-etre pour les variables d'environnement:
+4)  DONE
+Pour les variables d'environnement:
 	- passer envp dans le main
-	- sauver envp dans un **char ou linked list
+	- sauver envp dans un **char
 	- ensuite on ne fait que modifier l'array que l'on passe aussi a execve.
 
 
@@ -52,7 +51,7 @@ bash-3.2$
 
 1) cat on 2 consecutive prompts fail
 
-2)  
+2)  Fix builtin_export
 Export rajoute une ligne alors que la variable d'environmment existe deja.
 minish> export VAR=hello
 minish> export VAR=-bye
@@ -73,3 +72,5 @@ bash-3.2$ export VAR=hello
 bash-3.2$ export VAR+=-bye
 bash-3.2$ env | grep VAR
 VAR=hello-bye
+
+2)  Fix builtin_unset using env_msh

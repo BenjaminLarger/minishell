@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleanup_free_arrays.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
+/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/02 14:34:07 by demre             #+#    #+#             */
-/*   Updated: 2024/03/20 19:12:30 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/25 20:40:39 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	free_array_string_array(char ***array)
 	}
 	free(array);
 }
-
+/* 
 void	free_env_array(void)
 {
 	extern char	**environ;
@@ -72,3 +72,4 @@ void	free_env_array(void)
 		i++;
 	}
 }
+ */

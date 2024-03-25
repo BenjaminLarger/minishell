@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
+/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 09:34:57 by blarger           #+#    #+#             */
-/*   Updated: 2024/03/20 19:29:40 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/25 20:44:41 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-#define SEPARATOR "="
+//#define SEPARATOR "="
 
-char	**concat_and_add_env(char **env, char *new_content)
+char	**concat_and_add_env(char **env_msh, char *new_content)
 {
 	char	**new_env;
 	int		i;
@@ -22,9 +22,9 @@ char	**concat_and_add_env(char **env, char *new_content)
 
 	if (!(ft_strchr(new_content, '=')) || ft_strlen(new_content) < 3
 		|| new_content[ft_strlen(new_content) - 1] == '=')
-		return (env);
+		return (env_msh);
 	actual_env_len = 0;
-	while (env[actual_env_len])
+	while (env_msh[actual_env_len])
 		actual_env_len++;
 	i = 0;
 	new_env = (char **)malloc(sizeof(char *) * (actual_env_len + 2));
@@ -32,8 +32,8 @@ char	**concat_and_add_env(char **env, char *new_content)
 		return (NULL); //Hanlde malloc failure
 	while (i < actual_env_len)
 	{
-		new_env[i] = ft_strdup(env[i]);
-		free(env[i]);
+		new_env[i] = ft_strdup(env_msh[i]);
+		free(env_msh[i]);
 		i++;
 	}
 	new_env[i] = ft_strdup(new_content);
@@ -42,7 +42,8 @@ char	**concat_and_add_env(char **env, char *new_content)
 	return (new_env);
 }
 
-static void	display_exported_variable(void)
+/* 
+static void	display_exported_variable(t_minishell *data)
 {
 	extern char	**environ;
 	char		**s;
@@ -54,22 +55,35 @@ static void	display_exported_variable(void)
 		s++;
 	}
 }
+ */
+
+static void	display_exported_variable(t_minishell *data)
+{
+	int	i;
+	
+	i = 0;
+	while (data->env_msh[i])
+	{
+		printf("declare -x %s\n", data->env_msh[i]);
+		i++;
+	}
+}
+
 
 void	builtin_export(char **args, t_minishell *data)
 {
 	int	i;
-	extern char	**environ;
 
 	i = 1;
 	if (!args[1])
-		return (display_exported_variable());
+		return (display_exported_variable(data));
 	else if (command_with_pipe(data->args) == TRUE)
 		return ;
 	else
 	{
 		while (args[i])
 		{
-			environ = concat_and_add_env(environ, args[i]);
+			data->env_msh = concat_and_add_env(data->env_msh, args[i]);
 			i++;
 		}
 	}

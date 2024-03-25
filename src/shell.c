@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 14:31:29 by demre             #+#    #+#             */
-/*   Updated: 2024/03/25 18:36:57 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/25 20:39:17 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	run_shell_loop(t_minishell *data)
 //			rl_replace_line("minish> exit", 0);
 //			rl_redisplay();
 //			sleep(2);
-			free_env_array();
+//			free_env_array(); only in main enough?
 			printf("contrl D pressed\n");
 			close(data->fd_pipe1[READ_END]);
 			printf("exit\n"); // to fix, not on same line
@@ -76,7 +76,7 @@ int	run_shell_loop(t_minishell *data)
 		free(data->prompt);
 	dprintf(2, "exit son = %d\n", data->last_exit_status);
 	close(data->fd_pipe1[READ_END]);
-	free_env_array();
+//	free_env_array(); only in main enough?
 	printf("exit\n"); // keep
 	kill(data->pid1, SIGUSR1);
 	exit(data->last_exit_status);

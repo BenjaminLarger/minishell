@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_exec_builtin.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
+/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 19:04:16 by demre             #+#    #+#             */
-/*   Updated: 2024/03/21 09:55:28 by blarger          ###   ########.fr       */
+/*   Updated: 2024/03/25 20:36:27 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	exec_cmd_if_builtin(char **args, t_minishell *data)
 		else if (!ft_strcmp(args[0], "pwd"))
 			builtin_pwd();
 		else if (!ft_strcmp(args[0], "env"))
-			builtin_env();
+			builtin_env(data);
 		else if (!ft_strcmp(args[0], "export"))
 			builtin_export(args, data);
 		else if (!ft_strcmp(args[0], "exit"))
