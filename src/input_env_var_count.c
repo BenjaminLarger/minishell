@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 15:16:11 by demre             #+#    #+#             */
-/*   Updated: 2024/03/23 16:34:51 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/25 20:24:14 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ static void	increment_index_and_length(int *i, int *expanded_len)
 	*expanded_len += 1;
 }
 
-static int	calculate_expanded_len(char const *input, int input_len)
+static int	calculate_expanded_len(char const *input, int input_len,
+	t_minishell *data)
 {
 	t_expanded_data	exp;
 	int				i;
@@ -47,8 +48,8 @@ static int	calculate_expanded_len(char const *input, int input_len)
 				= ft_substr(input, exp.ev_start, i - exp.ev_start);
 			if (!exp.temp_ev_name)
 				return (-1);
-			if (getenv(exp.temp_ev_name))
-				exp.expanded_len += ft_strlen(getenv(exp.temp_ev_name));
+			if (ft_getenv(data, exp.temp_ev_name))
+				exp.expanded_len += ft_strlen(ft_getenv(data, exp.temp_ev_name));
 			free(exp.temp_ev_name);
 		}
 		else
@@ -59,11 +60,11 @@ static int	calculate_expanded_len(char const *input, int input_len)
 }
 
 int	get_ev_str_expanded_len(char const *input, int input_len,
-	int *expanded_len)
+	int *expanded_len, t_minishell *data)
 {
 	if (!input || input[0] == '\0')
 		*expanded_len = 0;
 	else
-		*expanded_len = calculate_expanded_len(input, input_len);
+		*expanded_len = calculate_expanded_len(input, input_len, data);
 	return (*expanded_len);
 }

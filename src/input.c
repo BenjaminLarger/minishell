@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:16 by demre             #+#    #+#             */
-/*   Updated: 2024/03/25 14:42:27 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/25 20:21:29 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	split_input_into_args(t_minishell *data)
 		return (errno); // ERR_MALLOC
 	if (data->prompt)
 	{
-		error = assign_tokens(data->args, data->prompt);
+		error = assign_tokens(data, data->prompt);
 		if (error != SUCCESS)
 			return (error); // ERR_SINGLE_QUOTE or ERR_MALLOC, not implemented
 	}

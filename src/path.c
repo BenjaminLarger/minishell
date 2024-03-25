@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:12:28 by demre             #+#    #+#             */
-/*   Updated: 2024/03/15 21:28:45 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/25 20:27:57 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,13 @@
  * @brief Retrieves the directories listed in the PATH environment variable
  * and appends a forward slash to each path.
  */
-static int	get_all_paths_from_env(char ***paths)
+static int	get_all_paths_from_env(t_minishell *data, char ***paths)
 {
 	char	*all_paths_as_one_str;
 	char	*temp;
 	int		i;
 	
-	all_paths_as_one_str = getenv("PATH");
+	all_paths_as_one_str = ft_getenv(data, "PATH");
 	if (!all_paths_as_one_str)
 		all_paths_as_one_str = "";
 	*paths = ft_split(all_paths_as_one_str, ':');
@@ -86,12 +86,12 @@ static int	add_path_to_command(char const *cmd, char **cmd_with_path, char **pat
  * @return Returns SUCCESS (0) if the command is found and its full path is 
  * retrieved successfully, otherwise returns FAILURE (1).
  */
-int	get_cmd_with_path(char const *cmd, char **cmd_with_path)
+int	get_cmd_with_path(t_minishell *data, char const *cmd, char **cmd_with_path)
 {
 	char	**paths;
 	int		n_paths;
 
-	if (get_all_paths_from_env(&paths) != SUCCESS)
+	if (get_all_paths_from_env(data, &paths) != SUCCESS)
 	{
 		perror("Error loading paths");
 		return (FAILURE);

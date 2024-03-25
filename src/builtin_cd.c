@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 16:15:50 by blarger           #+#    #+#             */
-/*   Updated: 2024/03/25 13:07:54 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/25 20:33:09 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,16 +47,16 @@ use cases :
 -> cd /.../
 		 */
 
-static char	*get_home_path(void)
+static char	*get_home_path(t_minishell *data)
 {
-	if (getenv("HOME"))
+	if (ft_getenv(data, "HOME"))
 	{
-		return (getenv("HOME"));
+		return (ft_getenv(data, "HOME"));
 	}
-	else if (getenv(""))
-		return (getenv("ZDOTDIR"));
-	else if (getenv("USER_ZDOTDIR"))
-		return (getenv("USER_ZDOTDIR"));
+	else if (ft_getenv(data, ""))
+		return (ft_getenv(data, "ZDOTDIR"));
+	else if (ft_getenv(data, "USER_ZDOTDIR"))
+		return (ft_getenv(data, "USER_ZDOTDIR"));
 	else
 		return (NULL);
 }
@@ -66,9 +66,9 @@ static void	dispatch_home_dir(char *arg, char *cur_dir, t_minishell *data)
 	char	*path;
 
 	path = NULL;
-	if ((arg[1] == '/' || arg[1] == '\0') && get_home_path())
+	if ((arg[1] == '/' || arg[1] == '\0') && get_home_path(data))
 	{
-		path = gnl_strjoin(get_home_path(), arg + 1);
+		path = gnl_strjoin(get_home_path(data), arg + 1);
 		arg = path;
 	}
 	else
@@ -110,7 +110,7 @@ void	builtin_cd(char *arg, t_minishell *data) //Check the leaks. Else it should 
 	cur_dir = NULL;
 	cur_dir = getcwd(cur_dir, sizeof(cur_dir));
 	if (arg == NULL)
-		arg = getenv("HOME");
+		arg = ft_getenv(data, "HOME");
 	if (!ft_strcmp(arg, "-"))
 		return (cd_back_to_prev_cur_dir(arg, cur_dir, data));
 	if (!ft_strncmp(arg, "~", 1))

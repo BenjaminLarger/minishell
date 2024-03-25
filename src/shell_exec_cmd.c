@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 20:35:01 by demre             #+#    #+#             */
-/*   Updated: 2024/03/25 18:49:14 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/25 20:27:05 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	exec_command(t_minishell *data, char **cmd)
 			exit(data->last_exit_status);
 		}
 		// SUCCESS, EXEC_FAIL (builtin exist, mais exec failed), NOT_BUILTIN
-		if (get_cmd_with_path(cmd[0], &cmd_with_path) == FAILURE)
+		if (get_cmd_with_path(data, cmd[0], &cmd_with_path) == FAILURE)
 			exit(EXIT_FAILURE); // check free
 		dprintf(STDERR_FILENO, "cmd_with_path: %s\n", cmd_with_path); //
 		execve(cmd_with_path, &(cmd[0]), data->env_msh);

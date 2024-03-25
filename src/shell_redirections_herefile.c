@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 17:44:46 by blarger           #+#    #+#             */
-/*   Updated: 2024/03/25 16:34:05 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/25 20:02:45 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ static void	read_herefile_util(t_minishell *data, char **args)
 		content = ft_strjoin_free(content, "\n");
 		free(line);
 	}
-	env_var_replaced = replace_env_var_in_substr(content, ft_strlen(content));
+	env_var_replaced = replace_env_var_in_substr(content, ft_strlen(content), data);
 	if (!env_var_replaced)
 		exit(EXIT_FAILURE); // malloc failure
 	write_herefile(data, env_var_replaced);

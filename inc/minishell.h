@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:00 by demre             #+#    #+#             */
-/*   Updated: 2024/03/25 19:58:49 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/25 20:28:24 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,8 @@ int		is_env_changing_builtin(char **cmd, t_minishell *data);
 
 // Path
 
-int		get_cmd_with_path(char const *cmd, char **cmd_with_path);
+int		get_cmd_with_path(t_minishell *data, char const *cmd,
+	char **cmd_with_path);
 
 // Handle input
 // input.c, input_assign_tokens.c, input_count_tokens.c
@@ -72,20 +73,21 @@ int		get_cmd_with_path(char const *cmd, char **cmd_with_path);
 char	*read_input(char *prompt);
 int		split_input_into_args(t_minishell *data);
 int		count_tokens(char const *str);
-int		assign_tokens(char **tokens, char const *str);
+int		assign_tokens(t_minishell *data, char const *str);
 int		check_tokens_syntax(char **args);
-char	*replace_env_var_in_substr(char const *input, int input_len);
+char	*replace_env_var_in_substr(char const *input, int input_len,
+	t_minishell *data);
 int		get_ev_str_expanded_len(char const *input, int input_len,
-	int *expanded_len);
+	int *expanded_len, t_minishell *data);
 char	*remove_quotes_from_str(char *str);
 
 // Handle input utils
 
 int		is_sgl_linker(char const *str);
 int		is_dbl_linker(char const *str);
-int		is_outside_quotes(t_token_data *t);
-int		isspace_outside_quotes(int c, t_index_data *d);
-int		islinker_outside_quotes(char const *str, t_index_data *d);
+int		is_outside_quotes(t_token_data *tok);
+int		isspace_outside_quotes(int c, t_index_data *ind);
+int		islinker_outside_quotes(char const *str, t_index_data *ind);
 void	increase_quote_count_if_outside_quotes(char c,
 	int *n_sgl_quotes, int *n_dbl_quotes);
 int		is_valid_ev_dollar_sign(char c, int *n_sgl_quotes, int *n_dbl_quotes,
