@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:00 by demre             #+#    #+#             */
-/*   Updated: 2024/03/25 20:40:03 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/26 13:32:56 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,11 @@ void	set_parent_sigint_action(void);
 void	set_child_exit_signal_action(void);
 void	set_parent_exit_signal_action(void);
 
+// Initialisation
+
+int		load_env_variables(t_minishell *data, char **envp);
+int		init_program(t_minishell *data);
+
 // Shell engine
 // shell.c, shell_process_args.c
 
@@ -58,7 +63,8 @@ int		run_shell_loop(t_minishell *data);
 int		exec_args(t_minishell *data);
 int		get_cmd_without_redirections(t_minishell *data, char ***cmd,
 	int start, int end);
-void	exec_command(t_minishell *data, char **cmd);
+//void	exec_command(t_minishell *data, char **cmd);
+void	exec_command(t_minishell *data, char **cmd, int **pid, int *n_pid);
 int		exec_cmd_if_builtin(char **args, t_minishell *data);
 int		is_env_changing_builtin(char **cmd, t_minishell *data);
 
@@ -125,7 +131,6 @@ int		is_string_all_space(char const *str);
 int		command_with_pipe(char **args);
 int		is_valid_ev_character(char c);
 void	check_and_replace_last_exit_status_call(char **args, t_minishell *data);
-void	malloc_env_variables(t_minishell *data, char **envp);
 int		handle_here_document(t_minishell *data, char **args);
 char	*ft_getenv(t_minishell *data, char *key);
 
@@ -135,6 +140,8 @@ char	*get_linker_for_error(char *linker);
 void	perror_msg_kill_free(char *msg, t_minishell *data);
 void	print_error_cmd(char *cmd);
 void	print_error_syntax(char *arg);
+void	print_error(char *error);
+int		print_error_and_failure(char *error);
 
 // Dev functions
 

@@ -13,6 +13,9 @@ Pour les variables d'environnement:
 	- sauver envp dans un **char
 	- ensuite on ne fait que modifier l'array que l'on passe aussi a execve.
 
+5)  
+check unset, export, cd souldn't work when followed by pipe
+ex: export VAR=1 | wc
 
 --------
 
