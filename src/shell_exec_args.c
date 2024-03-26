@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 14:57:17 by demre             #+#    #+#             */
-/*   Updated: 2024/03/26 14:12:03 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/26 14:23:33 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,21 +75,19 @@ int	exec_args(t_minishell *data)
 	while (i < n_pid)
 	{
 		waitpid(pid[i], &status[i], 0);
-		dprintf(2, "waited for child pid[%d]: %d\n", i, pid[i]);
+		dprintf(2, "done waiting for child pid[%d]: %d\n", i, pid[i]);
+		if (WIFEXITED(status[i]))
+		{
+			if (WEXITSTATUS(status[i]) != 0)
+			{
+				dprintf(2, "errno exit status in first child = %d\n", (WEXITSTATUS(status[i])));
+				data->last_exit_status = WEXITSTATUS(status[i]);
+				//data->last_exit_status = 127;
+			}
+		}
+		dprintf(2, "errno exit status in first child = %d\n", (WEXITSTATUS(status[i])));
 		i++;
 	}
-/* 	dprintf(2, "done waiting for pid2\n");
-	if (WIFEXITED(status))
-	{
-		if (WEXITSTATUS(status) != 0)
-		{
-			dprintf(2, "errno exit status in first child = %d\n", (WEXITSTATUS(status)));
-			data->last_exit_status = WEXITSTATUS(status);
-			//data->last_exit_status = 127;
-		}
-	}
-	dprintf(2, "errno exit status in first child = %d\n", (WEXITSTATUS(status)));
- */
 	free(pid);
 	free(status);
 	if (data->executed_command == TRUE)

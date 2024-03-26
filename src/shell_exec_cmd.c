@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 20:35:01 by demre             #+#    #+#             */
-/*   Updated: 2024/03/26 13:42:59 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/26 14:19:01 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ void	exec_command(t_minishell *data, char **cmd, int **pid, int *n_pid)
 	print_array(cmd);
 	if (pipe(data->fd_pipe2) == -1)
 		return ; // handle pipe error
-	dprintf(2, "\n*n_pid: %d\n", *n_pid); //
 	(*pid)[*n_pid] = fork();
 //	if (*pid[*n_pid] == -1)
 //		display_error_and_exit("Fork error", commands);
