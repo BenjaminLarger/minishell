@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 15:24:35 by blarger           #+#    #+#             */
-/*   Updated: 2024/03/25 19:47:20 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/27 15:59:40 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	write_fdin_to_fdout(int fd_in, int fd_out)
 	while (bytes_read > 0)
 	{
 		bytes_read = read(fd_in, buffer, sizeof(buffer));
-		dprintf(STDERR_FILENO, "write_fdin_to_fdout bytes_read:%zd\n", bytes_read); //
+		dprintf(STDERR_FILENO, "\e[34mwrite_fdin_to_fdout bytes_read:%zd\n\e[0m", bytes_read); //
 		if (bytes_read < 0)
 		{
 			perror("read from pipe error");
@@ -145,4 +145,41 @@ char	*ft_getenv(t_minishell *data, char *key)
 		i++;
 	}
 	return (NULL);
+}
+
+#include <stdlib.h>
+#include <string.h> // For memcpy
+
+char	**realloc_char_array(char **ptr, int old_size, int new_size)
+{
+	char	**new_ptr;
+	int		copy_size;
+
+	if (!ptr)
+	{
+		// If ptr is NULL, realloc behaves like malloc
+		return ((char **)malloc(new_size * sizeof(char *)));
+	}
+	else if (new_size == 0)
+	{
+		free_string_array(ptr);
+		return (NULL);
+	}
+	else
+	{
+		// Allocate new memory block for the array of pointers
+		new_ptr = (char **)malloc(new_size * sizeof(char *));
+		if (!new_ptr)
+			return (NULL); // Malloc failed
+
+		// Determine how many pointers to copy
+		copy_size = (old_size < new_size) ? old_size : new_size;
+
+		// Copy the pointers
+		ft_memcpy(new_ptr, ptr, copy_size * sizeof(char *));
+
+		// Free the old array of pointers (but not the strings themselves)
+		free(ptr);
+		return (new_ptr);
+	}
 }

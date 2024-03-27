@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:00 by demre             #+#    #+#             */
-/*   Updated: 2024/03/27 13:20:43 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/27 16:04:29 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int		exec_args(t_minishell *data);
 int		get_cmd_without_redirections(t_minishell *data, char ***cmd,
 	int start, int end);
 //void	exec_command(t_minishell *data, char **cmd);
-void	exec_command(t_minishell *data, char **cmd);
+void	exec_command(t_minishell *data, char **cmd, int end_index);
 int		exec_cmd_if_builtin(char **args, t_minishell *data);
 int		is_env_changing_builtin(char **cmd, t_minishell *data);
 
@@ -151,5 +151,6 @@ void	ft_leaks(void);
 void	print_fd(int fd);
 void	print_pipes_fd(t_minishell *data);
 void	print_files_fd(t_minishell *data);
+void	print_pipe_contents(int pipefd);
 
 #endif

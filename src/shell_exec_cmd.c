@@ -6,18 +6,27 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 20:35:01 by demre             #+#    #+#             */
-/*   Updated: 2024/03/27 14:17:20 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/27 17:03:01 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	exec_command(t_minishell *data, char **cmd)
+void	exec_command(t_minishell *data, char **cmd, int end_index)
 {
 	char	*cmd_with_path;
 
+	dprintf(2, "entering exec_command\n"); //
+	dprintf(2, "\nPipe or eof at i = %d. data->args[i]: %s\n", end_index, data->args[end_index]); //
 	if (is_env_changing_builtin(cmd, data) == TRUE)
 		return ;
+		
+	if (data->n_pid >= 1)
+	{
+	dprintf(2, "\e[31mClosing in exec data->fd_pipe[%d][READ_END]: %d\n\e[0m", data->n_pid - 1, data->fd_pipe[data->n_pid - 1][READ_END]);
+			close(data->fd_pipe[data->n_pid - 1][READ_END]);
+	}
+
 	data->executed_command = TRUE;
 	print_array(cmd);
 	data->fd_pipe[data->n_pid] = (int *)malloc(2 * sizeof(int));
@@ -30,8 +39,6 @@ void	exec_command(t_minishell *data, char **cmd)
 		return ; // handle fork error
 	if (data->pid[data->n_pid] == 0)
 	{
-		if (data->n_pid >= 1)
-			close(data->fd_pipe[data->n_pid - 1][READ_END]);
 		close(data->fd_pipe[data->n_pid][READ_END]);
 		dup2(data->fd_pipe[data->n_pid][WRITE_END], STDOUT_FILENO); 
 		close(data->fd_pipe[data->n_pid][WRITE_END]);
@@ -52,9 +59,11 @@ void	exec_command(t_minishell *data, char **cmd)
 	else if (data->pid[data->n_pid] > 0)
 	{
 		close(data->fd_pipe[data->n_pid][WRITE_END]);
-		dup2(data->fd_pipe[data->n_pid][READ_END], STDIN_FILENO);
-		if (data->n_pid >= 1)
-			close(data->fd_pipe[data->n_pid - 1][READ_END]);
+		if (data->args[end_index] && ft_strcmp(data->args[end_index], "|") == 0)
+		{
+			dprintf(2, "\e[31mdup2\n\e[0m");
+			dup2(data->fd_pipe[data->n_pid][READ_END], STDIN_FILENO);
+		}
 		data->n_pid++;
 	}
 }

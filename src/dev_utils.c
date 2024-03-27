@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 16:07:07 by demre             #+#    #+#             */
-/*   Updated: 2024/03/27 13:29:46 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/27 15:59:51 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,6 @@ void print_pipe_contents(int pipefd)
 		perror("Failed to get file cursor position");
 	fprintf(stderr, "Current position of file cursor: %ld\n", (long)current_pos);
 
-
-	struct stat file_info;
-	if (stat(".temp_pipex_heredoc", &file_info) == -1)
-		perror("Failed to get file information");
-	printf("File size of %s: %lld bytes\n", ".temp_pipex_heredoc", (long long)file_info.st_size);
-
 	while ((bytes_read = read(pipefd, buffer, 4096)) > 0) {
 		if (write(2, buffer, bytes_read) != bytes_read) {
 			perror("write");
@@ -69,7 +63,7 @@ void check_open_fd(char *message)
 	if (ft_strlen(message) > 0)
 		fprintf(stderr, "%s\n", message);
 
-	for (fd = 3; fd <= 8; fd++) {
+	for (fd = 0; fd <= 8; fd++) {
 		if (fcntl(fd, F_GETFD) != -1)
 			dprintf(2, "fd %d open\n", fd);
 		else

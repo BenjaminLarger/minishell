@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 14:57:17 by demre             #+#    #+#             */
-/*   Updated: 2024/03/27 14:14:08 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/27 16:47:11 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	exec_args(t_minishell *data)
 //	print_pipes_fd(data);
 print_array(cmd);
 			if (cmd && *cmd)
-				exec_command(data, cmd);
+				exec_command(data, cmd, i);
 			free_string_array(cmd);
 			write_to_outfile_if_needed(data);
 		}
@@ -91,6 +91,7 @@ print_array(cmd);
 	}
 	if (data->executed_command == TRUE)
 		write_fdin_to_fdout(data->fd_pipe[data->n_pid - 1][READ_END], STDOUT_FILENO);
+	dprintf(2, "\e[31mClosing data->fd_pipe[%d][READ_END]: %d\n\e[0m", data->n_pid - 1, data->fd_pipe[data->n_pid - 1][READ_END]);
 	close(data->fd_pipe[data->n_pid - 1][READ_END]);
 	check_open_fd("end of exec_args");
 	print_pipes_fd(data);

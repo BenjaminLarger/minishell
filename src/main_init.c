@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 18:35:15 by blarger           #+#    #+#             */
-/*   Updated: 2024/03/26 17:52:10 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/27 16:01:22 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,5 +83,6 @@ int	init_program(t_minishell *data)
 	data->last_exit_status = 0;
 	data->prompt = NULL;
 	data->is_exit = FALSE;
+	data->n_pid = 0;
 	return (SUCCESS);
 }
