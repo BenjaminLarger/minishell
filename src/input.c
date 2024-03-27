@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:16 by demre             #+#    #+#             */
-/*   Updated: 2024/03/25 20:21:29 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/26 17:37:01 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,10 @@ char	*read_input(char *prompt)
 		free(prompt);
 		prompt = NULL;
 	}
-	prompt = readline("minish> ");
+	check_open_fd("\e[33mbefore readline\e[0m");
+	dprintf(2, "\e[33mbefore readline prompt: %s\n\e[0m", prompt);
+	prompt = readline("\e[32mminish> \e[0m");
+	dprintf(2, "\e[33mafter readline prompt: %s\n\e[0m", prompt);
 	if (prompt && *prompt)
 		add_history(prompt);
 	return (prompt);

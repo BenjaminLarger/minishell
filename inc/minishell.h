@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:00 by demre             #+#    #+#             */
-/*   Updated: 2024/03/26 13:32:56 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/27 13:20:43 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int		exec_args(t_minishell *data);
 int		get_cmd_without_redirections(t_minishell *data, char ***cmd,
 	int start, int end);
 //void	exec_command(t_minishell *data, char **cmd);
-void	exec_command(t_minishell *data, char **cmd, int **pid, int *n_pid);
+void	exec_command(t_minishell *data, char **cmd);
 int		exec_cmd_if_builtin(char **args, t_minishell *data);
 int		is_env_changing_builtin(char **cmd, t_minishell *data);
 
@@ -118,7 +118,7 @@ int		handle_redirections_until_next_pipe(t_minishell *data, char **args,
 // cleanup_free_arrays.c
 void	free_string_array(char **str_array);
 void	free_n_string_array(char **str_array, int n);
-void	free_array_string_array(char ***array);
+void	free_int_array(int **int_array, int size);
 // void	free_env_array(void);
 
 //utils
@@ -150,5 +150,6 @@ void	check_open_fd(char *message);
 void	ft_leaks(void);
 void	print_fd(int fd);
 void	print_pipes_fd(t_minishell *data);
+void	print_files_fd(t_minishell *data);
 
 #endif

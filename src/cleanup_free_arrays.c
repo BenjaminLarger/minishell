@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/02 14:34:07 by demre             #+#    #+#             */
-/*   Updated: 2024/03/25 20:40:39 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/27 12:45:24 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,25 +40,23 @@ void	free_n_string_array(char **str_array, int n)
 	free(str_array);
 }
 
-void	free_array_string_array(char ***array)
+void	free_int_array(int **int_array, int size)
 {
 	int	i;
-	int	j;
 
 	i = 0;
-	while (array[i])
+	if (int_array)
 	{
-		j = 0;
-		while (array[i][j])
+		while (i < size)
 		{
-			free(array[i][j]);
-			j++;
+			free(int_array[i]);
+			int_array[i] = NULL;
+			i++;
 		}
-		free(array[i]);
-		i++;
 	}
-	free(array);
+	free(int_array);
 }
+
 /* 
 void	free_env_array(void)
 {

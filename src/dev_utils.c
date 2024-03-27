@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 16:07:07 by demre             #+#    #+#             */
-/*   Updated: 2024/03/22 12:12:56 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/27 13:29:46 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,10 @@ void	print_array(char **array)
 	i = 0;
 	while (array[i])
 	{
-		printf("array[%d]: %s\n", i, array[i]);
+		dprintf(2, "array[%d]: %s\n", i, array[i]);
 		i++;
 	}
-	printf("array[%d]: %s\n", i, array[i]); // check NULL
+	dprintf(2, "array[%d]: %s\n", i, array[i]); // check NULL
 }
 
 void print_pipe_contents(int pipefd)
@@ -69,11 +69,11 @@ void check_open_fd(char *message)
 	if (ft_strlen(message) > 0)
 		fprintf(stderr, "%s\n", message);
 
-	for (fd = 3; fd <= 10; fd++) {
+	for (fd = 3; fd <= 8; fd++) {
 		if (fcntl(fd, F_GETFD) != -1)
-			fprintf(stderr, "fd %d open\n", fd);
+			dprintf(2, "fd %d open\n", fd);
 		else
-			fprintf(stderr, "fd %d closed\n", fd);
+			dprintf(2, "fd %d closed\n", fd);
 	}
 }
 
@@ -97,5 +97,20 @@ void	print_fd(int fd)
 
 void	print_pipes_fd(t_minishell *data)
 {
-	dprintf(2, "data->fd_pipe1[READ_END]: %d, data->fd_pipe1[WRITE_END]: %d, data->fd_pipe2[READ_END]: %d, data->fd_pipe2[WRITE_END]: %d, data->file.in_fd: %d, data->file.out_fd: %d, data->file.heredoc_pipe[READ_END]: %d, data->file.heredoc_pipe[WRITE_END]: %d\n", data->fd_pipe1[READ_END], data->fd_pipe1[WRITE_END], data->fd_pipe2[READ_END], data->fd_pipe2[WRITE_END], data->file.in_fd, data->file.out_fd, data->file.heredoc_pipe[READ_END], data->file.heredoc_pipe[WRITE_END]);
+	int i = 0;
+
+	dprintf(2, "data->n_pid: %d\n", data->n_pid);
+	while (i < data->n_pid)
+	{
+		dprintf(2, "data->fd_pipe[%d][READ_END]: %d, data->fd_pipe[%d][WRITE_END]: %d, ", i, data->fd_pipe[i][READ_END], i, data->fd_pipe[i][WRITE_END]);
+		i++;
+	}
+	dprintf(2, "\n");
+
+	dprintf(2, "data->file.in_fd: %d, data->file.out_fd: %d, data->file.heredoc_pipe[READ_END]: %d, data->file.heredoc_pipe[WRITE_END]: %d\n", data->file.in_fd, data->file.out_fd, data->file.heredoc_pipe[READ_END], data->file.heredoc_pipe[WRITE_END]);
+}
+
+void	print_files_fd(t_minishell *data)
+{
+	dprintf(2, "data->file.in_fd: %d, data->file.out_fd: %d, data->file.heredoc_pipe[READ_END]: %d, data->file.heredoc_pipe[WRITE_END]: %d\n", data->file.in_fd, data->file.out_fd, data->file.heredoc_pipe[READ_END], data->file.heredoc_pipe[WRITE_END]);
 }

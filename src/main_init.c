@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 18:35:15 by blarger           #+#    #+#             */
-/*   Updated: 2024/03/26 11:15:57 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/26 17:52:10 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ static int	increase_shlvl(char **env_msh)
 	{
 		if (ft_strncmp(env_msh[i], "SHLVL=", 6) == 0)
 		{
-			printf("found $SHLVL%s\n", ft_strchr(env_msh[i], '='));
 			temp_shlvl
 				= ft_itoa(ft_atoi(ft_strchr(env_msh[i], '=') + 1) + 1);
 			if (!temp_shlvl)
@@ -81,9 +80,6 @@ int	init_program(t_minishell *data)
 	data->cd_last_dir = (char *)malloc(sizeof(char) * MAX_PATH_LEN);
 	if (!data->cd_last_dir)
 		return (print_error_and_failure(MALLOC_FAIL));
-	if (pipe(data->fd_pipe1) == -1)
-		return (print_error_and_failure(PIPE));
-	close(data->fd_pipe1[WRITE_END]);
 	data->last_exit_status = 0;
 	data->prompt = NULL;
 	data->is_exit = FALSE;

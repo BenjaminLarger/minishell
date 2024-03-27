@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:16:49 by demre             #+#    #+#             */
-/*   Updated: 2024/03/26 11:57:01 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/27 14:29:12 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,22 @@ int	main(int argc, char **argv, char **envp)
 
 	if (argc != 1 && argv)
 		exit(EXIT_SUCCESS);
-	
+//	ft_memset(&data, 0, sizeof(t_minishell));
+//	check_open_fd("\e[35mstartup\e[0m");
+//	print_pipes_fd(&data);
+//	for (int fd = 3; fd <= 10; fd++) {
+//		if (fcntl(fd, F_GETFD) != -1)
+//			close(fd);
+//	}
+
 	if (load_env_variables(&data, envp) == FAILURE
 		|| init_program(&data) == FAILURE)
 		exit(EXIT_FAILURE);
-	printf("ft_getenv(SHLVL): %s\n", ft_getenv(&data, "SHLVL"));
+	dprintf(2, "\e[36mLaunching minishell - $SHLVL=%s\e[0m\n", ft_getenv(&data, "SHLVL"));
+//	if (pipe(data.fd_pipe1) == -1)
+//		return (print_error_and_failure(PIPE));
+//	close(data.fd_pipe1[WRITE_END]);
+//	print_pipes_fd(&data);
 
 	run_shell_loop(&data);
 

@@ -17,6 +17,11 @@ Pour les variables d'environnement:
 check unset, export, cd souldn't work when followed by pipe
 ex: export VAR=1 | wc
 
+6)  
+interactive mode si pipe en fin de ligne pour pouvoir faire:
+bash-3.2$ ls |
+> cat -e
+
 --------
 
 # CRASH:

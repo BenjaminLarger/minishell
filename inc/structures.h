@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 16:30:35 by demre             #+#    #+#             */
-/*   Updated: 2024/03/25 18:38:19 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/27 12:37:47 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,10 @@ typedef struct s_minishell
 	int		save_stdin_fd;
 	int		fd_pipe1[2];
 	int		fd_pipe2[2];
+	int		**fd_pipe;
+	pid_t	*pid;
+	int		*status;
+	int		n_pid;
 	char	*cd_last_dir;
 	int		executed_command;
 	int		last_exit_status;

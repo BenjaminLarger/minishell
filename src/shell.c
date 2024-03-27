@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 14:31:29 by demre             #+#    #+#             */
-/*   Updated: 2024/03/26 11:40:07 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/27 11:59:00 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,6 @@ int	run_shell_loop(t_minishell *data)
 				continue ; // malloc or single quote
 			if (check_tokens_syntax(data->args) == FAILURE)
 				continue ; // syntax error
-		//	if (process_args(data) == FAILURE)
-		//		kill_and_exit(data, errno);
 			if (data->n_args > 0)
 			{
 				if (exec_args(data) == FAILURE)
@@ -63,8 +61,8 @@ int	run_shell_loop(t_minishell *data)
 //			sleep(2);
 //			free_env_array(); only in main enough?
 			printf("contrl D pressed\n");
-			close(data->fd_pipe1[READ_END]);
-			printf("exit\n"); // to fix, not on same line
+//			close(data->fd_pipe1[READ_END]);
+			printf("\e[31mexit\e[0m\n"); // to fix, not on same line
 			dprintf(2, "shell exit status =%d\n", data->last_exit_status);
 			kill(data->pid1, SIGUSR1);
 			exit(data->last_exit_status);
@@ -73,9 +71,9 @@ int	run_shell_loop(t_minishell *data)
 	if (data->prompt)
 		free(data->prompt);
 	dprintf(2, "exit son = %d\n", data->last_exit_status);
-	close(data->fd_pipe1[READ_END]);
+//	close(data->fd_pipe1[READ_END]);
 //	free_env_array(); only in main enough?
-	printf("exit\n"); // keep
+	printf("\e[31mexit\e[0m\n"); // keep
 	kill(data->pid1, SIGUSR1);
 	exit(data->last_exit_status);
 }
