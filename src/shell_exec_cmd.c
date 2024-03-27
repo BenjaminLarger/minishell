@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 20:35:01 by demre             #+#    #+#             */
-/*   Updated: 2024/03/27 17:03:01 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/27 18:45:54 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,18 @@ void	exec_command(t_minishell *data, char **cmd, int end_index)
 {
 	char	*cmd_with_path;
 
-	dprintf(2, "entering exec_command\n"); //
-	dprintf(2, "\nPipe or eof at i = %d. data->args[i]: %s\n", end_index, data->args[end_index]); //
+	dprintf(2, "\ncurrent last, data->args[%d]: %s\n", end_index, data->args[end_index]); //
 	if (is_env_changing_builtin(cmd, data) == TRUE)
 		return ;
 		
 	if (data->n_pid >= 1)
 	{
-	dprintf(2, "\e[31mClosing in exec data->fd_pipe[%d][READ_END]: %d\n\e[0m", data->n_pid - 1, data->fd_pipe[data->n_pid - 1][READ_END]);
+	dprintf(2, "\e[31mClosing in exec_command data->fd_pipe[%d][READ_END]: %d\n\e[0m", data->n_pid - 1, data->fd_pipe[data->n_pid - 1][READ_END]);
 			close(data->fd_pipe[data->n_pid - 1][READ_END]);
 	}
 
 	data->executed_command = TRUE;
-	print_array(cmd);
+	print_array(cmd, "exec_command");
 	data->fd_pipe[data->n_pid] = (int *)malloc(2 * sizeof(int));
 	if (!(data->fd_pipe[data->n_pid]))
 		return ; // handle malloc error
@@ -50,7 +49,6 @@ void	exec_command(t_minishell *data, char **cmd, int end_index)
 		if (get_cmd_with_path(data, cmd[0], &cmd_with_path) == FAILURE)
 			exit(EXIT_FAILURE); // check free
 		dprintf(2, "cmd_with_path: %s\n", cmd_with_path); //
-		print_array(cmd);
 		execve(cmd_with_path, cmd, data->env_msh);
 		free(cmd_with_path);
 		print_error_cmd(cmd[0]);
@@ -64,6 +62,8 @@ void	exec_command(t_minishell *data, char **cmd, int end_index)
 			dprintf(2, "\e[31mdup2\n\e[0m");
 			dup2(data->fd_pipe[data->n_pid][READ_END], STDIN_FILENO);
 		}
+		else
+			dup2(1, STDIN_FILENO);
 		data->n_pid++;
 	}
 }

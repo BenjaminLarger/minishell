@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 16:07:07 by demre             #+#    #+#             */
-/*   Updated: 2024/03/27 15:59:51 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/27 18:03:51 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,12 @@
  * @brief Print a string array to terminal
  * @param t_minishell Structure representing the shared data and parameters.
 */
-void	print_array(char **array)
+void	print_array(char **array, char *message)
 {
 	int	i;
+
+	if (message && ft_strlen(message) > 0)
+		fprintf(stderr, "%s\n", message);
 
 	i = 0;
 	while (array[i])
@@ -60,10 +63,10 @@ void check_open_fd(char *message)
 {
 	int	fd;
 	
-	if (ft_strlen(message) > 0)
+	if (message && ft_strlen(message) > 0)
 		fprintf(stderr, "%s\n", message);
 
-	for (fd = 0; fd <= 8; fd++) {
+	for (fd = 0; fd <= 6; fd++) {
 		if (fcntl(fd, F_GETFD) != -1)
 			dprintf(2, "fd %d open\n", fd);
 		else

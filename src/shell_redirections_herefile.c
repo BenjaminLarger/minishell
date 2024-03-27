@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 17:44:46 by blarger           #+#    #+#             */
-/*   Updated: 2024/03/25 20:02:45 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/27 18:02:51 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,7 +162,7 @@ int	handle_here_document(t_minishell *data, char **args)
 		data->last_exit_status = 258;
 		return (FAILURE);
 	}
-	print_array(args);
+	print_array(args, "handle_here_document");
 	
 	if (pipe(data->file.heredoc_pipe) == -1)
 	{

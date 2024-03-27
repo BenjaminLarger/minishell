@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:00 by demre             #+#    #+#             */
-/*   Updated: 2024/03/27 16:04:29 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/27 18:01:12 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,7 @@ int		print_error_and_failure(char *error);
 
 // Dev functions
 
-void	print_array(char **array);
+void	print_array(char **array, char *message);
 void	check_open_fd(char *message);
 void	ft_leaks(void);
 void	print_fd(int fd);

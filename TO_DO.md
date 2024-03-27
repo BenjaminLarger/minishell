@@ -22,6 +22,9 @@ interactive mode si pipe en fin de ligne pour pouvoir faire:
 bash-3.2$ ls |
 > cat -e
 
+7)  
+Si pas de pipe dans l'input, executer sans pipe
+
 --------
 
 # CRASH:

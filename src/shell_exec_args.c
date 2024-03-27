@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 14:57:17 by demre             #+#    #+#             */
-/*   Updated: 2024/03/27 16:47:11 by demre            ###   ########.fr       */
+/*   Updated: 2024/03/27 18:35:41 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	exec_args(t_minishell *data)
 
 	i = 0;
 	start_index = 0;
-	print_array(data->args); //
+	print_array(data->args, "exec_args"); //
 	while (i < data->n_args && data->args[i])
 	{
 		reset(data, &start_index, i);
@@ -61,8 +61,6 @@ int	exec_args(t_minishell *data)
 		{
 			if (get_cmd_without_redirections(data, &cmd, start_index, i) == FAILURE)
 				return (FAILURE); // malloc failure
-//	print_pipes_fd(data);
-print_array(cmd);
 			if (cmd && *cmd)
 				exec_command(data, cmd, i);
 			free_string_array(cmd);
@@ -90,11 +88,15 @@ print_array(cmd);
 		i++;
 	}
 	if (data->executed_command == TRUE)
+	{
 		write_fdin_to_fdout(data->fd_pipe[data->n_pid - 1][READ_END], STDOUT_FILENO);
-	dprintf(2, "\e[31mClosing data->fd_pipe[%d][READ_END]: %d\n\e[0m", data->n_pid - 1, data->fd_pipe[data->n_pid - 1][READ_END]);
-	close(data->fd_pipe[data->n_pid - 1][READ_END]);
-	check_open_fd("end of exec_args");
-	print_pipes_fd(data);
+		dprintf(2, "\e[31mClosing in exec_args data->fd_pipe[%d][READ_END]: %d\n\e[0m", data->n_pid - 1, data->fd_pipe[data->n_pid - 1][READ_END]);
+		close(data->fd_pipe[data->n_pid - 1][READ_END]);
+	}
+
+//	check_open_fd("end of exec_args");
+//	print_pipes_fd(data);
+	
 	free(data->pid);
 	free(data->status);
 	free_int_array(data->fd_pipe, data->n_pid);
