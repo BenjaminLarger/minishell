@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:00 by demre             #+#    #+#             */
-/*   Updated: 2024/03/27 18:01:12 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/02 14:39:33 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,6 +142,7 @@ void	print_error_cmd(char *cmd);
 void	print_error_syntax(char *arg);
 void	print_error(char *error);
 int		print_error_and_failure(char *error);
+void	display_error(char *filename);
 
 // Dev functions
 

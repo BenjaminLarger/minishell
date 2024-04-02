@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 14:57:17 by demre             #+#    #+#             */
-/*   Updated: 2024/03/27 18:35:41 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/02 16:57:12 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ int	exec_args(t_minishell *data)
 	int		start_index;
 	char	**cmd;
 	
+	data->original_stdin_fd = open("/dev/tty", O_RDONLY);
+	dprintf(2, "data->original_stdin_fd: %d\n", data->original_stdin_fd);
 	data->n_pid = 0;
 	data->pid = (int *)malloc(1000 * sizeof(int));
 	data->status = (int *)malloc(1000 * sizeof(int));
@@ -87,8 +89,9 @@ int	exec_args(t_minishell *data)
 		dprintf(2, "errno exit status in first child = %d\n", (WEXITSTATUS(data->status[i])));
 		i++;
 	}
-	if (data->executed_command == TRUE)
+	if (data->executed_command == TRUE && data->file.has_outfile == FALSE)
 	{
+		print_pipes_fd(data);
 		write_fdin_to_fdout(data->fd_pipe[data->n_pid - 1][READ_END], STDOUT_FILENO);
 		dprintf(2, "\e[31mClosing in exec_args data->fd_pipe[%d][READ_END]: %d\n\e[0m", data->n_pid - 1, data->fd_pipe[data->n_pid - 1][READ_END]);
 		close(data->fd_pipe[data->n_pid - 1][READ_END]);
@@ -100,5 +103,6 @@ int	exec_args(t_minishell *data)
 	free(data->pid);
 	free(data->status);
 	free_int_array(data->fd_pipe, data->n_pid);
+	close(data->original_stdin_fd);
 	return (SUCCESS);
 }

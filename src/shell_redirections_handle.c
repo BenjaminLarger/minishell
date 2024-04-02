@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 14:57:17 by demre             #+#    #+#             */
-/*   Updated: 2024/03/25 12:45:12 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/02 17:27:48 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static int	handle_output_redirection(t_minishell *data, char **args)
 	if (access(args[1], W_OK) == -1 || data->file.out_fd < 0)
 	{
 		data->last_exit_status = 0;
-		perror("Minish: ");
+		display_error(args[1]);
 		return (FAILURE);
 	}
 	data->file.has_outfile = TRUE;
@@ -39,7 +39,7 @@ static int	handle_input_redirection(t_minishell *data, char **args)
 		|| data->file.in_fd < 0)
 	{
 		data->last_exit_status = 1;
-		perror("Minish: ");
+		display_error(args[1]);
 		return (FAILURE);
 	}
 	if (data->file.has_heredoc == TRUE)
@@ -57,20 +57,25 @@ static int	handle_input_redirection(t_minishell *data, char **args)
  */
 void	update_pipe_with_infile(t_minishell *data)
 {
-	// Read from infile if there is one
+	dprintf(2, "update_pipe_with_infile\n");
+	print_pipes_fd(data);
 	if (data->file.has_infile == TRUE)
 	{
-	//	data->fd_pipe1[READ_END] = data->file.in_fd;
-		dup2(data->file.in_fd, data->fd_pipe1[READ_END]);
+//		dup2(data->file.in_fd, data->fd_pipe1[READ_END]);
+//		dup2(data->file.in_fd, data->fd_pipe[data->n_pid][READ_END]);
+		dup2(data->file.in_fd, STDIN_FILENO);
 		close(data->file.in_fd);
 	}
 	if (data->file.has_heredoc == TRUE)
 	{
-	//	data->fd_pipe1[READ_END] = data->file.in_fd;
-		close(data->fd_pipe1[READ_END]);
-		data->fd_pipe1[READ_END] = data->file.heredoc_pipe[READ_END];
-	//	dup2(data->file.heredoc_pipe[READ_END], data->fd_pipe1[READ_END]);
-		//close(data->file.heredoc_pipe[READ_END]);
+	//	close(data->fd_pipe1[READ_END]);
+	//	data->fd_pipe1[READ_END] = data->file.heredoc_pipe[READ_END];
+
+//		close(data->fd_pipe[data->n_pid][READ_END]);
+//		data->fd_pipe[data->n_pid][READ_END] = data->file.heredoc_pipe[READ_END];
+		dup2(data->file.heredoc_pipe[READ_END], STDIN_FILENO);
+		close(data->file.heredoc_pipe[READ_END]);
+
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 20:35:01 by demre             #+#    #+#             */
-/*   Updated: 2024/03/27 18:45:54 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/02 17:13:41 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	exec_command(t_minishell *data, char **cmd, int end_index)
 	if (data->n_pid >= 1)
 	{
 	dprintf(2, "\e[31mClosing in exec_command data->fd_pipe[%d][READ_END]: %d\n\e[0m", data->n_pid - 1, data->fd_pipe[data->n_pid - 1][READ_END]);
-			close(data->fd_pipe[data->n_pid - 1][READ_END]);
+		close(data->fd_pipe[data->n_pid - 1][READ_END]);
 	}
 
 	data->executed_command = TRUE;
@@ -63,7 +63,7 @@ void	exec_command(t_minishell *data, char **cmd, int end_index)
 			dup2(data->fd_pipe[data->n_pid][READ_END], STDIN_FILENO);
 		}
 		else
-			dup2(1, STDIN_FILENO);
+			dup2(data->original_stdin_fd, STDIN_FILENO);
 		data->n_pid++;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 08:58:59 by blarger           #+#    #+#             */
-/*   Updated: 2024/03/26 10:56:06 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/02 14:47:35 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,4 +69,13 @@ int	print_error_and_failure(char *error)
 	ft_putstr_fd(error, 2);
 	ft_putchar_fd('\n', 2);
 	return (FAILURE);
+}
+
+void	display_error(char *arg)
+{
+	ft_putstr_fd("Minish: ", 2);
+	ft_putstr_fd(strerror(errno), 2);
+	ft_putstr_fd(": ", 2);
+	ft_putstr_fd(arg, 2);
+	ft_putstr_fd("\n", 2);
 }

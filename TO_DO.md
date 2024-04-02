@@ -25,6 +25,9 @@ bash-3.2$ ls |
 7)  
 Si pas de pipe dans l'input, executer sans pipe
 
+8)  
+return FAILURE des qu'un infile n'existe pas dans handle_redirections_until_next_pipe
+
 --------
 
 # CRASH:

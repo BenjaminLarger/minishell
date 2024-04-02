@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 15:24:35 by blarger           #+#    #+#             */
-/*   Updated: 2024/03/27 15:59:40 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/02 14:32:52 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,9 +84,9 @@ void	write_fdin_to_fdout(int fd_in, int fd_out)
 		dprintf(STDERR_FILENO, "\e[34mwrite_fdin_to_fdout bytes_read:%zd\n\e[0m", bytes_read); //
 		if (bytes_read < 0)
 		{
-			perror("read from pipe error");
+			perror("write_fdin_to_fdout - read from pipe error");
 			
-			exit(EXIT_FAILURE);
+			exit(EXIT_FAILURE); // change to return instead of exit
 		}
 		write(fd_out, buffer, bytes_read);
 	}
