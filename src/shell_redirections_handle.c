@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 14:57:17 by demre             #+#    #+#             */
-/*   Updated: 2024/04/03 18:39:41 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/03 20:22:26 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,8 @@ static int	handle_input_redirection(t_minishell *data, char **args)
  */
 void	update_pipe_with_infile(t_minishell *data)
 {
-	dprintf(2, "update_pipe_with_infile\n");
-	print_pipes_fd(data);
+//	dprintf(2, "update_pipe_with_infile\n");
+//	print_pipes_fd(data);
 	if (data->file.has_infile == TRUE)
 	{
 //		dup2(data->file.in_fd, data->fd_pipe1[READ_END]);
@@ -84,8 +84,7 @@ void	update_pipe_with_infile(t_minishell *data)
 /**
  * @brief Handle all redirections until next pipe or end-of-line.
  */
-int	handle_redirections_until_next_pipe(t_minishell *data, char **args,
-	int start, int end)
+int	handle_redirections(t_minishell *data, char **args, int start, int end)
 {
 	int	i;
 	int	is_success;

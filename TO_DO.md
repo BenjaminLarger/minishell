@@ -22,9 +22,6 @@ interactive mode si pipe en fin de ligne pour pouvoir faire:
 bash-3.2$ ls |
 > cat -e
 
-7)  
-Si pas de pipe dans l'input, executer sans pipe
-
 8)  
 return FAILURE des qu'un infile n'existe pas dans handle_redirections_until_next_pipe
 
@@ -84,9 +81,6 @@ bash-3.2$ pwd
 bash-3.2$ ls
 bash-3.2$
 
-4)  < infile > outfile
-No pipe in write_to_outfile_if_needed
-
 --------
 
 # BUG:
@@ -114,12 +108,3 @@ bash-3.2$ env | grep VAR
 VAR=hello-bye
 
 2)  Fix builtin_unset using env_msh
-3)  prompt history bugs 
-minish> echo aaaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaaa
-minish> echo bbbbbbbbbbbbbbbbbbbbbb
-bbbbbbbbbbbbbbbbbbbbbb
-minish> echo aaaa (apres deux fleches vers le haut puis deux vers le bas)
-
-ou copie/colle 'echo aaaaaaaaaaaaaaaaaaaaaaaaaa' puis fleche droite
-minish> echo aaaaecho aaaaaaaaaaaaaaaaaaaaaaaaaa

@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 14:31:29 by demre             #+#    #+#             */
-/*   Updated: 2024/03/27 11:59:00 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/03 20:02:53 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	run_shell_loop(t_minishell *data)
 	while (!(data->prompt) || data->is_exit == FALSE)
 	{
 		data->prompt = read_input(data->prompt);
-	dprintf(2, "inside loop data->prompt: %s, data->is_exit: %d\n", data->prompt, data->is_exit);
+	dprintf(2, "run_shell_loop data->prompt: %s, data->is_exit: %d\n", data->prompt, data->is_exit);
 		if (data->prompt && *(data->prompt) && data->is_exit == FALSE
 			&& !is_string_all_space(data->prompt))
 		{

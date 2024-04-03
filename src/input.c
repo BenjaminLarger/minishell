@@ -6,14 +6,12 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:16 by demre             #+#    #+#             */
-/*   Updated: 2024/03/27 18:46:23 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/03 20:13:07 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-#include <sys/types.h>
-#include <sys/stat.h>
 char	*read_input(char *prompt)
 {
 	if (prompt)
@@ -21,16 +19,8 @@ char	*read_input(char *prompt)
 		free(prompt);
 		prompt = NULL;
 	}
-//	check_open_fd("\e[33mbefore readline\e[0m");
-/* 	if (isatty(fileno(stdin))) {
-        printf("stdin is connected to a terminal.\n");
-    } else {
-        printf("stdin is not connected to a terminal or has been redirected.\n");
-    }
-	perror("isatty"); */
-//	dprintf(2, "\e[33mbefore readline prompt: %s\n\e[0m", prompt);
 	prompt = readline("\e[32mminish> \e[0m");
-//	dprintf(2, "\e[33mafter readline prompt: %s\n\e[0m", prompt);
+//	prompt = readline("minish> ");
 	if (prompt && *prompt)
 		add_history(prompt);
 	return (prompt);

@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 20:35:01 by demre             #+#    #+#             */
-/*   Updated: 2024/04/03 18:46:26 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/03 19:47:41 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,7 @@ void	exec_command(t_minishell *data, char **cmd, int end_index)
 
 	dprintf(2, "\ncurrent last, data->args[%d]: %s\n", end_index, data->args[end_index]); //
 	if (is_env_changing_builtin(cmd, data) == TRUE)
-		return ;
-		
-//	if (data->n_pid >= 1)
-//	{
-//	dprintf(2, "\e[31mClosing in exec_command data->fd_pipe[%d][READ_END]: %d\n\e[0m", data->n_pid - 1, data->fd_pipe[data->n_pid - 1][READ_END]);
-//		close(data->fd_pipe[data->n_pid - 1][READ_END]);
-//	}
+		return ; // handle?
 
 	data->executed_command = TRUE;
 	print_array(cmd, "exec_command");
@@ -42,10 +36,7 @@ void	exec_command(t_minishell *data, char **cmd, int end_index)
 		dup2(data->fd_pipe[data->n_pid][WRITE_END], STDOUT_FILENO); 
 		close(data->fd_pipe[data->n_pid][WRITE_END]);
 		if (exec_cmd_if_builtin(cmd, data) == SUCCESS)
-		{
-			exit(data->last_exit_status);
-		}
-		// SUCCESS, EXEC_FAIL (builtin exist, mais exec failed), NOT_BUILTIN
+			exit(data->last_exit_status); // check free
 		if (get_cmd_with_path(data, cmd[0], &cmd_with_path) == FAILURE)
 			exit(EXIT_FAILURE); // check free
 		dprintf(2, "\e[34mcmd_with_path: %s\n\e[0m", cmd_with_path); //
@@ -73,7 +64,7 @@ void	exec_nopipe_command(t_minishell *data, char **cmd, int end_index)
 
 	dprintf(2, "\nexec_nopipe_command current last, data->args[%d]: %s\n", end_index, data->args[end_index]); //
 	if (is_env_changing_builtin(cmd, data) == TRUE)
-		return ;
+		return ; // handle?
 
 	data->executed_command = TRUE;
 	print_array(cmd, "exec_command");
@@ -83,9 +74,7 @@ void	exec_nopipe_command(t_minishell *data, char **cmd, int end_index)
 	if (data->pid[data->n_pid] == 0)
 	{
 		if (exec_cmd_if_builtin(cmd, data) == SUCCESS)
-		{
-			exit(data->last_exit_status);
-		}
+			exit(data->last_exit_status); // check free
 		if (get_cmd_with_path(data, cmd[0], &cmd_with_path) == FAILURE)
 			exit(EXIT_FAILURE); // check free
 		dprintf(2, "\e[34mcmd_with_path: %s\n\e[0m", cmd_with_path); //
@@ -95,9 +84,5 @@ void	exec_nopipe_command(t_minishell *data, char **cmd, int end_index)
 		exit(127); //send exit error status 
 	}
 	else if (data->pid[data->n_pid] > 0)
-	{
-//		close(STDIN_FILENO);
-//		dup2(data->original_stdin_fd, STDIN_FILENO);
 		data->n_pid++;
-	}
 }

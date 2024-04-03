@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:00 by demre             #+#    #+#             */
-/*   Updated: 2024/04/03 17:04:09 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/03 20:22:19 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,8 +111,7 @@ void	builtin_exit(t_minishell *data);
 
 //Handle redirection
 
-int		handle_redirections_until_next_pipe(t_minishell *data, char **args,
-	int start, int end);
+int		handle_redirections(t_minishell *data, char **args, int start, int end);
 
 // Free arrays
 // cleanup_free_arrays.c
