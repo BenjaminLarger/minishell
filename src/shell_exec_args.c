@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 14:57:17 by demre             #+#    #+#             */
-/*   Updated: 2024/04/03 20:22:07 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/03 21:08:49 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,11 @@ static int	exec_args_init(t_minishell *data, int *i, int *start)
 	data->original_stdin_fd = open("/dev/tty", O_RDONLY);
 	data->original_stdout_fd = dup(STDOUT_FILENO);
 	data->n_pid = 0;
-	data->n_pipe = 0;
 	data->pid = (int *)malloc(1000 * sizeof(int));
 	if (!data->pid)
 		return (FAILURE);
 	data->status = (int *)malloc(1000 * sizeof(int));
 	if (!data->status)
-		return (FAILURE);
-	data->fd_pipe = (int **)malloc(1000 * sizeof(int *));
-	if (!data->fd_pipe)
 		return (FAILURE);
 	return (SUCCESS);
 }
@@ -40,7 +36,6 @@ static void	exec_args_cleanup(t_minishell *data)
 	close(data->original_stdin_fd);
 	free(data->pid);
 	free(data->status);
-	free_int_array(data->fd_pipe, data->n_pipe);
 }
 
 static void	reset(t_minishell *data, int *start_index, int i)
@@ -107,5 +102,7 @@ print_array(data->args, "exec_args"); //
 	}
 	wait_for_child_processes(data);
 	exec_args_cleanup(data);
+//	check_open_fd("end of exec_args");
+//	print_pipes_fd(data);
 	return (SUCCESS);
 }

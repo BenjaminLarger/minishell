@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 16:07:07 by demre             #+#    #+#             */
-/*   Updated: 2024/04/03 18:13:42 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/03 21:07:57 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,15 +94,7 @@ void	print_fd(int fd)
 
 void	print_pipes_fd(t_minishell *data)
 {
-	int i = 0;
-
-	dprintf(2, "data->n_pipe: %d\n", data->n_pipe);
-	while (i < data->n_pipe)
-	{
-		dprintf(2, "data->fd_pipe[%d][READ_END]: %d, data->fd_pipe[%d][WRITE_END]: %d, ", i, data->fd_pipe[i][READ_END], i, data->fd_pipe[i][WRITE_END]);
-		i++;
-	}
-	dprintf(2, "\n");
+	dprintf(2, "data->fd_pipe[READ_END]: %d, data->fd_pipe[WRITE_END]: %d\n", data->fd_pipe[READ_END], data->fd_pipe[WRITE_END]);
 
 	dprintf(2, "data->file.in_fd: %d, data->file.out_fd: %d, data->file.heredoc_pipe[READ_END]: %d, data->file.heredoc_pipe[WRITE_END]: %d\n", data->file.in_fd, data->file.out_fd, data->file.heredoc_pipe[READ_END], data->file.heredoc_pipe[WRITE_END]);
 }

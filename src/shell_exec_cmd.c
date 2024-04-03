@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 20:35:01 by demre             #+#    #+#             */
-/*   Updated: 2024/04/03 19:47:41 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/03 21:07:39 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,19 +22,16 @@ void	exec_command(t_minishell *data, char **cmd, int end_index)
 
 	data->executed_command = TRUE;
 	print_array(cmd, "exec_command");
-	data->fd_pipe[data->n_pid] = (int *)malloc(2 * sizeof(int));
-	if (!(data->fd_pipe[data->n_pid]))
-		return ; // handle malloc error
-	if (pipe(data->fd_pipe[data->n_pid]) == -1)
+	if (pipe(data->fd_pipe) == -1)
 		return ; // handle pipe error
 	data->pid[data->n_pid] = fork();
 	if (data->pid[data->n_pid] == -1)
 		return ; // handle fork error
 	if (data->pid[data->n_pid] == 0)
 	{
-		close(data->fd_pipe[data->n_pid][READ_END]);
-		dup2(data->fd_pipe[data->n_pid][WRITE_END], STDOUT_FILENO); 
-		close(data->fd_pipe[data->n_pid][WRITE_END]);
+		close(data->fd_pipe[READ_END]);
+		dup2(data->fd_pipe[WRITE_END], STDOUT_FILENO); 
+		close(data->fd_pipe[WRITE_END]);
 		if (exec_cmd_if_builtin(cmd, data) == SUCCESS)
 			exit(data->last_exit_status); // check free
 		if (get_cmd_with_path(data, cmd[0], &cmd_with_path) == FAILURE)
@@ -48,12 +45,11 @@ void	exec_command(t_minishell *data, char **cmd, int end_index)
 	else if (data->pid[data->n_pid] > 0)
 	{
 		close(STDIN_FILENO);
-		close(data->fd_pipe[data->n_pid][WRITE_END]);
+		close(data->fd_pipe[WRITE_END]);
 		dprintf(2, "\e[31mdup2\n\e[0m");
-		dup2(data->fd_pipe[data->n_pid][READ_END], STDIN_FILENO);
-		close(data->fd_pipe[data->n_pid][READ_END]);
+		dup2(data->fd_pipe[READ_END], STDIN_FILENO);
+		close(data->fd_pipe[READ_END]);
 		data->n_pid++;
-		data->n_pipe++;
 	}
 }
 
