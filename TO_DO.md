@@ -14,7 +14,7 @@ Pour les variables d'environnement:
 	- ensuite on ne fait que modifier l'array que l'on passe aussi a execve.
 
 5)  
-check unset, export, cd souldn't work when followed by pipe
+builtin commands unset, export, cd souldn't work when followed by pipe
 ex: export VAR=1 | wc
 
 6)  
@@ -27,6 +27,32 @@ Si pas de pipe dans l'input, executer sans pipe
 
 8)  
 return FAILURE des qu'un infile n'existe pas dans handle_redirections_until_next_pipe
+
+9)  Wrong exit code when piped commands
+bash-3.2$ aa | ls
+bash: aa: command not found
+Command-Line Processing .png	TO_DO.md			infile2				src
+EDGE_CASES.md			build				infile3				testdir
+Makefile			en.subject.minishell.pdf	lib
+README.md			inc				minishell
+bash-3.2$ echo $?
+0
+
+10)  exit code doesn't update/reset?
+minish> aa
+minish: command not found: aa
+minish> echo $?
+127
+minish> ls
+...
+minish> echo $?
+127
+
+11) exit code only replaced once in "expr $? + $?"
+array[0]: expr
+array[1]: 0
+array[2]: +
+array[3]: $?
 
 --------
 
@@ -58,14 +84,14 @@ bash-3.2$ pwd
 bash-3.2$ ls
 bash-3.2$
 
+4)  < infile > outfile
+No pipe in write_to_outfile_if_needed
 
 --------
 
 # BUG:
 
-1) cat on 2 consecutive prompts fail
-
-2)  Fix builtin_export
+1a)  Fix builtin_export using env_msh, realloc env_msh
 Export rajoute une ligne alors que la variable d'environmment existe deja.
 minish> export VAR=hello
 minish> export VAR=-bye
@@ -73,7 +99,7 @@ minish> env | grep VAR
 VAR=hello
 VAR=-bye
 
-3b)  
+1b)  
 Permettre d'utiliser += avec export?
 
 minish> export VAR=hello
@@ -88,3 +114,12 @@ bash-3.2$ env | grep VAR
 VAR=hello-bye
 
 2)  Fix builtin_unset using env_msh
+3)  prompt history bugs 
+minish> echo aaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaa
+minish> echo bbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbb
+minish> echo aaaa (apres deux fleches vers le haut puis deux vers le bas)
+
+ou copie/colle 'echo aaaaaaaaaaaaaaaaaaaaaaaaaa' puis fleche droite
+minish> echo aaaaecho aaaaaaaaaaaaaaaaaaaaaaaaaa

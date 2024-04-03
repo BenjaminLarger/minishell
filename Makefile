@@ -3,7 +3,7 @@ SHELL		= /bin/sh
 NAME		:= minishell
 
 
-CC			= gcc
+CC			= cc
 CFLAGS		:= -Wextra -Wall -Werror \
 	-Wunreachable-code -g -fsanitize=address,undefined \
 

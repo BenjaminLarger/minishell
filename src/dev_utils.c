@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 16:07:07 by demre             #+#    #+#             */
-/*   Updated: 2024/03/27 18:03:51 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/03 18:13:42 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,8 +96,8 @@ void	print_pipes_fd(t_minishell *data)
 {
 	int i = 0;
 
-	dprintf(2, "data->n_pid: %d\n", data->n_pid);
-	while (i < data->n_pid)
+	dprintf(2, "data->n_pipe: %d\n", data->n_pipe);
+	while (i < data->n_pipe)
 	{
 		dprintf(2, "data->fd_pipe[%d][READ_END]: %d, data->fd_pipe[%d][WRITE_END]: %d, ", i, data->fd_pipe[i][READ_END], i, data->fd_pipe[i][WRITE_END]);
 		i++;

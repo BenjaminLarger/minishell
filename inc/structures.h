@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 16:30:35 by demre             #+#    #+#             */
-/*   Updated: 2024/04/02 16:44:32 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/03 18:52:55 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,12 @@ typedef struct s_minishell
 	int		n_linker; // prob delete
 	int		save_stdin_fd;
 	int		original_stdin_fd;
+	int		original_stdout_fd;
 	int		**fd_pipe;
 	pid_t	*pid;
 	int		*status;
 	int		n_pid;
+	int		n_pipe;
 	char	*cd_last_dir;
 	int		executed_command;
 	int		last_exit_status;
