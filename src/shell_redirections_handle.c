@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 14:57:17 by demre             #+#    #+#             */
-/*   Updated: 2024/04/03 20:22:26 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/05 13:17:36 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static int	handle_output_redirection(t_minishell *data, char **args)
 	if (access(args[1], W_OK) == -1 || data->file.out_fd < 0)
 	{
 		data->last_exit_status = 0;
-		display_error(args[1]);
+		print_strerror_and_arg(args[1]);
 		return (FAILURE);
 	}
 	data->file.has_outfile = TRUE;
@@ -41,7 +41,7 @@ static int	handle_input_redirection(t_minishell *data, char **args)
 		|| data->file.in_fd < 0)
 	{
 		data->last_exit_status = 1;
-		display_error(args[1]);
+		print_strerror_and_arg(args[1]);
 		return (FAILURE);
 	}
 	if (data->file.has_heredoc == TRUE)
@@ -102,6 +102,8 @@ int	handle_redirections(t_minishell *data, char **args, int start, int end)
 		else if (!ft_strcmp(args[i], ">>"))
 			is_success = handle_output_redirection(data, &args[i]);
 		i++;
+		// if (is_success == FAILURE)
+		// break ; ou return ;
 	}
 	update_pipe_with_infile(data);
 	return (is_success);

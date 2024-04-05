@@ -111,3 +111,27 @@ bash-3.2$ <<>
 bash: syntax error near unexpected token `>'
 bash-3.2$ <<<
 bash: syntax error near unexpected token `newline'
+
+-----------------
+
+bash-3.2$ export test
+bash-3.2$ env | grep test
+bash-3.2$
+
+bash-3.2$ export test=
+bash-3.2$ env | grep test
+test=
+export test=te.st
+bash-3.2$ env | grep test
+test=te.st
+
+bash-3.2$ export =test
+bash: export: `=test': not a valid identifier
+bash-3.2$ export te.st=
+bash: export: `te.st=': not a valid identifier
+
+bash-3.2$ export VAR=aaaatest VA.R2=bbbbtest VAR3 VAR4+=cccctest
+bash: export: `VA.R2=bbbbtest': not a valid identifier
+bash-3.2$ env | grep VAR
+VAR=aaaatest
+VAR4=cccctest

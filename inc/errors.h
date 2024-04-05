@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:07 by demre             #+#    #+#             */
-/*   Updated: 2024/03/25 13:12:29 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/04 13:21:20 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@
 # define CHILD			"Child process terminated abnormally\n"
 # define PERM			"minish: permission denied: "
 # define BASH			"minish: "
-# define SYNTAX			"minish: syntax error near unexpected token "
+# define SYNTAX			"minish: syntax error near unexpected token `"
+# define IDENTIFIER		"minish: export: not a valid identifier: `"
 
 #endif

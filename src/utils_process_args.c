@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 15:24:35 by blarger           #+#    #+#             */
-/*   Updated: 2024/04/02 14:32:52 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/04 16:00:49 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,12 @@ void	write_fdin_to_fdout(int fd_in, int fd_out)
 	}
 }
 
+/**
+ * @brief Check if the given array of arguments contains a pipe operator '|'.
+ * @param args An array of strings representing the command arguments.
+ * @return int Returns TRUE (1) if the command contains a pipe operator,
+ * FALSE (0) otherwise.
+ */
 int	command_with_pipe(char **args)
 {
 	int	i;
@@ -145,41 +151,4 @@ char	*ft_getenv(t_minishell *data, char *key)
 		i++;
 	}
 	return (NULL);
-}
-
-#include <stdlib.h>
-#include <string.h> // For memcpy
-
-char	**realloc_char_array(char **ptr, int old_size, int new_size)
-{
-	char	**new_ptr;
-	int		copy_size;
-
-	if (!ptr)
-	{
-		// If ptr is NULL, realloc behaves like malloc
-		return ((char **)malloc(new_size * sizeof(char *)));
-	}
-	else if (new_size == 0)
-	{
-		free_string_array(ptr);
-		return (NULL);
-	}
-	else
-	{
-		// Allocate new memory block for the array of pointers
-		new_ptr = (char **)malloc(new_size * sizeof(char *));
-		if (!new_ptr)
-			return (NULL); // Malloc failed
-
-		// Determine how many pointers to copy
-		copy_size = (old_size < new_size) ? old_size : new_size;
-
-		// Copy the pointers
-		ft_memcpy(new_ptr, ptr, copy_size * sizeof(char *));
-
-		// Free the old array of pointers (but not the strings themselves)
-		free(ptr);
-		return (new_ptr);
-	}
 }

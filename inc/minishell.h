@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:00 by demre             #+#    #+#             */
-/*   Updated: 2024/04/03 20:22:19 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/04 16:00:58 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,13 +135,13 @@ char	*ft_getenv(t_minishell *data, char *key);
 
 //errros_handling.c
 
-char	*get_linker_for_error(char *linker);
+//char	*get_linker_for_error(char *linker);
 void	perror_msg_kill_free(char *msg, t_minishell *data);
 void	print_error_cmd(char *cmd);
 void	print_error_syntax(char *arg);
-void	print_error(char *error);
 int		print_error_and_failure(char *error);
-void	display_error(char *filename);
+void	print_strerror_and_arg(char *arg);
+void	print_error_message_and_arg(char *error, char *arg);
 
 // Dev functions
 
