@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
+/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 14:31:29 by demre             #+#    #+#             */
-/*   Updated: 2024/04/03 20:02:53 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/05 13:33:08 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,11 @@ int	run_shell_loop(t_minishell *data)
 {
 	set_child_sigint_action();
 	set_child_exit_signal_action();
-	dprintf(2, "data->prompt: %s, data->is_exit: %d\n", data->prompt, data->is_exit);
+	//dprintf(2, "data->prompt: %s, data->is_exit: %d\n", data->prompt, data->is_exit);
 	while (!(data->prompt) || data->is_exit == FALSE)
 	{
 		data->prompt = read_input(data->prompt);
-	dprintf(2, "run_shell_loop data->prompt: %s, data->is_exit: %d\n", data->prompt, data->is_exit);
+	//dprintf(2, "run_shell_loop data->prompt: %s, data->is_exit: %d\n", data->prompt, data->is_exit);
 		if (data->prompt && *(data->prompt) && data->is_exit == FALSE
 			&& !is_string_all_space(data->prompt))
 		{

@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 19:04:16 by demre             #+#    #+#             */
-/*   Updated: 2024/04/05 16:58:08 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/05 17:34:46 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,18 @@ void	check_and_replace_last_exit_status_call(char **args, t_minishell *data)
 	int	i;
 
 	i = 0;
-	while (args[i] && ft_strcmp(args[i], "$?"))
+	while (args[i] && ft_strcmp("|", args[i]))
+	{
+		if (!(ft_strcmp(args[i], "$?")))
+		{
+			free(args[i]);
+			args[i] = ft_calloc(sizeof(char), 4);
+			if (!args[i])
+				return ; //Hanlde malloc failure
+			args[i] = ft_itoa(data->last_exit_status);
+		}
 		i++;
-	if (!args[i])
-		return ;
-	free(args[i]);
-	args[i] = ft_calloc(sizeof(char), 4);
-	if (!args[i])
-		return ; //Hanlde malloc failure
-	args[i] = ft_itoa(data->last_exit_status);
+	}
 }
 
 static int	is_builtin(char **args)
@@ -55,6 +58,7 @@ int	exec_cmd_if_builtin(char **args, t_minishell *data)
 	if (is_builtin(args) == SUCCESS)
 	{
 		data->executed_command = FALSE;
+		data->last_exit_status = 0;
 		if (!ft_strcmp(args[0], "echo"))
 			builtin_echo(&(args[0]));
 		else if (!ft_strcmp(args[0], "pwd"))
@@ -65,7 +69,7 @@ int	exec_cmd_if_builtin(char **args, t_minishell *data)
 //			builtin_export(args, data);
 //		else if (!ft_strcmp(args[0], "exit"))
 //			builtin_exit(data);
-		dprintf(2, "HERE builtin\n");
+//		dprintf(2, "HERE builtin\n");
 		return (SUCCESS);
 	}
 	else
@@ -95,7 +99,7 @@ int	is_env_changing_builtin(char **cmd, t_minishell *data)
 	}
 	else if (!ft_strcmp(cmd[0], "exit"))
 	{
-		builtin_exit(data);
+		builtin_exit(data, cmd);
 		return (TRUE);
 	}
 	return (FALSE);
