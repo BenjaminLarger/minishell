@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:00 by demre             #+#    #+#             */
-/*   Updated: 2024/04/04 16:00:58 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/05 17:22:43 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,13 @@ void	builtin_export(char **args, t_minishell *data);
 void	builtin_unset(char **args);
 void	builtin_exit(t_minishell *data);
 
+	//builtin_export_update
+
+int		new_shell_var(char ***env_msh, char *new_var);
+int		replace_shell_var(char ***env_msh, char *new_var, int end);
+int		new_shell_var_without_plus(char ***env_msh, char *new_var, int end);
+int		append_shell_var(char ***env_msh, char *new_var, int end);
+
 //Handle redirection
 
 int		handle_redirections(t_minishell *data, char **args, int start, int end);
@@ -140,6 +147,7 @@ void	perror_msg_kill_free(char *msg, t_minishell *data);
 void	print_error_cmd(char *cmd);
 void	print_error_syntax(char *arg);
 int		print_error_and_failure(char *error);
+void	print_error(char *error);
 void	print_strerror_and_arg(char *arg);
 void	print_error_message_and_arg(char *error, char *arg);
 

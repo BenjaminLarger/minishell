@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 19:04:16 by demre             #+#    #+#             */
-/*   Updated: 2024/03/25 20:36:27 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/05 16:58:08 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,10 @@ int	exec_cmd_if_builtin(char **args, t_minishell *data)
 			builtin_pwd();
 		else if (!ft_strcmp(args[0], "env"))
 			builtin_env(data);
-		else if (!ft_strcmp(args[0], "export"))
-			builtin_export(args, data);
-		else if (!ft_strcmp(args[0], "exit"))
-			builtin_exit(data);
+//		else if (!ft_strcmp(args[0], "export"))
+//			builtin_export(args, data);
+//		else if (!ft_strcmp(args[0], "exit"))
+//			builtin_exit(data);
 		dprintf(2, "HERE builtin\n");
 		return (SUCCESS);
 	}

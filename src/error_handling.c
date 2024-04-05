@@ -6,27 +6,11 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 08:58:59 by blarger           #+#    #+#             */
-/*   Updated: 2024/04/04 13:21:19 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/05 17:26:58 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/* 
-char	*get_linker_for_error(char *linker)
-{
-	if (ft_strncmp(linker, "|", 1) == 0)
-		return ("`|'");
-	else if (ft_strncmp(linker, "<<", 2) == 0)
-		return ("`<<'");
-	else if (ft_strncmp(linker, "<", 1) == 0)
-		return ("`<'");
-	else if (ft_strncmp(linker, ">>", 2) == 0)
-		return ("`>>'");
-	else if (ft_strncmp(linker, ">", 1) == 0)
-		return ("`>'");
-	return (NULL);
-} */
 
 void	perror_msg_kill_free(char *msg, t_minishell *data)
 {
@@ -64,6 +48,12 @@ int	print_error_and_failure(char *error)
 	ft_putstr_fd(error, 2);
 	ft_putchar_fd('\n', 2);
 	return (FAILURE);
+}
+
+void	print_error(char *error)
+{
+	ft_putstr_fd(error, 2);
+	ft_putchar_fd('\n', 2);
 }
 
 void	print_strerror_and_arg(char *arg)

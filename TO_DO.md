@@ -51,6 +51,8 @@ array[1]: 0
 array[2]: +
 array[3]: $?
 
+12)  
+A-t-on besoin de 'is_env_changing_builtin' dans 'exec_command' et 'exec_nopipe_command'?
 
 --------
 
