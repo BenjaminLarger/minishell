@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_exec_args.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
+/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 14:57:17 by demre             #+#    #+#             */
-/*   Updated: 2024/04/05 12:56:29 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/05 13:56:00 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,9 @@ static void	wait_for_child_processes(t_minishell *data)
 	while (i < data->n_pid)
 	{
 		waitpid(data->pid[i], &data->status[i], 0);
-		dprintf(2, "done waiting for child pid[%d]: %d\n", i, data->pid[i]);
+		//dprintf(2, "done waiting for child pid[%d]: %d\n", i, data->pid[i]);
+		dprintf(2, "data->status[i] = %d, last exit status = %d, i = %d\n", data->status[i], (WEXITSTATUS(data->status[i])), i);
+		data->last_exit_status = WEXITSTATUS(data->status[i]);
 		if (WIFEXITED(data->status[i]))
 		{
 			if (WEXITSTATUS(data->status[i]) != 0)
@@ -79,13 +81,13 @@ int	exec_args(t_minishell *data)
 
 	if (exec_args_init(data, &i, &start) == FAILURE)
 		return (FAILURE); // malloc failure
-print_array(data->args, "exec_args"); //
+	//print_array(data->args, "exec_args"); //
 	while (i < data->n_args && data->args[i])
 	{
 		reset(data, &start, i);
 		while (data->args[i] && ft_strcmp(data->args[i], "|") != 0)
 			i++;
-		dprintf(2, "\nPipe or eof at i = %d. data->args[i]: %s\n", i, data->args[i]); //
+		//dprintf(2, "\nPipe or eof at i = %d. data->args[i]: %s\n", i, data->args[i]); //
 		if (handle_redirections(data, data->args, start, i) == SUCCESS)
 		{
 			if (get_cmd_without_redirections(data, &cmd, start, i) == FAILURE)

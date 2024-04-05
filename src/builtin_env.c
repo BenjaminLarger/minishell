@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_env.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
+/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 10:19:52 by blarger           #+#    #+#             */
-/*   Updated: 2024/03/25 20:38:00 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/05 14:18:20 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	builtin_env(t_minishell *data)
 {
 	int	i;
-	
+
 	i = 0;
 	while (data->env_msh[i])
 	{

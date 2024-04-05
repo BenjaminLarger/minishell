@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
+/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 09:34:57 by blarger           #+#    #+#             */
-/*   Updated: 2024/04/05 13:18:22 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/05 14:18:32 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,7 +182,6 @@ void	builtin_export(char **args, t_minishell *data)
 	int		i;
 
 	i = 1;
-
 	print_array(args, "builtin_export"); //
 	int size = 0; //
 	while (data->env_msh[size]) //

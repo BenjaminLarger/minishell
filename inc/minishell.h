@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
+/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:00 by demre             #+#    #+#             */
-/*   Updated: 2024/04/04 16:00:58 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/05 14:23:25 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ void	builtin_env(t_minishell *data);
 void	builtin_cd(char *arg, t_minishell *data);
 void	builtin_export(char **args, t_minishell *data);
 void	builtin_unset(char **args);
-void	builtin_exit(t_minishell *data);
+void	builtin_exit(t_minishell *data, char **args);
 
 //Handle redirection
 
