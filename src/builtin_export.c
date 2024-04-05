@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 09:34:57 by blarger           #+#    #+#             */
-/*   Updated: 2024/04/05 17:32:18 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/05 17:36:36 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ void	builtin_export(char **args, t_minishell *data)
 		{
 			if (is_valid_shell_var(args[i], data) == TRUE)
 			{
-				if (handle_shell_var(data->env_msh, args[i]) == FAILURE)
+				if (handle_shell_var(&data->env_msh, args[i]) == FAILURE)
 				{
 					data->last_exit_status = 1;
 					print_error(MALLOC_FAIL);
