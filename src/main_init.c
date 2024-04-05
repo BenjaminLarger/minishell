@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 18:35:15 by blarger           #+#    #+#             */
-/*   Updated: 2024/04/03 21:08:10 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/05 17:20:07 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,14 @@ static int	increase_shlvl(char **env_msh)
 			temp_shlvl
 				= ft_itoa(ft_atoi(ft_strchr(env_msh[i], '=') + 1) + 1);
 			if (!temp_shlvl)
-				return (print_error_and_failure(MALLOC_FAIL));
+				return (FAILURE);
 			free(env_msh[i]);
 			env_msh[i] = ft_strjoin("SHLVL=", temp_shlvl);
 			if (!env_msh[i])
 			{
 				free(temp_shlvl);
 				free_n_string_array(env_msh, i);
-				return (print_error_and_failure(MALLOC_FAIL));
+				return (FAILURE);
 			}
 			free(temp_shlvl);
 			break ;
@@ -64,12 +64,17 @@ int	load_env_variables(t_minishell *data, char **envp)
 	while (i < size)
 	{
 		data->env_msh[i] = ft_strdup(envp[i]);
+		if (!data->env_msh[i])
+		{
+			free_n_string_array(data->env_msh, i);
+			return (print_error_and_failure(MALLOC_FAIL));
+		}
 		i++;
 	}
 	data->env_msh[i] = NULL;
 	if (increase_shlvl(data->env_msh) == FAILURE)
 	{
-		free(data->env_msh);
+		free_string_array(data->env_msh);
 		return (print_error_and_failure(MALLOC_FAIL));
 	}
 	return (SUCCESS);
