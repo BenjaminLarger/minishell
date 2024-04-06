@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
+/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:00 by demre             #+#    #+#             */
-/*   Updated: 2024/04/05 17:31:38 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/06 12:49:25 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ int		get_cmd_with_path(t_minishell *data, char const *cmd,
 	char **cmd_with_path);
 
 // Handle input
-// input.c, input_assign_tokens.c, input_count_tokens.c
 
 char	*read_input(char *prompt);
 int		split_input_into_args(t_minishell *data);
@@ -86,6 +85,8 @@ char	*replace_env_var_in_substr(char const *input, int input_len,
 int		get_ev_str_expanded_len(char const *input, int input_len,
 	int *expanded_len, t_minishell *data);
 char	*remove_quotes_from_str(char *str);
+int	check_if_last_element_is_pipe(t_minishell *data);
+
 
 // Handle input utils
 
@@ -102,7 +103,7 @@ int		is_valid_ev_dollar_sign(char c, int *n_sgl_quotes, int *n_dbl_quotes,
 //Execute commands
 	//BuiltsIn
 void	builtin_echo(char **args);
-void	builtin_pwd(void);
+void	builtin_pwd(t_minishell *data);
 void	builtin_env(t_minishell *data);
 void	builtin_cd(char *arg, t_minishell *data);
 void	builtin_export(char **args, t_minishell *data);

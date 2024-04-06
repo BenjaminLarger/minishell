@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structures.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
+/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 16:30:35 by demre             #+#    #+#             */
-/*   Updated: 2024/04/03 21:08:14 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/06 11:24:16 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ typedef struct s_minishell
 	int		*status;
 	int		n_pid;
 	char	*cd_last_dir;
+	char	last_valid_dir[1024];
 	int		executed_command;
 	int		last_exit_status;
 }		t_minishell;

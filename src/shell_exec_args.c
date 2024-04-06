@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 14:57:17 by demre             #+#    #+#             */
-/*   Updated: 2024/04/05 13:56:00 by blarger          ###   ########.fr       */
+/*   Updated: 2024/04/06 11:36:58 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,10 @@ static int	exec_args_init(t_minishell *data, int *i, int *start)
 
 static void	exec_args_cleanup(t_minishell *data)
 {
+	char			cwd[1024];
+
+	if (getcwd(cwd, sizeof(cwd)) != NULL)
+		getcwd(data->last_valid_dir, sizeof(data->last_valid_dir));
 	dup2(data->original_stdout_fd, STDOUT_FILENO);
 	close(data->original_stdout_fd);
 	dup2(data->original_stdin_fd, STDIN_FILENO);

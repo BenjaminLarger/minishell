@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_cd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
+/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 16:15:50 by blarger           #+#    #+#             */
-/*   Updated: 2024/03/25 20:44:58 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/06 12:06:20 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ static void	dispatch_home_dir(char *arg, char *cur_dir, t_minishell *data)
 		ft_putstr_fd(arg, 2);
 		write(2, " ", 1);
 		ft_putstr_fd(FILE, 2);
+		data->last_exit_status = 1;
 		return ;
 	}
 	if (chdir(arg))
@@ -80,6 +81,7 @@ static void	dispatch_home_dir(char *arg, char *cur_dir, t_minishell *data)
 		ft_putstr_fd(path, 2);
 		write(2, " ", 1);
 		ft_putstr_fd(FILE, 2);
+		data->last_exit_status = 1;
 	}
 	ft_strlcpy(data->cd_last_dir, cur_dir, ft_strlen(data->cd_last_dir) + 1);
 	free(path);
@@ -89,13 +91,15 @@ static void	cd_back_to_prev_cur_dir(char *arg, char *cur_dir, t_minishell *data)
 {
 	dprintf(2, "CD to %s\n", data->cd_last_dir);
 	if (chdir(data->cd_last_dir) && arg)
+	{
 		ft_putstr_fd("minish: cd: OLDPWD not set\n", 2);
+		data->last_exit_status = 1;
+	}
 	else
 		printf("%s\n", data->cd_last_dir);
 	ft_strlcpy(data->cd_last_dir, cur_dir, ft_strlen(cur_dir) + 1);
 	free(cur_dir);
 }
-
 void	builtin_cd(char *arg, t_minishell *data) //Check the leaks. Else it should works perfectly
 {
 	char	*cur_dir;
@@ -106,9 +110,11 @@ void	builtin_cd(char *arg, t_minishell *data) //Check the leaks. Else it should 
 	cur_dir = getcwd(cur_dir, sizeof(cur_dir));
 	if (arg == NULL)
 		arg = ft_getenv(data, "HOME");
-	if (!ft_strcmp(arg, "-"))
+	if (!cur_dir)
+		chdir(ft_getenv(data, "HOME"));
+	else if (!ft_strcmp(arg, "-"))
 		return (cd_back_to_prev_cur_dir(arg, cur_dir, data));
-	if (!ft_strncmp(arg, "~", 1))
+	else if (!ft_strncmp(arg, "~", 1))
 		dispatch_home_dir(arg, cur_dir, data);
 	else if (ft_strcmp(arg, "."))
 	{
@@ -118,8 +124,10 @@ void	builtin_cd(char *arg, t_minishell *data) //Check the leaks. Else it should 
 			ft_putstr_fd(arg, 2);
 			ft_putchar_fd(' ', 2);
 			ft_putstr_fd(FILE, 2);
+			data->last_exit_status = 1;
 		}
 	}
-	ft_strlcpy(data->cd_last_dir, cur_dir, ft_strlen(data->cd_last_dir) + 1);
+	if (cur_dir)
+		ft_strlcpy(data->cd_last_dir, cur_dir, ft_strlen(data->cd_last_dir) + 1);
 	free(cur_dir);
 }
