@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_exec_args.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
+/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 14:57:17 by demre             #+#    #+#             */
-/*   Updated: 2024/04/06 11:36:58 by blarger          ###   ########.fr       */
+/*   Updated: 2024/04/06 20:20:37 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ static void	exec_args_cleanup(t_minishell *data)
 	close(data->original_stdin_fd);
 	free(data->pid);
 	free(data->status);
+	if (access(".temp_minishell", F_OK | R_OK) == 0)
+		unlink(".temp_minishell");
 }
 
 static void	reset(t_minishell *data, int *start_index, int i)
@@ -48,6 +50,11 @@ static void	reset(t_minishell *data, int *start_index, int i)
 	*start_index = i;
 	data->file.has_infile = FALSE;
 	data->file.has_outfile = FALSE;
+//	if (data->file.has_outfile == TRUE)
+//	{
+//		handle_output_redirection_before_pipe(data);
+//		data->file.has_outfile = FALSE;
+//	}
 	data->file.has_heredoc = FALSE;
 	data->executed_command = FALSE; // executed_command not required anymore?
 }
@@ -96,14 +103,15 @@ int	exec_args(t_minishell *data)
 		{
 			if (get_cmd_without_redirections(data, &cmd, start, i) == FAILURE)
 				return (FAILURE); // malloc failure
-			if (cmd && *cmd && data->args[i] && !ft_strcmp(data->args[i], "|"))
-				exec_command(data, cmd, i);
-			else if (cmd && *cmd && !data->args[i])
-				exec_nopipe_command(data, cmd, i);
+			if (cmd && *cmd && data->args[i] && !ft_strcmp(data->args[i], "|")
+				&& data->file.has_outfile == FALSE)
+				exec_command_with_pipe(data, cmd, i);
+			else if (cmd && *cmd
+				&& (!data->args[i] || data->file.has_outfile == TRUE))
+				exec_command_nopipe(data, cmd, i);
 			free_string_array(cmd);
 		}
-//		else
-//			break ; // ?
+//		handle_output_redirection_before_pipe(data, i);
 		dprintf(2, "exec_args exit status = %d\n", data->last_exit_status);
 		i++;
 	}

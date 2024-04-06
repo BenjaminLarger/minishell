@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
+/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:00 by demre             #+#    #+#             */
-/*   Updated: 2024/04/06 17:18:11 by blarger          ###   ########.fr       */
+/*   Updated: 2024/04/06 19:53:28 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,8 @@ int		run_shell_loop(t_minishell *data);
 int		exec_args(t_minishell *data);
 int		get_cmd_without_redirections(t_minishell *data, char ***cmd,
 	int start, int end);
-void	exec_command(t_minishell *data, char **cmd, int end_index);
-void	exec_nopipe_command(t_minishell *data, char **cmd, int end_index);
+void	exec_command_with_pipe(t_minishell *data, char **cmd, int end_index);
+void	exec_command_nopipe(t_minishell *data, char **cmd, int end_index);
 int		exec_cmd_if_builtin(char **args, t_minishell *data);
 int		is_env_changing_builtin(char **cmd, t_minishell *data);
 
@@ -120,6 +120,7 @@ int		append_shell_var(char ***env_msh, char *new_var, int end);
 //Handle redirection
 
 int		handle_redirections(t_minishell *data, char **args, int start, int end);
+void	handle_output_redirection_before_pipe(t_minishell *data, int i);
 
 // Free arrays
 // cleanup_free_arrays.c

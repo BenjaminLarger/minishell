@@ -3,20 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   shell_exec_cmd.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
+/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 20:35:01 by demre             #+#    #+#             */
-/*   Updated: 2024/04/05 13:39:35 by blarger          ###   ########.fr       */
+/*   Updated: 2024/04/06 19:55:12 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	exec_command(t_minishell *data, char **cmd, int end_index)
+void	exec_command_with_pipe(t_minishell *data, char **cmd, int end_index)
 {
 	char	*cmd_with_path;
 
-	dprintf(2, "\ncurrent last, data->args[%d]: %s\n", end_index, data->args[end_index]); //
+	dprintf(2, "\nexec_command_with_pipe current last, data->args[%d]: %s\n", end_index, data->args[end_index]); //
 	if (is_env_changing_builtin(cmd, data) == TRUE)
 		return ; // handle?
 
@@ -53,12 +53,12 @@ void	exec_command(t_minishell *data, char **cmd, int end_index)
 	}
 }
 
-void	exec_nopipe_command(t_minishell *data, char **cmd, int end_index)
+void	exec_command_nopipe(t_minishell *data, char **cmd, int end_index)
 {
 
 	char	*cmd_with_path;
 
-	dprintf(2, "\nexec_nopipe_command current last, data->args[%d]: %s\n", end_index, data->args[end_index]); //
+	dprintf(2, "\nexec_command_nopipe current last, data->args[%d]: %s\n", end_index, data->args[end_index]); //
 	if (is_env_changing_builtin(cmd, data) == TRUE)
 		return ; // handle?
 

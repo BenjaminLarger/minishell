@@ -135,3 +135,17 @@ bash: export: `VA.R2=bbbbtest': not a valid identifier
 bash-3.2$ env | grep VAR
 VAR=aaaatest
 VAR4=cccctest
+
+------------
+
+bash-3.2$ ls -l > infile > infile2
+(creates empty infile and filled infile2)
+
+bash-3.2$ ls -l > infile | wc | cat -e
+       0       0       0$		(+ creates infile correctly)
+
+bash-3.2$ ls -l > infile | wc > infile2
+(creates filled infile and filled infile2)
+
+bash-3.2$ ls -l > infile | ls -m > infile2
+(creates filled infile and filled infile2)

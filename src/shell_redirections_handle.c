@@ -6,16 +6,35 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 14:57:17 by demre             #+#    #+#             */
-/*   Updated: 2024/04/05 13:17:36 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/06 20:15:21 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+void	handle_output_redirection_before_pipe(t_minishell *data, int i)
+{
+	dprintf(2, "handle_output_redirection_before_pipe - data->file.has_outfile: %d, data->args[%d]: %s\n", data->file.has_outfile, i, data->args[i]);
+
+	if (data->file.has_outfile == TRUE
+		&& data->args[i] && ft_strcmp(data->args[i], "|") == 0)
+	{
+		dprintf(2, "handle_output_redirection_before_pipe inside\n");
+		
+		dup2(data->original_stdout_fd, STDOUT_FILENO);
+		close(data->original_stdout_fd);
+	//	dup2(data->original_stdin_fd, STDIN_FILENO);
+	//	close(data->original_stdin_fd);
+		data->file.in_fd = open(".temp_minishell", O_RDONLY | O_CREAT, 0644);
+		dup2(data->file.in_fd, STDIN_FILENO);
+		close(data->file.in_fd);
+	}
+}
+
 static int	handle_output_redirection(t_minishell *data, char **args)
 {
-	if (data->file.has_outfile == TRUE)
-		close(data->file.out_fd);
+//	if (data->file.has_outfile == TRUE)
+//		close(data->file.out_fd);
 	if (!ft_strcmp(args[0], ">>"))
 		data->file.out_fd = open(args[1], O_WRONLY | O_CREAT | O_APPEND, 0644);
 	else if (!ft_strcmp(args[0], ">"))
@@ -59,22 +78,13 @@ static int	handle_input_redirection(t_minishell *data, char **args)
  */
 void	update_pipe_with_infile(t_minishell *data)
 {
-//	dprintf(2, "update_pipe_with_infile\n");
-//	print_pipes_fd(data);
 	if (data->file.has_infile == TRUE)
 	{
-//		dup2(data->file.in_fd, data->fd_pipe1[READ_END]);
-//		dup2(data->file.in_fd, data->fd_pipe[data->n_pid][READ_END]);
 		dup2(data->file.in_fd, STDIN_FILENO);
 		close(data->file.in_fd);
 	}
 	if (data->file.has_heredoc == TRUE)
 	{
-	//	close(data->fd_pipe1[READ_END]);
-	//	data->fd_pipe1[READ_END] = data->file.heredoc_pipe[READ_END];
-
-//		close(data->fd_pipe[data->n_pid][READ_END]);
-//		data->fd_pipe[data->n_pid][READ_END] = data->file.heredoc_pipe[READ_END];
 		dup2(data->file.heredoc_pipe[READ_END], STDIN_FILENO);
 		close(data->file.heredoc_pipe[READ_END]);
 
@@ -90,7 +100,7 @@ int	handle_redirections(t_minishell *data, char **args, int start, int end)
 	int	is_success;
 
 	i = start;
-	is_success = 0;
+	is_success = SUCCESS;
 	while (i < end && args[i])
 	{
 		if (!ft_strcmp(args[i], "<"))
@@ -101,10 +111,10 @@ int	handle_redirections(t_minishell *data, char **args, int start, int end)
 			is_success = handle_here_document(data, &args[i]);
 		else if (!ft_strcmp(args[i], ">>"))
 			is_success = handle_output_redirection(data, &args[i]);
+		if (is_success == FAILURE)
+			return (is_success);
 		i++;
-		// if (is_success == FAILURE)
-		// break ; ou return ;
 	}
 	update_pipe_with_infile(data);
-	return (is_success);
+	return (SUCCESS);
 }
