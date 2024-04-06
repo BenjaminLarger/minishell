@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:00 by demre             #+#    #+#             */
-/*   Updated: 2024/04/06 12:49:25 by blarger          ###   ########.fr       */
+/*   Updated: 2024/04/06 15:54:41 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,8 @@ int		command_with_pipe(char **args);
 int		is_valid_ev_character(char c);
 void	check_and_replace_last_exit_status_call(char **args, t_minishell *data);
 int		handle_here_document(t_minishell *data, char **args);
+void	set_child_sigint_action_herefile(void);
+void	set_father_sigint_action_herefile(void);
 char	*ft_getenv(t_minishell *data, char *key);
 
 //errros_handling.c

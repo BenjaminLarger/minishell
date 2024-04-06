@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_redirections_herefile.c                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
+/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 17:44:46 by blarger           #+#    #+#             */
-/*   Updated: 2024/03/27 18:02:51 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/06 17:04:41 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static void	child_sigint_handler_herefile(int sig)
 {
 	(void)sig;
 	//dprintf(2, "The child_sigint_handler_herefile ID is %d\n", getpid());
-	//dprintf(2, "ctrl-c pressed in here file -> EXIT_FAILURE\n"); //
+	dprintf(2, "ctrl-c pressed in here file -> EXIT_FAILURE\n"); //
 	exit(EXIT_FAILURE);
 }
 
@@ -31,7 +31,7 @@ static void	father_sigint_handler_herefile(int sig)
 	exit(EXIT_FAILURE);
 }
 
-static void set_child_sigint_action_herefile(void)
+void set_child_sigint_action_herefile(void)
 {
 	struct sigaction	act;
 
@@ -40,7 +40,7 @@ static void set_child_sigint_action_herefile(void)
 	sigaction(SIGINT, &act, NULL);
 }
 
-static void	set_father_sigint_action_herefile(void)
+void	set_father_sigint_action_herefile(void)
 {
 	struct sigaction	act;
 
@@ -163,7 +163,6 @@ int	handle_here_document(t_minishell *data, char **args)
 		return (FAILURE);
 	}
 	print_array(args, "handle_here_document");
-	
 	if (pipe(data->file.heredoc_pipe) == -1)
 	{
 		data->last_exit_status = errno;

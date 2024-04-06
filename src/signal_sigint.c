@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 14:30:46 by demre             #+#    #+#             */
-/*   Updated: 2024/03/21 18:26:02 by blarger          ###   ########.fr       */
+/*   Updated: 2024/04/06 16:47:00 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static void	child_sigint_handler(int sig)
 {
 	(void)sig;
-//	printf("ctrl-c caught in child\n"); //
+	printf("\n");
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();

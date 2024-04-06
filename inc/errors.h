@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:07 by demre             #+#    #+#             */
-/*   Updated: 2024/04/06 13:10:04 by blarger          ###   ########.fr       */
+/*   Updated: 2024/04/06 16:34:07 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,6 @@
 # define SYNTAX			"minish: syntax error near unexpected token `"
 # define SYNTAXPIPE		"minish: syntax error near unexpected token `|'\n"
 # define IDENTIFIER		"minish: export: not a valid identifier: `"
-# define ENDOFFILE		"syntax error: unexpected end of file\n"
+# define ENDOFFILE		"minish: syntax error: unexpected end of file\n"
 
 #endif
