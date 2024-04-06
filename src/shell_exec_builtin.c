@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 19:04:16 by demre             #+#    #+#             */
-/*   Updated: 2024/04/05 17:34:46 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/05 17:56:23 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ int	is_env_changing_builtin(char **cmd, t_minishell *data)
 	}
 	else if (!ft_strcmp(cmd[0], "unset"))
 	{
-		builtin_unset(cmd);
+		builtin_unset(cmd, data);
 		return (TRUE);
 	}
 	else if (!ft_strcmp(cmd[0], "exit"))

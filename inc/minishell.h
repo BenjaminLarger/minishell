@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:00 by demre             #+#    #+#             */
-/*   Updated: 2024/04/05 17:31:38 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/05 17:56:43 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ void	builtin_pwd(void);
 void	builtin_env(t_minishell *data);
 void	builtin_cd(char *arg, t_minishell *data);
 void	builtin_export(char **args, t_minishell *data);
-void	builtin_unset(char **args);
+void	builtin_unset(char **args, t_minishell *data);
 void	builtin_exit(t_minishell *data, char **args);
 
 	//builtin_export_update

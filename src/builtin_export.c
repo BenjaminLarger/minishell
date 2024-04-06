@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 09:34:57 by blarger           #+#    #+#             */
-/*   Updated: 2024/04/05 17:36:36 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/05 18:04:14 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ static int	handle_shell_var(char ***env_msh, char *new_var)
 }
 
 void	builtin_export(char **args, t_minishell *data)
-{// Handle malloc failure
+{
 	int	i;
 
 	i = 1;
@@ -114,9 +114,9 @@ void	builtin_export(char **args, t_minishell *data)
 					data->last_exit_status = 1;
 					print_error(MALLOC_FAIL);
 				}
-				else
-					data->last_exit_status = 0;
 			}
+			else
+				data->last_exit_status = 0;
 			i++;
 		}
 	}
