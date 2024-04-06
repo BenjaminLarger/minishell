@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_exec_builtin.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
+/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 19:04:16 by demre             #+#    #+#             */
-/*   Updated: 2024/04/06 11:08:29 by blarger          ###   ########.fr       */
+/*   Updated: 2024/04/06 15:57:01 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ int	is_env_changing_builtin(char **cmd, t_minishell *data)
 	}
 	else if (!ft_strcmp(cmd[0], "unset"))
 	{
-		builtin_unset(cmd);
+		builtin_unset(cmd, data);
 		return (TRUE);
 	}
 	else if (!ft_strcmp(cmd[0], "exit"))

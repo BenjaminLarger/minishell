@@ -3,51 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_unset.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
+/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 08:57:23 by blarger           #+#    #+#             */
-/*   Updated: 2024/03/08 13:03:33 by blarger          ###   ########.fr       */
+/*   Updated: 2024/04/06 15:54:13 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static void	move_unset_to_the_end(char **environ, int i, int arr_len);
-static int	array_len(char **array);
-
-/* LOGIC
-There isn't a specific function to remove an env variable allowed by
-the subject. The trick here would be to search the arg in the env variable
-(using extern char **environ). If arg belongs to environ, then we move the string
-at the end of the array. Then we attribute this value to NULL.
-
-LEAKS
-env variable are not supposed to be allocated via malloc => to check.
-*/
-
-void	builtin_unset(char **args)
-{
-	int			i;
-	int			j;
-	extern char	**environ;
-
-	i = 1;
-	while (args[i])
-	{
-		j = 0;
-		while (environ[j] != NULL)
-		{
-			if (!(ft_strncmp(args[i], environ[j], ft_strlen(args[i])))
-				&& environ[j][ft_strlen(environ[j])] != '=')
-			{
-				move_unset_to_the_end(environ, j, array_len(environ));
-				break ;
-			}
-			j++;
-		}
-		i++;
-	}
-}
 
 static int	array_len(char **array)
 {
@@ -59,13 +22,43 @@ static int	array_len(char **array)
 	return (i);
 }
 
-static void	move_unset_to_the_end(char **environ, int i, int arr_len)
+/**
+ * @brief Moves the env var at index 'i' in the 'env_msh' array to the end of
+ * the array and sets it to NULL.
+ * @note The element at index 'i' is dynamically allocated and is  freed 
+ * before setting it to NULL. The elements following 'i' are shifted one 
+ * position down in the array.
+ */
+static void	move_unset_to_the_end(t_minishell *data, int i, int arr_len)
 {
+	free(data->env_msh[i]);
 	while (i < arr_len - 1)
 	{
-		environ[i] = environ[i + 1];
-		ft_strlcpy(environ[i], environ[i + 1], ft_strlen(environ[i + 1]) + 1);
+		data->env_msh[i] = data->env_msh[i + 1];
 		i++;
 	}
-	environ[i] = NULL;
+	data->env_msh[i] = NULL;
+}
+
+void	builtin_unset(char **args, t_minishell *data)
+{
+	int		i;
+	int		j;
+
+	i = 1;
+	while (args[i])
+	{
+		j = 0;
+		while (data->env_msh[j])
+		{
+			if (!(ft_strncmp(args[i], data->env_msh[j], ft_strlen(args[i])))
+				&& data->env_msh[j][ft_strlen(args[i])] == '=')
+			{
+				move_unset_to_the_end(data, j, array_len(data->env_msh));
+				break ;
+			}
+			j++;
+		}
+		i++;
+	}
 }

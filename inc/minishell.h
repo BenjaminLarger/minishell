@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:00 by demre             #+#    #+#             */
-/*   Updated: 2024/04/06 15:54:41 by blarger          ###   ########.fr       */
+/*   Updated: 2024/04/06 17:18:11 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ void	builtin_pwd(t_minishell *data);
 void	builtin_env(t_minishell *data);
 void	builtin_cd(char *arg, t_minishell *data);
 void	builtin_export(char **args, t_minishell *data);
-void	builtin_unset(char **args);
+void	builtin_unset(char **args, t_minishell *data);
 void	builtin_exit(t_minishell *data, char **args);
 
 	//builtin_export_update
