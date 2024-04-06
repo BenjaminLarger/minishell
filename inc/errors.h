@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errors.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
+/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:07 by demre             #+#    #+#             */
-/*   Updated: 2024/04/04 13:21:20 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/06 13:10:04 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@
 # define PERM			"minish: permission denied: "
 # define BASH			"minish: "
 # define SYNTAX			"minish: syntax error near unexpected token `"
+# define SYNTAXPIPE		"minish: syntax error near unexpected token `|'\n"
 # define IDENTIFIER		"minish: export: not a valid identifier: `"
+# define ENDOFFILE		"syntax error: unexpected end of file\n"
 
 #endif

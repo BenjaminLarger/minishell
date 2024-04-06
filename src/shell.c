@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 14:31:29 by demre             #+#    #+#             */
-/*   Updated: 2024/04/05 13:33:08 by blarger          ###   ########.fr       */
+/*   Updated: 2024/04/06 12:49:07 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ int	run_shell_loop(t_minishell *data)
 		if (data->prompt && *(data->prompt) && data->is_exit == FALSE
 			&& !is_string_all_space(data->prompt))
 		{
+			if (check_if_last_element_is_pipe(data) == FAILURE)
+				continue ;
 			if (split_input_into_args(data) == FAILURE)
 				continue ; // malloc or single quote
 			if (check_tokens_syntax(data->args) == FAILURE)
