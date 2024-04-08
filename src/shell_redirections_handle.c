@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 14:57:17 by demre             #+#    #+#             */
-/*   Updated: 2024/04/06 20:15:21 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/08 16:35:11 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,13 @@ static int	handle_output_redirection(t_minishell *data, char **args)
 		return (FAILURE);
 	}
 	data->file.has_outfile = TRUE;
-	dup2(data->file.out_fd, STDOUT_FILENO);
-	close(data->file.out_fd);
+
+	data->file.temp_outfile = open(".temp_outfile", O_RDWR | O_CREAT, 0644);
+	dup2(data->file.temp_outfile, STDOUT_FILENO);
+	close(data->file.temp_outfile);
+
+//	dup2(data->file.out_fd, STDOUT_FILENO);
+//	close(data->file.out_fd);
 	return (SUCCESS);
 }
 

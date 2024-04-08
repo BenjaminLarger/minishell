@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 14:57:17 by demre             #+#    #+#             */
-/*   Updated: 2024/04/06 20:20:37 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/08 17:07:41 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,16 @@ static void	exec_args_cleanup(t_minishell *data)
 static void	reset(t_minishell *data, int *start_index, int i)
 {
 	*start_index = i;
+	data->no_output_builtin_executed = FALSE;
+	if (data->file.has_outfile == TRUE)
+	{
+		data->file.temp_outfile = open(".temp_outfile", O_RDWR | O_CREAT, 0644);
+		dup2(data->file.temp_outfile, STDIN_FILENO);
+		close(data->file.temp_outfile);
+
+		data->file.has_outfile = FALSE;
+	}
 	data->file.has_infile = FALSE;
-	data->file.has_outfile = FALSE;
 //	if (data->file.has_outfile == TRUE)
 //	{
 //		handle_output_redirection_before_pipe(data);
@@ -103,13 +111,34 @@ int	exec_args(t_minishell *data)
 		{
 			if (get_cmd_without_redirections(data, &cmd, start, i) == FAILURE)
 				return (FAILURE); // malloc failure
-			if (cmd && *cmd && data->args[i] && !ft_strcmp(data->args[i], "|")
-				&& data->file.has_outfile == FALSE)
+			if (cmd && *cmd && data->args[i] && !ft_strcmp(data->args[i], "|"))
 				exec_command_with_pipe(data, cmd, i);
 			else if (cmd && *cmd
-				&& (!data->args[i] || data->file.has_outfile == TRUE))
+				&& (!data->args[i]))
 				exec_command_nopipe(data, cmd, i);
 			free_string_array(cmd);
+		}
+		if (data->file.has_outfile == TRUE)
+		{
+			close(data->file.temp_outfile);
+//	dup2(data->original_stdout_fd, STDOUT_FILENO);
+//	close(data->original_stdout_fd);
+//	dup2(data->original_stdin_fd, STDIN_FILENO);
+//	close(data->original_stdin_fd);
+			check_open_fd("has_outfile");
+			dprintf(2, "reopening temp_outfile \n");
+			data->file.temp_outfile = open(".temp_outfile", O_RDWR, 0644);
+			check_open_fd("has_outfile");
+			print_pipes_fd(data);
+			print_fd(data->file.temp_outfile);
+			dup2(data->file.out_fd, STDIN_FILENO);
+			write_fdin_to_fdout(data->file.temp_outfile, data->file.out_fd);
+			close(data->file.temp_outfile);
+			close(data->file.out_fd);
+			
+//			dup2(data->original_stdin_fd, STDIN_FILENO);
+//			close(data->original_stdin_fd);
+
 		}
 //		handle_output_redirection_before_pipe(data, i);
 		dprintf(2, "exec_args exit status = %d\n", data->last_exit_status);

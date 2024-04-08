@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 16:07:07 by demre             #+#    #+#             */
-/*   Updated: 2024/04/03 21:07:57 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/08 16:52:47 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void check_open_fd(char *message)
 	if (message && ft_strlen(message) > 0)
 		fprintf(stderr, "%s\n", message);
 
-	for (fd = 0; fd <= 6; fd++) {
+	for (fd = 0; fd <= 10; fd++) {
 		if (fcntl(fd, F_GETFD) != -1)
 			dprintf(2, "fd %d open\n", fd);
 		else
@@ -96,7 +96,7 @@ void	print_pipes_fd(t_minishell *data)
 {
 	dprintf(2, "data->fd_pipe[READ_END]: %d, data->fd_pipe[WRITE_END]: %d\n", data->fd_pipe[READ_END], data->fd_pipe[WRITE_END]);
 
-	dprintf(2, "data->file.in_fd: %d, data->file.out_fd: %d, data->file.heredoc_pipe[READ_END]: %d, data->file.heredoc_pipe[WRITE_END]: %d\n", data->file.in_fd, data->file.out_fd, data->file.heredoc_pipe[READ_END], data->file.heredoc_pipe[WRITE_END]);
+	dprintf(2, "data->file.in_fd: %d, data->file.out_fd: %d, data->file.heredoc_pipe[READ_END]: %d, data->file.heredoc_pipe[WRITE_END]: %d,data->file.temp_outfile: %d\n", data->file.in_fd, data->file.out_fd, data->file.heredoc_pipe[READ_END], data->file.heredoc_pipe[WRITE_END], data->file.temp_outfile);
 }
 
 void	print_files_fd(t_minishell *data)

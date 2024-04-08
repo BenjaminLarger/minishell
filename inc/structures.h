@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structures.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
+/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 16:30:35 by demre             #+#    #+#             */
-/*   Updated: 2024/04/06 11:24:16 by blarger          ###   ########.fr       */
+/*   Updated: 2024/04/08 16:34:31 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ typedef struct s_file
 	int		heredoc_pipe[2];
 	int		has_infile;
 	int		has_outfile;
+	int		previous_had_outfile;
+	int		temp_outfile;
 	int		has_heredoc;
 	bool 	ctr_d_pressed;
 	int		fd1_limited;
@@ -61,6 +63,7 @@ typedef struct s_minishell
 	char	last_valid_dir[1024];
 	int		executed_command;
 	int		last_exit_status;
+	int		no_output_builtin_executed;
 }		t_minishell;
 
 /**

@@ -15,3 +15,4 @@ infile*
 outfile*
 output
 .nfs.*
+.temp_outfile

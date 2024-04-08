@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 20:35:01 by demre             #+#    #+#             */
-/*   Updated: 2024/04/06 19:55:12 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/08 16:11:48 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	exec_command_with_pipe(t_minishell *data, char **cmd, int end_index)
 
 	dprintf(2, "\nexec_command_with_pipe current last, data->args[%d]: %s\n", end_index, data->args[end_index]); //
 	if (is_env_changing_builtin(cmd, data) == TRUE)
-		return ; // handle?
+		data->no_output_builtin_executed = TRUE;
 
 	data->executed_command = TRUE;
 	print_array(cmd, "exec_command");
@@ -32,15 +32,19 @@ void	exec_command_with_pipe(t_minishell *data, char **cmd, int end_index)
 		close(data->fd_pipe[READ_END]);
 		dup2(data->fd_pipe[WRITE_END], STDOUT_FILENO); 
 		close(data->fd_pipe[WRITE_END]);
-		if (exec_cmd_if_builtin(cmd, data) == SUCCESS)
-			exit(data->last_exit_status); // check free
-		if (get_cmd_with_path(data, cmd[0], &cmd_with_path) == FAILURE)
-			exit(EXIT_FAILURE); // check free
-		dprintf(2, "\e[34mcmd_with_path: %s\n\e[0m", cmd_with_path); //
-		execve(cmd_with_path, cmd, data->env_msh);
-		free(cmd_with_path);
-		print_error_cmd(cmd[0]);
-		exit(127); //send exit error status 
+		if (data->no_output_builtin_executed == FALSE)
+		{
+			if (exec_cmd_if_builtin(cmd, data) == SUCCESS)
+				exit(data->last_exit_status); // check free
+			if (get_cmd_with_path(data, cmd[0], &cmd_with_path) == FAILURE)
+				exit(EXIT_FAILURE); // check free
+			dprintf(2, "\e[34mcmd_with_path: %s\n\e[0m", cmd_with_path); //
+			execve(cmd_with_path, cmd, data->env_msh);
+			free(cmd_with_path);
+			print_error_cmd(cmd[0]);
+			exit(127); //send exit error status 
+		}
+		exit(0);
 	}
 	else if (data->pid[data->n_pid] > 0)
 	{
