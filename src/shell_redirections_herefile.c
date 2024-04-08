@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 17:44:46 by blarger           #+#    #+#             */
-/*   Updated: 2024/04/06 17:04:41 by blarger          ###   ########.fr       */
+/*   Updated: 2024/04/08 18:10:52 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ void set_child_sigint_action_herefile(void)
 {
 	struct sigaction	act;
 
+	if (isatty(STDIN_FILENO))
+		g_signal = 1;
 	ft_bzero(&act, sizeof(act));
 	act.sa_handler = &child_sigint_handler_herefile;
 	sigaction(SIGINT, &act, NULL);
@@ -125,7 +127,7 @@ void	read_here_pipe(t_minishell *data, pid_t here_pid)
 		set_father_sigint_action_herefile();
 	dprintf(2, "here father waiting\n");
 	waitpid(here_pid, &status, 0);
-	set_child_sigint_action();
+	set_child_sigint_action_during_prompt();
 	dprintf(2, "FATHER can process\n");
 	if (WIFEXITED(status))
 	{

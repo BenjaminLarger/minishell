@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 14:31:29 by demre             #+#    #+#             */
-/*   Updated: 2024/04/06 12:49:07 by blarger          ###   ########.fr       */
+/*   Updated: 2024/04/08 18:22:36 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,18 +26,23 @@
 
 int	run_shell_loop(t_minishell *data)
 {
-	set_child_sigint_action();
-	set_child_exit_signal_action();
+	set_child_sigint_action_during_prompt();
+	set_child_sigquit_action_during_prompt();
+	set_child_exit_signal_action(); //SIGUSR1 to delete ?
 	//dprintf(2, "data->prompt: %s, data->is_exit: %d\n", data->prompt, data->is_exit);
 	while (!(data->prompt) || data->is_exit == FALSE)
 	{
 		data->prompt = read_input(data->prompt);
+		set_child_sigint_action_after_prompt();
+		set_child_sigquit_action_after_prompt();
+		if (g_signal != 0)
+		{
+			data->last_exit_status = g_signal;
+		}
 	//dprintf(2, "run_shell_loop data->prompt: %s, data->is_exit: %d\n", data->prompt, data->is_exit);
 		if (data->prompt && *(data->prompt) && data->is_exit == FALSE
 			&& !is_string_all_space(data->prompt))
 		{
-			if (check_if_last_element_is_pipe(data) == FAILURE)
-				continue ;
 			if (split_input_into_args(data) == FAILURE)
 				continue ; // malloc or single quote
 			if (check_tokens_syntax(data->args) == FAILURE)
@@ -55,6 +60,8 @@ int	run_shell_loop(t_minishell *data)
 				}
 				free_string_array(data->args);
 			}
+			set_child_sigint_action_during_prompt();
+			set_child_sigquit_action_during_prompt();
 		}
 		else if (!data->prompt) // when ctrl-d is pressed
 		{
