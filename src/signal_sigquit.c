@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 18:18:30 by blarger           #+#    #+#             */
-/*   Updated: 2024/04/08 18:29:09 by blarger          ###   ########.fr       */
+/*   Updated: 2024/04/08 18:37:49 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void	child_sigquit_handler_after_prompt(int sig)
 	if (isatty(STDIN_FILENO))
 	{
 		g_signal = 130;
-		printf("\n");
+		printf("'^\\'Quit: %d\n", SIGQUIT);
 		rl_on_new_line();
 		rl_replace_line("", 0);
 	}
