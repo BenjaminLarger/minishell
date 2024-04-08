@@ -23,7 +23,7 @@ SRCS		:= main.c main_init.c shell.c \
 	input.c input_tokens_assign.c input_tokens_count.c input_tokens_utils.c \
 	input_env_var_count.c input_env_var_replace.c input_last_element_is_pipe.c\
 	input_remove_quotes.c input_utils.c input_tokens_check.c\
-	signal_handle.c signal_sigint.c signal_exit.c \
+	signal_handle.c signal_sigint.c signal_exit.c signal_sigquit.c\
 	builtin_cd.c builtin_echo.c builtin_pwd.c builtin_env.c \
 	builtin_export.c builtin_export_update.c builtin_exit.c \
 	shell_exec_args.c path.c shell_exec_builtin.c builtin_unset.c\

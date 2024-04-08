@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 12:57:45 by blarger           #+#    #+#             */
-/*   Updated: 2024/04/05 16:58:11 by blarger          ###   ########.fr       */
+/*   Updated: 2024/04/08 17:24:20 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ void	builtin_exit(t_minishell *data, char **args)
 	data->is_exit = TRUE;
 	if (args[1] && is_numeric(args[1]) == FALSE)
 	{
-		ft_putstr_fd("exit\n", 2);
 		ft_putstr_fd("minish: exit: ", 2);
 		ft_putstr_fd(args[1], 2);
 		ft_putstr_fd(": numeric argument required\n", 2);
@@ -72,7 +71,7 @@ void	builtin_exit(t_minishell *data, char **args)
 	}
 	else if (args[1] && is_numeric(args[1]) == TRUE && args[2] != NULL)
 	{
-		ft_putstr_fd("exit\nminish: exit: too many arguments\n", 2);
+		ft_putstr_fd("minish: exit: too many arguments\n", 2);
 		data->last_exit_status = 1;
 		data->is_exit = FALSE;
 		return ;
@@ -80,5 +79,5 @@ void	builtin_exit(t_minishell *data, char **args)
 	if (args[1] && is_numeric(args[1]) == TRUE)
 		data->last_exit_status = ft_atoi(args[1]);
 	else
-		data->last_exit_status = 255;
+		data->last_exit_status = 0;
 }

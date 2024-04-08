@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal_exit.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
+/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 11:30:46 by blarger           #+#    #+#             */
-/*   Updated: 2024/03/25 11:19:19 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/08 18:02:23 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static void	child_exit_signal_handler(int sig)
 	(void)sig;
 }
 
-void	set_child_exit_signal_action(void)
+void	set_child_exit_signal_action(void) //to delete ?
 {
 	signal(SIGUSR1, child_exit_signal_handler);
 //	signal(SIGUSR1, SIG_IGN);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
+/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:00 by demre             #+#    #+#             */
-/*   Updated: 2024/04/06 19:53:28 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/08 18:21:46 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,14 @@ void	unblock_signal(int signal);
 int		signal_handling(t_minishell *data);
 
 	//ctrl-c
-void	set_child_sigint_action(void);
+void	set_child_sigint_action_during_prompt(void);
 void	set_parent_sigint_action(void);
 	//ctrl-d
 void	set_child_exit_signal_action(void);
 void	set_parent_exit_signal_action(void);
+	//ctr- \						//
+void set_child_sigquit_action_during_prompt(void);
+void set_child_sigquit_action_after_prompt(void);
 
 // Initialisation
 
@@ -141,6 +144,7 @@ int		is_valid_ev_character(char c);
 void	check_and_replace_last_exit_status_call(char **args, t_minishell *data);
 int		handle_here_document(t_minishell *data, char **args);
 void	set_child_sigint_action_herefile(void);
+void 	set_child_sigint_action_after_prompt(void);
 void	set_father_sigint_action_herefile(void);
 char	*ft_getenv(t_minishell *data, char *key);
 
