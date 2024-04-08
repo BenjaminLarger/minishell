@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 20:35:01 by demre             #+#    #+#             */
-/*   Updated: 2024/04/08 16:11:48 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/08 21:01:51 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,14 @@ void	exec_command_with_pipe(t_minishell *data, char **cmd, int end_index)
 		return ; // handle fork error
 	if (data->pid[data->n_pid] == 0)
 	{
-		close(data->fd_pipe[READ_END]);
-		dup2(data->fd_pipe[WRITE_END], STDOUT_FILENO); 
+			close(data->fd_pipe[READ_END]);
+		if (data->file.has_outfile == TRUE)
+		{
+			data->file.temp_outfile = open(".temp_outfile", O_RDWR | O_CREAT, 0644);
+			dup2(data->fd_pipe[WRITE_END], data->file.temp_outfile);
+		}
+		else
+			dup2(data->fd_pipe[WRITE_END], STDOUT_FILENO); 
 		close(data->fd_pipe[WRITE_END]);
 		if (data->no_output_builtin_executed == FALSE)
 		{
@@ -53,6 +59,14 @@ void	exec_command_with_pipe(t_minishell *data, char **cmd, int end_index)
 		dprintf(2, "\e[31mdup2\n\e[0m");
 		dup2(data->fd_pipe[READ_END], STDIN_FILENO);
 		close(data->fd_pipe[READ_END]);
+
+		if (data->file.has_outfile == TRUE)
+		{
+			close(STDOUT_FILENO);
+			dup2(data->original_stdout_fd, STDOUT_FILENO);
+			close(data->original_stdout_fd);
+			data->original_stdout_fd = dup(STDOUT_FILENO);
+		}
 		data->n_pid++;
 	}
 }
@@ -66,6 +80,13 @@ void	exec_command_nopipe(t_minishell *data, char **cmd, int end_index)
 	if (is_env_changing_builtin(cmd, data) == TRUE)
 		return ; // handle?
 
+	if (data->file.previous_had_outfile == TRUE)
+	{
+		data->file.temp_outfile = open(".temp_outfile", O_RDONLY | O_CREAT, 0644);
+		dup2(data->file.temp_outfile, STDIN_FILENO);
+		close(data->file.temp_outfile);
+
+	}
 	data->executed_command = TRUE;
 	print_array(cmd, "exec_command");
 	data->pid[data->n_pid] = fork();
@@ -84,5 +105,17 @@ void	exec_command_nopipe(t_minishell *data, char **cmd, int end_index)
 		exit(127); //send exit error status 
 	}
 	else if (data->pid[data->n_pid] > 0)
+	{
 		data->n_pid++;
+//		if (data->file.has_outfile == TRUE)
+//		{
+			close(STDOUT_FILENO);
+			dup2(data->original_stdout_fd, STDOUT_FILENO);
+			close(data->original_stdout_fd);
+			close(STDIN_FILENO);
+//			data->original_stdin_fd = open("/dev/tty", O_RDONLY);
+			dup2(data->original_stdin_fd, STDIN_FILENO);
+			close(data->original_stdin_fd);
+//		}
+	}
 }

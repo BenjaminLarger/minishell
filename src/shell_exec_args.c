@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 14:57:17 by demre             #+#    #+#             */
-/*   Updated: 2024/04/08 17:07:41 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/08 19:57:52 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,26 +43,21 @@ static void	exec_args_cleanup(t_minishell *data)
 	free(data->status);
 	if (access(".temp_minishell", F_OK | R_OK) == 0)
 		unlink(".temp_minishell");
+//	if (access(".temp_outfile", F_OK | R_OK) == 0)
+//		unlink(".temp_outfile");
 }
 
 static void	reset(t_minishell *data, int *start_index, int i)
 {
 	*start_index = i;
 	data->no_output_builtin_executed = FALSE;
+	data->file.previous_had_outfile = FALSE;
 	if (data->file.has_outfile == TRUE)
 	{
-		data->file.temp_outfile = open(".temp_outfile", O_RDWR | O_CREAT, 0644);
-		dup2(data->file.temp_outfile, STDIN_FILENO);
-		close(data->file.temp_outfile);
-
 		data->file.has_outfile = FALSE;
+		data->file.previous_had_outfile = TRUE;
 	}
 	data->file.has_infile = FALSE;
-//	if (data->file.has_outfile == TRUE)
-//	{
-//		handle_output_redirection_before_pipe(data);
-//		data->file.has_outfile = FALSE;
-//	}
 	data->file.has_heredoc = FALSE;
 	data->executed_command = FALSE; // executed_command not required anymore?
 }
@@ -76,7 +71,7 @@ static void	wait_for_child_processes(t_minishell *data)
 	{
 		waitpid(data->pid[i], &data->status[i], 0);
 		//dprintf(2, "done waiting for child pid[%d]: %d\n", i, data->pid[i]);
-		dprintf(2, "data->status[i] = %d, last exit status = %d, i = %d\n", data->status[i], (WEXITSTATUS(data->status[i])), i);
+//		dprintf(2, "data->status[i] = %d, last exit status = %d, i = %d\n", data->status[i], (WEXITSTATUS(data->status[i])), i);
 		data->last_exit_status = WEXITSTATUS(data->status[i]);
 		if (WIFEXITED(data->status[i]))
 		{
@@ -87,7 +82,7 @@ static void	wait_for_child_processes(t_minishell *data)
 				//data->last_exit_status = 127;
 			}
 		}
-		dprintf(2, "errno exit status in first child = %d\n", (WEXITSTATUS(data->status[i])));
+//		dprintf(2, "errno exit status in first child = %d\n", (WEXITSTATUS(data->status[i])));
 		i++;
 	}
 }
@@ -118,29 +113,6 @@ int	exec_args(t_minishell *data)
 				exec_command_nopipe(data, cmd, i);
 			free_string_array(cmd);
 		}
-		if (data->file.has_outfile == TRUE)
-		{
-			close(data->file.temp_outfile);
-//	dup2(data->original_stdout_fd, STDOUT_FILENO);
-//	close(data->original_stdout_fd);
-//	dup2(data->original_stdin_fd, STDIN_FILENO);
-//	close(data->original_stdin_fd);
-			check_open_fd("has_outfile");
-			dprintf(2, "reopening temp_outfile \n");
-			data->file.temp_outfile = open(".temp_outfile", O_RDWR, 0644);
-			check_open_fd("has_outfile");
-			print_pipes_fd(data);
-			print_fd(data->file.temp_outfile);
-			dup2(data->file.out_fd, STDIN_FILENO);
-			write_fdin_to_fdout(data->file.temp_outfile, data->file.out_fd);
-			close(data->file.temp_outfile);
-			close(data->file.out_fd);
-			
-//			dup2(data->original_stdin_fd, STDIN_FILENO);
-//			close(data->original_stdin_fd);
-
-		}
-//		handle_output_redirection_before_pipe(data, i);
 		dprintf(2, "exec_args exit status = %d\n", data->last_exit_status);
 		i++;
 	}

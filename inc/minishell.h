@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:00 by demre             #+#    #+#             */
-/*   Updated: 2024/04/06 19:53:28 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/08 19:34:20 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,6 @@ int		append_shell_var(char ***env_msh, char *new_var, int end);
 //Handle redirection
 
 int		handle_redirections(t_minishell *data, char **args, int start, int end);
-void	handle_output_redirection_before_pipe(t_minishell *data, int i);
 
 // Free arrays
 // cleanup_free_arrays.c

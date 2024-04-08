@@ -6,30 +6,11 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 14:57:17 by demre             #+#    #+#             */
-/*   Updated: 2024/04/08 16:35:11 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/08 19:34:09 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	handle_output_redirection_before_pipe(t_minishell *data, int i)
-{
-	dprintf(2, "handle_output_redirection_before_pipe - data->file.has_outfile: %d, data->args[%d]: %s\n", data->file.has_outfile, i, data->args[i]);
-
-	if (data->file.has_outfile == TRUE
-		&& data->args[i] && ft_strcmp(data->args[i], "|") == 0)
-	{
-		dprintf(2, "handle_output_redirection_before_pipe inside\n");
-		
-		dup2(data->original_stdout_fd, STDOUT_FILENO);
-		close(data->original_stdout_fd);
-	//	dup2(data->original_stdin_fd, STDIN_FILENO);
-	//	close(data->original_stdin_fd);
-		data->file.in_fd = open(".temp_minishell", O_RDONLY | O_CREAT, 0644);
-		dup2(data->file.in_fd, STDIN_FILENO);
-		close(data->file.in_fd);
-	}
-}
 
 static int	handle_output_redirection(t_minishell *data, char **args)
 {
@@ -46,13 +27,8 @@ static int	handle_output_redirection(t_minishell *data, char **args)
 		return (FAILURE);
 	}
 	data->file.has_outfile = TRUE;
-
-	data->file.temp_outfile = open(".temp_outfile", O_RDWR | O_CREAT, 0644);
-	dup2(data->file.temp_outfile, STDOUT_FILENO);
-	close(data->file.temp_outfile);
-
-//	dup2(data->file.out_fd, STDOUT_FILENO);
-//	close(data->file.out_fd);
+	dup2(data->file.out_fd, STDOUT_FILENO);
+	close(data->file.out_fd);
 	return (SUCCESS);
 }
 
