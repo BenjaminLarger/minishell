@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:12:28 by demre             #+#    #+#             */
-/*   Updated: 2024/03/25 20:27:57 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/09 18:45:44 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static int	get_all_paths_from_env(t_minishell *data, char ***paths)
 		all_paths_as_one_str = "";
 	*paths = ft_split(all_paths_as_one_str, ':');
 	if (!(*paths))
-		return (FAILURE);
+		return (print_strerror_and_set_exit_status_and_failure(data));
 	i = 0;
 	while ((*paths)[i])
 	{
@@ -36,7 +36,7 @@ static int	get_all_paths_from_env(t_minishell *data, char ***paths)
 		{
 			free_n_string_array(*paths, i);
 			free(paths);
-			return (FAILURE);
+			return (print_strerror_and_set_exit_status_and_failure(data));
 		}
 		free((*paths)[i]);
 		(*paths)[i++] = temp;
@@ -52,7 +52,7 @@ static int	test_path_with_command(char *path, char const *cmd)
 
 	temp = ft_strjoin(path, cmd);
 	if (!temp)
-		exit(EXIT_FAILURE);
+		return (-1);
 	has_access = access(temp, F_OK | X_OK);
 	free(temp);
 	if (has_access != -1)
@@ -61,21 +61,29 @@ static int	test_path_with_command(char *path, char const *cmd)
 		return (FAILURE);
 }
 
-static int	add_path_to_command(char const *cmd, char **cmd_with_path, char **paths, int n_paths)
+static int	add_path_to_command(char const *cmd, char **cmd_with_path,
+	char **paths, int n_paths)
 {
 	int		i;
+	int		test;
 
 	i = 0;
-	while (paths[i] && test_path_with_command(paths[i], cmd) == FAILURE)
-		i++;
-	if (i != n_paths && ft_strchr(cmd, '/') == NULL)
+	while (paths[i])
 	{
-		*cmd_with_path = ft_strjoin(paths[i], cmd);
-		if (!(*cmd_with_path))
+		test = test_path_with_command(paths[i], cmd);
+		if (test == SUCCESS)
+			break ;
+		else if (test == FAILURE)
+			i++;
+		else if (test == -1)
 			return (FAILURE);
 	}
+	if (i != n_paths && ft_strchr(cmd, '/') == NULL)
+		*cmd_with_path = ft_strjoin(paths[i], cmd);
 	else
 		*cmd_with_path = ft_strdup(cmd);
+	if (!(*cmd_with_path))
+			return (FAILURE);
 	return (SUCCESS);
 }
 
@@ -84,7 +92,7 @@ static int	add_path_to_command(char const *cmd, char **cmd_with_path, char **pat
  * directories specified by the PATH environment variable. If found, it saves 
  * the full path of the command in the `cmd_with_path` parameter.
  * @return Returns SUCCESS (0) if the command is found and its full path is 
- * retrieved successfully, otherwise returns FAILURE (1).
+ * retrieved successfully, FAILURE (1) otherwise.
  */
 int	get_cmd_with_path(t_minishell *data, char const *cmd, char **cmd_with_path)
 {
@@ -92,18 +100,14 @@ int	get_cmd_with_path(t_minishell *data, char const *cmd, char **cmd_with_path)
 	int		n_paths;
 
 	if (get_all_paths_from_env(data, &paths) != SUCCESS)
-	{
-		perror("Error loading paths");
 		return (FAILURE);
-	}
 	n_paths = 0;
 	while (paths[n_paths])
 		n_paths++;
 	if (add_path_to_command(cmd, cmd_with_path, paths, n_paths) != SUCCESS)
 	{
-		perror("Memory allocation failure");
 		free_string_array(paths);
-		return (FAILURE);
+		return (print_strerror_and_set_exit_status_and_failure(data));
 	}
 	free_string_array(paths);
 	return (SUCCESS);

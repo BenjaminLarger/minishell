@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 20:35:01 by demre             #+#    #+#             */
-/*   Updated: 2024/04/09 17:20:10 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/09 18:44:09 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,9 @@ void	exec_command_with_pipe(t_minishell *data, char **cmd, int end_index)
 		if (data->no_output_builtin_executed == FALSE)
 		{
 			if (exec_cmd_if_builtin(cmd, data) == SUCCESS)
-				exit(data->last_exit_status); // check free
+				exit(data->last_exit_status); // errors handled and all freed
 			if (get_cmd_with_path(data, cmd[0], &cmd_with_path) == FAILURE)
-				exit(EXIT_FAILURE); // check free
+				exit(EXIT_FAILURE); // errors handled and all freed
 			dprintf(2, "\e[34mcmd_with_path: %s\n\e[0m", cmd_with_path); //
 			execve(cmd_with_path, cmd, data->env_msh);
 			free(cmd_with_path);
@@ -92,9 +92,9 @@ void	exec_command_nopipe(t_minishell *data, char **cmd, int end_index)
 	if (data->pid[data->n_pid] == 0)
 	{
 		if (exec_cmd_if_builtin(cmd, data) == SUCCESS)
-			exit(data->last_exit_status); // check free
+			exit(data->last_exit_status); // errors handled and all freed
 		if (get_cmd_with_path(data, cmd[0], &cmd_with_path) == FAILURE)
-			exit(EXIT_FAILURE); // check free
+			exit(EXIT_FAILURE); // errors handled and all freed
 		dprintf(2, "\e[34mcmd_with_path: %s\n\e[0m", cmd_with_path); //
 		execve(cmd_with_path, cmd, data->env_msh);
 		free(cmd_with_path);
