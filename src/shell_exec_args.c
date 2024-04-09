@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_exec_args.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
+/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 14:57:17 by demre             #+#    #+#             */
-/*   Updated: 2024/04/08 19:57:52 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/09 15:16:10 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ static void	reset(t_minishell *data, int *start_index, int i)
 	*start_index = i;
 	data->no_output_builtin_executed = FALSE;
 	data->file.previous_had_outfile = FALSE;
+	data->last_exit_status = 0;
 	if (data->file.has_outfile == TRUE)
 	{
 		data->file.has_outfile = FALSE;
