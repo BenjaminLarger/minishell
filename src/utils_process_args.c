@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 15:24:35 by blarger           #+#    #+#             */
-/*   Updated: 2024/04/04 16:00:49 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/09 20:09:56 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,11 +140,12 @@ int	is_valid_ev_character(char c)
 char	*ft_getenv(t_minishell *data, char *key)
 {
 	int	i;
-	
+
 	i = 0;
 	while (data->env_msh[i])
 	{
-		if (ft_strncmp(data->env_msh[i], key, ft_strlen(key)) == 0)
+		if ((ft_strncmp(data->env_msh[i], key, ft_strlen(key)) == 0)
+			&& data->env_msh[i][ft_strlen(key)] == '=')
 		{
 			return (ft_strchr(data->env_msh[i], '=') + 1);
 		}
