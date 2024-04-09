@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 12:57:45 by blarger           #+#    #+#             */
-/*   Updated: 2024/04/09 15:32:32 by blarger          ###   ########.fr       */
+/*   Updated: 2024/04/09 16:28:18 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,4 @@ void	builtin_exit(t_minishell *data, char **args)
 	}
 	if (args[1] && is_numeric(args[1]) == TRUE)
 		data->last_exit_status = ft_atoi(args[1]);
-	else
-		data->last_exit_status = 0;
 }

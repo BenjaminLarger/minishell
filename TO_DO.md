@@ -30,6 +30,8 @@ previous input not passed
 2)  
 "env | grep VAR" renvoie exit code 1 s'il n'y a pas de VAR
 
+3) update last_exit_status to 0 correctly
+
 --------
 
 # CRASH:
@@ -43,13 +45,3 @@ echo "Hello, World"'
 
 1) 
 quand on ecrit dans minsh prompt puis ctrl-\ -> le contenu s'efface + retour au debut de la ligne
-
-2) 
-Les commandes pipes ne s'executent pas dans le bon ordre que lorsqu'il y a un pipe
-Ici, 
-blarger@c3r6s4 minishell % echo "Hello, World!" | grep "World"
-dquote> 
-!=
-bash-3.2$ echo "Hello, World!" | grep "World"
-echo "Hello, World"'ls'|" | grep "World"
->
