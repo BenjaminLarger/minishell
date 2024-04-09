@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
+/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 09:34:57 by blarger           #+#    #+#             */
-/*   Updated: 2024/04/09 15:27:01 by blarger          ###   ########.fr       */
+/*   Updated: 2024/04/09 20:08:28 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	display_exported_variable(t_minishell *data)
 	}
 }
 
-static int	is_valid_shell_var(char *arg, t_minishell *data)
+/* static int	is_valid_shell_var(char *arg, t_minishell *data)
 {
 	int	i;
 
@@ -50,7 +50,30 @@ static int	is_valid_shell_var(char *arg, t_minishell *data)
 	print_error_message_and_arg(IDENTIFIER, arg);
 	data->last_exit_status = 1;
 	return (FALSE);
-	/* else if (arg[i] && is_valid_ev_character(arg[i]) == FALSE)
+} */
+
+static int	is_valid_shell_var(char *arg, t_minishell *data)
+{
+	int	i;
+
+	i = 0;
+	dprintf(2, "is_valid_shell_var arg: %s\n", arg); //
+	if (arg[i] && ft_isdigit(arg[i]))
+	{
+		dprintf(2, "IS not VALID, last_exit_status set to 1\n"); //
+		print_error_message_and_arg(IDENTIFIER, arg);
+		data->last_exit_status = 1;
+		return (FALSE);
+	}
+	while (arg[i] && is_valid_ev_character(arg[i]) == TRUE)
+		i++;
+	if (i != 0 && ((arg[i] && arg[i] == '=')
+			|| (arg[i] && arg[i] == '+' && arg[i + 1] && arg[i + 1] == '=')))
+	{
+		dprintf(2, "IS VALID\n"); //
+		return (TRUE);
+	}
+	else if (arg[i] && is_valid_ev_character(arg[i]) == FALSE)
 	{
 		dprintf(2, "IS not VALID, last_exit_status set to 1\n"); //
 		print_error_message_and_arg(IDENTIFIER, arg);
@@ -61,7 +84,7 @@ static int	is_valid_shell_var(char *arg, t_minishell *data)
 	{
 		dprintf(2, "IS not VALID\n"); //
 		return (FALSE);
-	} */
+	}
 }
 
 static int	does_env_var_exist(char **env_msh, char *new_var, int end)
@@ -71,8 +94,7 @@ static int	does_env_var_exist(char **env_msh, char *new_var, int end)
 	i = 0;
 	while (env_msh[i])
 	{
-		if (ft_memcmp(env_msh[i], new_var, end) == 0
-				&& env_msh[i][end] == '=')
+		if (ft_memcmp(env_msh[i], new_var, end) == 0 && env_msh[i][end] == '=')
 			return (TRUE);
 		i++;
 	}
