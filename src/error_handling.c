@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 08:58:59 by blarger           #+#    #+#             */
-/*   Updated: 2024/04/05 17:26:58 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/09 14:43:12 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ void	print_error_syntax(char *arg)
 int	print_error_and_failure(char *error)
 {
 	ft_putstr_fd(error, 2);
-	ft_putchar_fd('\n', 2);
 	return (FAILURE);
 }
 

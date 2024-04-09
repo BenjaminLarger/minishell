@@ -27,6 +27,8 @@ ex: export VAR=1 | wc
 previous input not passed
 
 
+2)  
+"env | grep VAR" renvoie exit code 1 s'il n'y a pas de VAR
 
 --------
 

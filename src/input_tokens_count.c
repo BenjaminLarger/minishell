@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/02 14:01:55 by demre             #+#    #+#             */
-/*   Updated: 2024/03/25 14:10:11 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/09 14:18:54 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,6 @@ int	count_tokens(char const *str)
 		i++;
 	}
 	if (data.n_sgl_quotes % 2 == 1 || data.n_dbl_quotes % 2 == 1)
-		data.n_tokens = 0;
+		data.n_tokens = -1;
 	return (data.n_tokens);
 }

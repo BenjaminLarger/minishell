@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errors.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
+/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:07 by demre             #+#    #+#             */
-/*   Updated: 2024/04/06 16:34:07 by blarger          ###   ########.fr       */
+/*   Updated: 2024/04/09 14:43:16 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 //This file aim to print error message when needed
 //Use case example : if (!) => print_error(MALLOC_FAIL)
 //I made a copy of the same file I have used in my pipex project => this is a draft
-# define MALLOC_FAIL	"Malloc allocation failed.\n"
+# define MALLOC_FAIL	"minish: memory allocation failed.\n"
 # define ARG			"The input must have one parameters.\n"
 # define OPEN_PIPE		"Error opening pipe."
 # define FORK			"Fork failed to be created.\n"

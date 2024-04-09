@@ -6,12 +6,16 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:16 by demre             #+#    #+#             */
-/*   Updated: 2024/04/03 20:13:07 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/09 15:05:31 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/**
+ * @brief Reads user input from the command line. The input is added to the history if it is not empty.
+ * @return Returns a pointer to the string containing the user input.
+ */
 char	*read_input(char *prompt)
 {
 	if (prompt)
@@ -33,22 +37,26 @@ char	*read_input(char *prompt)
  */
 int	split_input_into_args(t_minishell *data)
 {
-	int	error;
-
 	data->n_args = count_tokens(data->prompt);
 	printf("%s, n_args: %d\n", data->prompt, data->n_args); //
 	if (data->n_args == 0)
 		return (SUCCESS);
+	else if (data->n_args == -1)
+		return (FAILURE);
 	else
 		data->args = (char **)malloc((data->n_args + 1) * sizeof(char *));
 	if (!data->args)
-		return (errno); // ERR_MALLOC
+	{
+		data->last_exit_status = 1;
+		return (print_error_and_failure(MALLOC_FAIL));
+	}
 	if (data->prompt)
 	{
-		error = assign_tokens(data, data->prompt);
-		if (error != SUCCESS)
-			return (error); // ERR_SINGLE_QUOTE or ERR_MALLOC, not implemented
+		if (assign_tokens(data, data->prompt) != SUCCESS)
+		{
+			data->last_exit_status = 1;
+			return (print_error_and_failure(MALLOC_FAIL));
+		}
 	}
-//	print_array(data->args);
 	return (SUCCESS);
 }
