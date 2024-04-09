@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 18:18:30 by blarger           #+#    #+#             */
-/*   Updated: 2024/04/09 11:57:39 by blarger          ###   ########.fr       */
+/*   Updated: 2024/04/09 13:25:49 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ static void	child_sigquit_handler_after_prompt(int sig)
 		printf("'^\\'Quit: %d\n", SIGQUIT);
 		rl_on_new_line();
 		rl_replace_line("", 0);
+		rl_redisplay();
 	}
 }
 
