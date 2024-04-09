@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 14:31:29 by demre             #+#    #+#             */
-/*   Updated: 2024/04/08 18:22:36 by blarger          ###   ########.fr       */
+/*   Updated: 2024/04/09 11:59:39 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,6 @@ int	run_shell_loop(t_minishell *data)
 				}
 				free_string_array(data->args);
 			}
-			set_child_sigint_action_during_prompt();
-			set_child_sigquit_action_during_prompt();
 		}
 		else if (!data->prompt) // when ctrl-d is pressed
 		{
@@ -76,6 +74,8 @@ int	run_shell_loop(t_minishell *data)
 			kill(data->pid1, SIGUSR1);
 			exit(data->last_exit_status);
 		}
+		set_child_sigint_action_during_prompt();
+		set_child_sigquit_action_during_prompt();
 	}
 	if (data->prompt)
 		free(data->prompt);

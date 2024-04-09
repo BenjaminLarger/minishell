@@ -32,7 +32,21 @@ previous input not passed
 
 # CRASH:
 
+1) 
+program crash when single quote after double quote
+echo "Hello, World"'
 --------
 
 # BUG:
 
+1) 
+quand on ecrit dans minsh prompt puis ctrl-\ -> le contenu s'efface + retour au debut de la ligne
+
+2) 
+Les commandes pipes 
+blarger@c3r6s4 minishell % echo "Hello, World!" | grep "World"
+dquote> 
+!=
+bash-3.2$ echo "Hello, World!" | grep "World"
+echo "Hello, World"'ls'|" | grep "World"
+>
