@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:16 by demre             #+#    #+#             */
-/*   Updated: 2024/04/09 15:05:31 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/09 16:25:14 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ char	*read_input(char *prompt)
 
 /**
  * @brief Split the prompt string into strings saved in a args array
- * @param t_minishell Structure representing the shared data and parameters.
- * @return 
+ * @return Returns SUCCESS if no prompt or if the prompt has been split into 
+ * tokens correctly, FAILURE otherwise.
  */
 int	split_input_into_args(t_minishell *data)
 {
@@ -42,9 +42,11 @@ int	split_input_into_args(t_minishell *data)
 	if (data->n_args == 0)
 		return (SUCCESS);
 	else if (data->n_args == -1)
+	{
+		data->last_exit_status = 1;
 		return (FAILURE);
-	else
-		data->args = (char **)malloc((data->n_args + 1) * sizeof(char *));
+	}
+	data->args = (char **)malloc((data->n_args + 1) * sizeof(char *));
 	if (!data->args)
 	{
 		data->last_exit_status = 1;

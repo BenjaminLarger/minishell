@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 12:36:58 by demre             #+#    #+#             */
-/*   Updated: 2024/04/09 14:30:17 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/09 16:28:38 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,14 @@ int	check_tokens_syntax(char **args)
 		if (is_linker(args[i]) && !args[i + 1])
 		{
 			print_error_syntax(NULL);
+			free_string_array(args);
 			return (FAILURE);
 		}
 		else if ((is_redirection(args[i]) && is_linker(args[i + 1]))
 			|| (!ft_strcmp(args[i], "|") && !ft_strcmp(args[i + 1], "|")))
 		{
 			print_error_syntax(args[i + 1]);
+			free_string_array(args);
 			return (FAILURE);
 		}
 		i++;

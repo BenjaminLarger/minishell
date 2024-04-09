@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:00 by demre             #+#    #+#             */
-/*   Updated: 2024/04/08 21:03:38 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/09 16:48:54 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,8 @@ void	set_parent_sigint_action(void);
 void	set_child_exit_signal_action(void);
 void	set_parent_exit_signal_action(void);
 	//ctr- \						//
-void set_child_sigquit_action_during_prompt(void);
-void set_child_sigquit_action_after_prompt(void);
+void	set_child_sigquit_action_during_prompt(void);
+void	set_child_sigquit_action_after_prompt(void);
 
 // Initialisation
 
@@ -88,7 +88,7 @@ char	*replace_env_var_in_substr(char const *input, int input_len,
 int		get_ev_str_expanded_len(char const *input, int input_len,
 	int *expanded_len, t_minishell *data);
 char	*remove_quotes_from_str(char *str);
-int	check_if_last_element_is_pipe(t_minishell *data);
+int		check_if_last_element_is_pipe(t_minishell *data);
 
 
 // Handle input utils
@@ -157,6 +157,7 @@ int		print_error_and_failure(char *error);
 void	print_error(char *error);
 void	print_strerror_and_arg(char *arg);
 void	print_error_message_and_arg(char *error, char *arg);
+void	print_strerror_and_set_exit_status_and_failure(t_minishell *data);
 
 // Dev functions
 

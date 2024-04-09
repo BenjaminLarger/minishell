@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/02 14:01:44 by demre             #+#    #+#             */
-/*   Updated: 2024/03/27 18:05:50 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/09 16:24:45 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,10 +108,8 @@ int	assign_tokens(t_minishell *data, char const *str)
 		)
 			increase_quote_count_if_outside_quotes(str[i++],
 				&ind.n_sgl_quotes, &ind.n_dbl_quotes);
-		if (ind.n_sgl_quotes % 2 == 1 || ind.n_dbl_quotes % 2 == 1)
-			return (FAILURE); // ERR_SINGLE_QUOTE
 		if (call_store_tokens(data, str, &ind, &i) == FAILURE)
-			return (FAILURE); // ERR_MALLOC
+			return (FAILURE);
 	}
 	data->args[ind.j] = NULL;
 	return (SUCCESS);

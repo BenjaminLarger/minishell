@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 20:35:01 by demre             #+#    #+#             */
-/*   Updated: 2024/04/08 21:01:51 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/09 16:57:20 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,13 @@ void	exec_command_with_pipe(t_minishell *data, char **cmd, int end_index)
 	data->executed_command = TRUE;
 	print_array(cmd, "exec_command");
 	if (pipe(data->fd_pipe) == -1)
-		return ; // handle pipe error
+		return (print_strerror_and_set_exit_status_and_failure(data));
 	data->pid[data->n_pid] = fork();
 	if (data->pid[data->n_pid] == -1)
-		return ; // handle fork error
+		return (print_strerror_and_set_exit_status_and_failure(data));
 	if (data->pid[data->n_pid] == 0)
 	{
-			close(data->fd_pipe[READ_END]);
+		close(data->fd_pipe[READ_END]);
 		if (data->file.has_outfile == TRUE)
 		{
 			data->file.temp_outfile = open(".temp_outfile", O_RDWR | O_CREAT, 0644);
@@ -50,7 +50,7 @@ void	exec_command_with_pipe(t_minishell *data, char **cmd, int end_index)
 			print_error_cmd(cmd[0]);
 			exit(127); //send exit error status 
 		}
-		exit(0);
+		exit(EXIT_SUCCESS);
 	}
 	else if (data->pid[data->n_pid] > 0)
 	{
@@ -85,13 +85,12 @@ void	exec_command_nopipe(t_minishell *data, char **cmd, int end_index)
 		data->file.temp_outfile = open(".temp_outfile", O_RDONLY | O_CREAT, 0644);
 		dup2(data->file.temp_outfile, STDIN_FILENO);
 		close(data->file.temp_outfile);
-
 	}
 	data->executed_command = TRUE;
 	print_array(cmd, "exec_command");
 	data->pid[data->n_pid] = fork();
 	if (data->pid[data->n_pid] == -1)
-		return ; // handle fork error
+		return (print_strerror_and_set_exit_status_and_failure(data));
 	if (data->pid[data->n_pid] == 0)
 	{
 		if (exec_cmd_if_builtin(cmd, data) == SUCCESS)
@@ -102,7 +101,7 @@ void	exec_command_nopipe(t_minishell *data, char **cmd, int end_index)
 		execve(cmd_with_path, cmd, data->env_msh);
 		free(cmd_with_path);
 		print_error_cmd(cmd[0]);
-		exit(127); //send exit error status 
+		exit(127);
 	}
 	else if (data->pid[data->n_pid] > 0)
 	{
