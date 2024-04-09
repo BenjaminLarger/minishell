@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 08:58:59 by blarger           #+#    #+#             */
-/*   Updated: 2024/04/09 16:48:59 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/09 17:15:44 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,14 @@ int	print_strerror_and_set_exit_status_and_failure(t_minishell *data)
 	ft_putstr_fd("\n", 2);
 	data->last_exit_status = 1;
 	return (FAILURE);
+}
+
+void	print_strerror_and_set_exit_status(t_minishell *data)
+{
+	ft_putstr_fd("minish: ", 2);
+	ft_putstr_fd(strerror(errno), 2);
+	ft_putstr_fd("\n", 2);
+	data->last_exit_status = 1;
 }
 
 void	print_error_message_and_arg(char *error, char *arg)

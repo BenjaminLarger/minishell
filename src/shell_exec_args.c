@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_exec_args.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
+/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 14:57:17 by demre             #+#    #+#             */
-/*   Updated: 2024/04/09 15:16:10 by blarger          ###   ########.fr       */
+/*   Updated: 2024/04/09 17:39:56 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ static int	exec_args_init(t_minishell *data, int *i, int *start)
 //	data->original_stdin_fd = dup(STDIN_FILENO);
 	data->original_stdout_fd = dup(STDOUT_FILENO);
 	data->n_pid = 0;
+	// add realloc
 	data->pid = (int *)malloc(1000 * sizeof(int));
 	if (!data->pid)
 		return (FAILURE);
@@ -31,7 +32,7 @@ static int	exec_args_init(t_minishell *data, int *i, int *start)
 
 static void	exec_args_cleanup(t_minishell *data)
 {
-	char			cwd[1024];
+	char	cwd[1024];
 
 	if (getcwd(cwd, sizeof(cwd)) != NULL)
 		getcwd(data->last_valid_dir, sizeof(data->last_valid_dir));
@@ -60,7 +61,6 @@ static void	reset(t_minishell *data, int *start_index, int i)
 	}
 	data->file.has_infile = FALSE;
 	data->file.has_heredoc = FALSE;
-	data->executed_command = FALSE; // executed_command not required anymore?
 }
 
 static void	wait_for_child_processes(t_minishell *data)
@@ -95,22 +95,19 @@ int	exec_args(t_minishell *data)
 	char	**cmd;
 
 	if (exec_args_init(data, &i, &start) == FAILURE)
-		return (FAILURE); // malloc failure
-	//print_array(data->args, "exec_args"); //
+		return (print_strerror_and_set_exit_status_and_failure(data));
 	while (i < data->n_args && data->args[i])
 	{
 		reset(data, &start, i);
 		while (data->args[i] && ft_strcmp(data->args[i], "|") != 0)
 			i++;
-		//dprintf(2, "\nPipe or eof at i = %d. data->args[i]: %s\n", i, data->args[i]); //
 		if (handle_redirections(data, data->args, start, i) == SUCCESS)
 		{
 			if (get_cmd_without_redirections(data, &cmd, start, i) == FAILURE)
-				return (FAILURE); // malloc failure
+				return (FAILURE); // errors handled and all freed
 			if (cmd && *cmd && data->args[i] && !ft_strcmp(data->args[i], "|"))
 				exec_command_with_pipe(data, cmd, i);
-			else if (cmd && *cmd
-				&& (!data->args[i]))
+			else if (cmd && *cmd && !data->args[i])
 				exec_command_nopipe(data, cmd, i);
 			free_string_array(cmd);
 		}

@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 19:04:16 by demre             #+#    #+#             */
-/*   Updated: 2024/04/08 16:11:37 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/09 17:20:33 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ int	exec_cmd_if_builtin(char **args, t_minishell *data)
 {
 	if (is_builtin(args) == SUCCESS)
 	{
-		data->executed_command = FALSE;
 		data->last_exit_status = 0;
 		if (!ft_strcmp(args[0], "echo"))
 			builtin_echo(&(args[0]));

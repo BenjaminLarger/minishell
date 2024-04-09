@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 14:31:29 by demre             #+#    #+#             */
-/*   Updated: 2024/04/09 17:00:15 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/09 17:36:03 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,14 +49,10 @@ int	run_shell_loop(t_minishell *data)
 				continue ; // errors handled and all freed
 			if (data->n_args > 0)
 			{
-				if (exec_args(data) == FAILURE)
+				if (exec_args(data) == FAILURE) // errors handled and all freed
 				{
 					free_string_array(data->args);
-					//print_error ?
 					continue ;
-				//	kill_and_exit(data, errno);
-					//kill_and_exit(data, data->last_exit_status);
-					//kill_and_exit(data, EXIT_FAILURE); // malloc failure
 				}
 				free_string_array(data->args);
 			}

@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 14:57:17 by demre             #+#    #+#             */
-/*   Updated: 2024/04/08 19:34:09 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/09 17:29:09 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int	handle_output_redirection(t_minishell *data, char **args)
 		data->file.out_fd = open(args[1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (access(args[1], W_OK) == -1 || data->file.out_fd < 0)
 	{
-		data->last_exit_status = 0;
+		data->last_exit_status = 1;
 		print_strerror_and_arg(args[1]);
 		return (FAILURE);
 	}

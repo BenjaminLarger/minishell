@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:00 by demre             #+#    #+#             */
-/*   Updated: 2024/04/09 16:48:54 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/09 17:15:57 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,7 +157,8 @@ int		print_error_and_failure(char *error);
 void	print_error(char *error);
 void	print_strerror_and_arg(char *arg);
 void	print_error_message_and_arg(char *error, char *arg);
-void	print_strerror_and_set_exit_status_and_failure(t_minishell *data);
+int		print_strerror_and_set_exit_status_and_failure(t_minishell *data);
+void	print_strerror_and_set_exit_status(t_minishell *data);
 
 // Dev functions
 

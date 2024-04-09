@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 16:30:35 by demre             #+#    #+#             */
-/*   Updated: 2024/04/08 16:34:31 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/09 17:22:57 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,14 @@ typedef struct s_file
 	int		temp_outfile;
 	int		has_heredoc;
 	bool 	ctr_d_pressed;
-	int		fd1_limited;
-	char	*filename1;
-	char	*filename2;
-	char	*filename_limited;
-	char	*limited;
-	bool	exist_file_1;
-	bool	read_access_1;
-	bool	write_access_2;
+//	int		fd1_limited;
+//	char	*filename1;
+//	char	*filename2;
+//	char	*filename_limited;
+//	char	*limited;
+//	bool	exist_file_1;
+//	bool	read_access_1;
+//	bool	write_access_2;
 }	t_file;
 
 /**
@@ -44,15 +44,10 @@ typedef struct s_minishell
 	char	*prompt;
 	char	**args;
 	char	**env_msh;
-	bool	args_to_free; //prob delete
 	int		n_args;
 	pid_t	pid1;
 	int		is_exit;
 	t_file	file;
-	int		n_cmds; // prob delete
-	char	**linker; // prob delete
-	int		n_linker; // prob delete
-	int		save_stdin_fd;
 	int		original_stdin_fd;
 	int		original_stdout_fd;
 	int		fd_pipe[2];
@@ -61,7 +56,6 @@ typedef struct s_minishell
 	int		n_pid;
 	char	*cd_last_dir;
 	char	last_valid_dir[1024];
-	int		executed_command;
 	int		last_exit_status;
 	int		no_output_builtin_executed;
 }		t_minishell;

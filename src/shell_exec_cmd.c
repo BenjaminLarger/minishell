@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 20:35:01 by demre             #+#    #+#             */
-/*   Updated: 2024/04/09 16:57:20 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/09 17:20:10 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,12 @@ void	exec_command_with_pipe(t_minishell *data, char **cmd, int end_index)
 	if (is_env_changing_builtin(cmd, data) == TRUE)
 		data->no_output_builtin_executed = TRUE;
 
-	data->executed_command = TRUE;
 	print_array(cmd, "exec_command");
 	if (pipe(data->fd_pipe) == -1)
-		return (print_strerror_and_set_exit_status_and_failure(data));
+		return (print_strerror_and_set_exit_status(data));
 	data->pid[data->n_pid] = fork();
 	if (data->pid[data->n_pid] == -1)
-		return (print_strerror_and_set_exit_status_and_failure(data));
+		return (print_strerror_and_set_exit_status(data));
 	if (data->pid[data->n_pid] == 0)
 	{
 		close(data->fd_pipe[READ_END]);
@@ -86,11 +85,10 @@ void	exec_command_nopipe(t_minishell *data, char **cmd, int end_index)
 		dup2(data->file.temp_outfile, STDIN_FILENO);
 		close(data->file.temp_outfile);
 	}
-	data->executed_command = TRUE;
 	print_array(cmd, "exec_command");
 	data->pid[data->n_pid] = fork();
 	if (data->pid[data->n_pid] == -1)
-		return (print_strerror_and_set_exit_status_and_failure(data));
+		return (print_strerror_and_set_exit_status(data));
 	if (data->pid[data->n_pid] == 0)
 	{
 		if (exec_cmd_if_builtin(cmd, data) == SUCCESS)
