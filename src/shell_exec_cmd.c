@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_exec_cmd.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
+/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 20:35:01 by demre             #+#    #+#             */
-/*   Updated: 2024/04/10 11:50:02 by blarger          ###   ########.fr       */
+/*   Updated: 2024/04/10 13:39:51 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,8 @@ void	exec_command_with_pipe(t_minishell *data, char **cmd, int end_index)
 	if (data->pid[data->n_pid] == 0)
 	{
 		close(data->fd_pipe[READ_END]);
-		if (data->file.has_outfile == TRUE)
-		{
-			data->file.temp_outfile = open(".temp_outfile", O_RDWR | O_CREAT, 0644);
-			dup2(data->fd_pipe[WRITE_END], data->file.temp_outfile);
-		}
-		else
-			dup2(data->fd_pipe[WRITE_END], STDOUT_FILENO); 
+		if (data->file.has_outfile == FALSE)
+			dup2(data->fd_pipe[WRITE_END], STDOUT_FILENO);
 		close(data->fd_pipe[WRITE_END]);
 		if (data->no_output_builtin_executed == FALSE)
 		{
@@ -52,7 +47,6 @@ void	exec_command_with_pipe(t_minishell *data, char **cmd, int end_index)
 	}
 	else if (data->pid[data->n_pid] > 0)
 	{
-		close(STDIN_FILENO);
 		close(data->fd_pipe[WRITE_END]);
 		dprintf(2, "\e[31mdup2\n\e[0m");
 		dup2(data->fd_pipe[READ_END], STDIN_FILENO);
@@ -60,7 +54,6 @@ void	exec_command_with_pipe(t_minishell *data, char **cmd, int end_index)
 
 		if (data->file.has_outfile == TRUE)
 		{
-			close(STDOUT_FILENO);
 			dup2(data->original_stdout_fd, STDOUT_FILENO);
 			close(data->original_stdout_fd);
 			data->original_stdout_fd = dup(STDOUT_FILENO);
@@ -71,7 +64,6 @@ void	exec_command_with_pipe(t_minishell *data, char **cmd, int end_index)
 
 void	exec_command_nopipe(t_minishell *data, char **cmd, int end_index)
 {
-
 	char	*cmd_with_path;
 
 	dprintf(2, "\nexec_command_nopipe current last, data->args[%d]: %s\n", end_index, data->args[end_index]); //
@@ -80,9 +72,9 @@ void	exec_command_nopipe(t_minishell *data, char **cmd, int end_index)
 
 	if (data->file.previous_had_outfile == TRUE)
 	{
-		data->file.temp_outfile = open(".temp_outfile", O_RDONLY | O_CREAT, 0644);
-		dup2(data->file.temp_outfile, STDIN_FILENO);
-		close(data->file.temp_outfile);
+		data->file.temp_infile = open(".temp_infile", O_RDONLY | O_CREAT, 0644);
+		dup2(data->file.temp_infile, STDIN_FILENO);
+		close(data->file.temp_infile);
 	}
 	print_array(cmd, "exec_command");
 	data->pid[data->n_pid] = fork();
@@ -103,15 +95,10 @@ void	exec_command_nopipe(t_minishell *data, char **cmd, int end_index)
 	else if (data->pid[data->n_pid] > 0)
 	{
 		data->n_pid++;
-//		if (data->file.has_outfile == TRUE)
-//		{
-			close(STDOUT_FILENO);
-			dup2(data->original_stdout_fd, STDOUT_FILENO);
-			close(data->original_stdout_fd);
-			close(STDIN_FILENO);
-//			data->original_stdin_fd = open("/dev/tty", O_RDONLY);
-			dup2(data->original_stdin_fd, STDIN_FILENO);
-			close(data->original_stdin_fd);
-//		}
+		
+		dup2(data->original_stdout_fd, STDOUT_FILENO);
+		close(data->original_stdout_fd);
+		dup2(data->original_stdin_fd, STDIN_FILENO);
+		close(data->original_stdin_fd);
 	}
 }

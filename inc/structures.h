@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structures.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
+/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 16:30:35 by demre             #+#    #+#             */
-/*   Updated: 2024/04/10 12:31:05 by blarger          ###   ########.fr       */
+/*   Updated: 2024/04/10 13:39:35 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ typedef struct s_file
 	int		has_infile;
 	int		has_outfile;
 	int		previous_had_outfile;
-	int		temp_outfile;
+	int		temp_infile;
 	int		has_heredoc;
 	bool 	ctr_d_pressed;
 //	int		fd1_limited;

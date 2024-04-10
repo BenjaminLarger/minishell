@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_redirections_handle.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
+/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 14:57:17 by demre             #+#    #+#             */
-/*   Updated: 2024/04/10 11:49:57 by blarger          ###   ########.fr       */
+/*   Updated: 2024/04/10 13:38:19 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 static int	handle_output_redirection(t_minishell *data, char **args)
 {
-//	if (data->file.has_outfile == TRUE)
-//		close(data->file.out_fd);
+	if (data->file.has_outfile == TRUE)
+		close(data->file.out_fd);
 	if (!ft_strcmp(args[0], ">>"))
 		data->file.out_fd = open(args[1], O_WRONLY | O_CREAT | O_APPEND, 0644);
 	else if (!ft_strcmp(args[0], ">"))
@@ -27,8 +27,6 @@ static int	handle_output_redirection(t_minishell *data, char **args)
 		return (FAILURE);
 	}
 	data->file.has_outfile = TRUE;
-	dup2(data->file.out_fd, STDOUT_FILENO);
-	close(data->file.out_fd);
 	return (SUCCESS);
 }
 
@@ -57,7 +55,7 @@ static int	handle_input_redirection(t_minishell *data, char **args)
  * @brief Update the pipe with the input from the infile of the last input 
  * redirection if this command group has an input redirection.
  */
-void	update_pipe_with_infile(t_minishell *data)
+static void	update_std_io_with_redirections(t_minishell *data)
 {
 	if (data->file.has_infile == TRUE)
 	{
@@ -69,6 +67,11 @@ void	update_pipe_with_infile(t_minishell *data)
 		dup2(data->file.heredoc_pipe[READ_END], STDIN_FILENO);
 		close(data->file.heredoc_pipe[READ_END]);
 	}
+	if (data->file.has_outfile == TRUE)
+	{
+		dup2(data->file.out_fd, STDOUT_FILENO);
+		close(data->file.out_fd);
+	}
 }
 
 /**
@@ -77,24 +80,24 @@ void	update_pipe_with_infile(t_minishell *data)
 int	handle_redirections(t_minishell *data, char **args, int start, int end)
 {
 	int	i;
-	int	is_success;
+	int	redirected;
 
 	i = start;
-	is_success = SUCCESS;
+	redirected = SUCCESS;
 	while (i < end && args[i])
 	{
 		if (!ft_strcmp(args[i], "<"))
-			is_success = handle_input_redirection(data, &args[i]);
+			redirected = handle_input_redirection(data, &args[i]);
 		else if (!ft_strcmp(args[i], ">"))
-			is_success = handle_output_redirection(data, &args[i]);
+			redirected = handle_output_redirection(data, &args[i]);
 		else if (!ft_strcmp(args[i], "<<"))
-			is_success = handle_here_document(data, &args[i]);
+			redirected = handle_here_document(data, &args[i]);
 		else if (!ft_strcmp(args[i], ">>"))
-			is_success = handle_output_redirection(data, &args[i]);
-		if (is_success == FAILURE)
-			return (is_success);
+			redirected = handle_output_redirection(data, &args[i]);
+		if (redirected == FAILURE)
+			return (FAILURE);
 		i++;
 	}
-	update_pipe_with_infile(data);
+	update_std_io_with_redirections(data);
 	return (SUCCESS);
 }

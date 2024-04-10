@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 14:57:17 by demre             #+#    #+#             */
-/*   Updated: 2024/04/10 13:34:36 by blarger          ###   ########.fr       */
+/*   Updated: 2024/04/10 13:42:01 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,8 @@ static void	exec_args_cleanup(t_minishell *data)
 	close(data->original_stdin_fd);
 	free(data->pid);
 	free(data->status);
-	if (access(".temp_minishell", F_OK | R_OK) == 0)
-		unlink(".temp_minishell");
-//	if (access(".temp_outfile", F_OK | R_OK) == 0)
-//		unlink(".temp_outfile");
+	if (access(".temp_infile", F_OK | R_OK) == 0)
+		unlink(".temp_infile");
 }
 
 static void	reset(t_minishell *data, int *start_index, int i)
