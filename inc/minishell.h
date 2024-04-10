@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
+/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:00 by demre             #+#    #+#             */
-/*   Updated: 2024/04/10 14:50:44 by blarger          ###   ########.fr       */
+/*   Updated: 2024/04/10 16:29:21 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,6 @@ char	*replace_env_var_in_substr(char const *input, int input_len,
 int		get_ev_str_expanded_len(char const *input, int input_len,
 	int *expanded_len, t_minishell *data);
 char	*remove_quotes_from_str(char *str);
-int		check_if_last_element_is_pipe(t_minishell *data);
 
 
 // Handle input utils
@@ -153,8 +152,6 @@ int		is_valid_value_character(char c);
 
 //errros_handling.c
 
-//char	*get_linker_for_error(char *linker);
-void	perror_msg_kill_free(char *msg, t_minishell *data);
 void	print_error_cmd(char *cmd);
 void	print_error_syntax(char *arg);
 int		print_error_and_failure(char *error);

@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/02 14:01:44 by demre             #+#    #+#             */
-/*   Updated: 2024/04/09 16:24:45 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/10 16:03:16 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ static int	store_token(t_minishell *data, char const *str, t_index_data *ind,
 		return (FAILURE);
 	}
 	free(temp_string);
-	dprintf(2, "tokens[ind->j]: %s\n", data->args[ind->j]); //
 	ind->j++;
 	return (SUCCESS);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal_sigint.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
+/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 14:30:46 by demre             #+#    #+#             */
-/*   Updated: 2024/04/10 14:34:37 by blarger          ###   ########.fr       */
+/*   Updated: 2024/04/10 16:26:29 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static void	child_sigint_handler_during_prompt(int sig)
 	rl_redisplay();
 }
 
-void set_child_sigint_action_during_prompt(void)
+void	set_child_sigint_action_during_prompt(void)
 {
 	struct sigaction	act;
 
@@ -51,8 +51,7 @@ static void	child_sigint_handler_after_prompt(int sig)
  * @brief if ctr c is pressed after a command in interactive mode
  * 		=> error code = 130
  */
-
-void set_child_sigint_action_after_prompt(void)
+void	set_child_sigint_action_after_prompt(void)
 {
 	struct sigaction	act;
 
@@ -60,4 +59,3 @@ void set_child_sigint_action_after_prompt(void)
 	act.sa_handler = &child_sigint_handler_after_prompt;
 	sigaction(SIGINT, &act, NULL);
 }
-

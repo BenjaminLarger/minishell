@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 13:29:08 by demre             #+#    #+#             */
-/*   Updated: 2024/03/23 17:59:47 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/10 16:00:49 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ static void	loop_and_remove_quotes(char *with_quote, char **no_quote)
 	n_dbl_quotes = 0;
 	while (with_quote[with_q_idx])
 	{
-//	dprintf(2, "with_quote[%d]: %c, n_sgl_quotes: %d, n_dbl_quotes: %d\n", with_q_idx, with_quote[with_q_idx], n_sgl_quotes, n_dbl_quotes);
 		if (with_quote[with_q_idx] == '\'' && n_dbl_quotes % 2 == 0)
 		{
 			n_sgl_quotes++;
@@ -71,7 +70,6 @@ char	*remove_quotes_from_str(char *with_quote)
 	int		no_quote_len;	
 
 	no_quote_len = calculate_no_quote_str_length(with_quote);
-dprintf(2, "with_quote: %s, with_quote_len: %d, no_quote_len: %d\n", with_quote, ft_strlen(with_quote), no_quote_len); //
 	no_quote = (char *)malloc((no_quote_len + 1) * sizeof(char));
 	if (!no_quote)
 		return (NULL);

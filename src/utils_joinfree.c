@@ -6,16 +6,13 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 09:30:08 by blarger           #+#    #+#             */
-/*   Updated: 2024/03/25 15:35:50 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/10 16:19:06 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
-int		ft_strlen(const char *str);
-
-char	*jointure_free(char *str, const char *s2, int i, int length)
+static char	*jointure_free(char *str, const char *s2, int i, int length)
 {
 	int	j;
 

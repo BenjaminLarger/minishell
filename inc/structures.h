@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 16:30:35 by demre             #+#    #+#             */
-/*   Updated: 2024/04/10 14:59:20 by blarger          ###   ########.fr       */
+/*   Updated: 2024/04/10 16:46:13 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ typedef struct s_index_data
  */
 typedef struct s_expanded_data
 {
-	char	*temp_ev_name;
+	char	*temp_ev_key;
 	int		expanded_len;
 	int		ev_start;
 	int		n_sgl_quotes;
@@ -122,11 +122,12 @@ typedef struct s_replace_ev_data
 	int		expanded_len;
 	int		exp_idx;
 	char	*temp_ev_value;
-	char	*temp_ev_name;
+	char	*temp_ev_key;
 	int		ev_start;
 	int		n_sgl_quotes;
 	int		n_dbl_quotes;
 	int		first_quote;
+	int		i;
 }				t_replace_ev_data;
 
 #endif

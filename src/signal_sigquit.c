@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal_sigquit.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
+/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 18:18:30 by blarger           #+#    #+#             */
-/*   Updated: 2024/04/09 13:25:49 by blarger          ###   ########.fr       */
+/*   Updated: 2024/04/10 16:26:44 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static void	child_sigquit_handler_after_prompt(int sig)
 	}
 }
 
-void set_child_sigquit_action_after_prompt(void)
+void	set_child_sigquit_action_after_prompt(void)
 {
 	struct sigaction	act;
 
@@ -50,7 +50,7 @@ static void	child_sigquit_handler_during_prompt(int sig)
 	rl_redisplay();
 }
 
-void set_child_sigquit_action_during_prompt(void)
+void	set_child_sigquit_action_during_prompt(void)
 {
 	struct sigaction	act;
 

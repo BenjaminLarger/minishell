@@ -6,14 +6,15 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:16 by demre             #+#    #+#             */
-/*   Updated: 2024/04/09 16:25:14 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/10 16:38:26 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /**
- * @brief Reads user input from the command line. The input is added to the history if it is not empty.
+ * @brief Reads user input from the command line. The input is added to the 
+ * history if it is not empty.
  * @return Returns a pointer to the string containing the user input.
  */
 char	*read_input(char *prompt)

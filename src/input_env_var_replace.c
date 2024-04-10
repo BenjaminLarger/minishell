@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 15:16:11 by demre             #+#    #+#             */
-/*   Updated: 2024/03/25 20:23:17 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/10 16:02:19 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,11 @@ static void	init_data_replace_env_var(t_replace_ev_data *rep, int *i)
 }
 
 static int	expand_env_var(char const *input, int input_len,
-	t_replace_ev_data *rep, int *i, t_minishell *data)
+	t_replace_ev_data *rep, t_minishell *data)
 {
+	int	*i;
+
+	i = &rep->i;
 	if (is_valid_ev_dollar_sign(input[*i], &rep->n_sgl_quotes,
 			&rep->n_dbl_quotes, &rep->first_quote)
 		&& (*i + 1) < input_len
@@ -33,16 +36,15 @@ static int	expand_env_var(char const *input, int input_len,
 		rep->ev_start = ++(*i);
 		while (*i < input_len && is_valid_ev_character(input[*i]))
 			(*i)++;
-		rep->temp_ev_name = ft_substr(input, rep->ev_start, *i - rep->ev_start);
-		if (!rep->temp_ev_name)
+		rep->temp_ev_key = ft_substr(input, rep->ev_start, *i - rep->ev_start);
+		if (!rep->temp_ev_key)
 			return (FAILURE);
-		rep->temp_ev_value = ft_getenv(data, rep->temp_ev_name);
+		rep->temp_ev_value = ft_getenv(data, rep->temp_ev_key);
 		if (rep->temp_ev_value != NULL)
 		{
-			dprintf(2, "temp_ev_name: %s, ft_getenv(temp_ev_name): %s, *i: %d\n", rep->temp_ev_name, ft_getenv(data, rep->temp_ev_name), *i); //
 			while (*rep->temp_ev_value)
 				rep->expanded[rep->exp_idx++] = *rep->temp_ev_value++;
-			free(rep->temp_ev_name);
+			free(rep->temp_ev_key);
 		}
 	}
 	else
@@ -54,22 +56,21 @@ char	*replace_env_var_in_substr(char const *input, int input_len,
 	t_minishell *data)
 {
 	t_replace_ev_data	rep;
-	int					i;
 
 	if (ft_memchr(input, '$', input_len) == NULL)
 		return (ft_substr(input, 0, input_len));
-	init_data_replace_env_var(&rep, &i);
-	if (get_ev_str_expanded_len(input, input_len, &rep.expanded_len, data) == -1)
+	init_data_replace_env_var(&rep, &rep.i);
+	if (get_ev_str_expanded_len(input, input_len, &rep.expanded_len, data)
+		== -1)
 		return (NULL);
 	rep.expanded = (char *)malloc((rep.expanded_len + 1) * sizeof(char));
 	if (!rep.expanded)
 		return (NULL);
-	while (rep.exp_idx < rep.expanded_len && input[i] != '\0')
+	while (rep.exp_idx < rep.expanded_len && input[rep.i] != '\0')
 	{
-		if (expand_env_var(input, input_len, &rep, &i, data) == FAILURE)
+		if (expand_env_var(input, input_len, &rep, data) == FAILURE)
 			return (NULL);
 	}
 	rep.expanded[rep.exp_idx] = '\0';
-	dprintf(2, "expanded: %s\n", rep.expanded); //
 	return (rep.expanded);
 }
