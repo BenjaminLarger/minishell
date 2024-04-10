@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 20:35:01 by demre             #+#    #+#             */
-/*   Updated: 2024/04/10 17:48:33 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/10 19:45:24 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,11 @@ static void	handle_child_input_command_nopipe(t_minishell *data)
 
 static void	handle_parent_exec_command_nopipe(t_minishell *data)
 {
-	data->n_pid++;
 	dup2(data->original_stdout_fd, STDOUT_FILENO);
 	close(data->original_stdout_fd);
 	dup2(data->original_stdin_fd, STDIN_FILENO);
 	close(data->original_stdin_fd);
+	increase_pid_number(data);
 }
 
 void	exec_command_nopipe(t_minishell *data, char **cmd)

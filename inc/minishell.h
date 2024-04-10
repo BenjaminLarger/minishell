@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:00 by demre             #+#    #+#             */
-/*   Updated: 2024/04/10 19:12:43 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/10 19:58:56 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ int		init_program(t_minishell *data);
 int		run_shell_loop(t_minishell *data);
 int		exec_args(t_minishell *data);
 int		exec_args_init(t_minishell *data, int *i, int *start);
+void	increase_pid_number(t_minishell *data);
 int		get_cmd_without_redirections(t_minishell *data, char ***cmd,
 	int start, int end);
 void	exec_command_with_pipe(t_minishell *data, char **cmd);

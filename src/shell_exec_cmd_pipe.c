@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 20:35:01 by demre             #+#    #+#             */
-/*   Updated: 2024/04/10 14:16:49 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/10 19:45:30 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void	handle_parent_exec_command_with_pipe(t_minishell *data)
 		close(data->original_stdout_fd);
 		data->original_stdout_fd = dup(STDOUT_FILENO);
 	}
-	data->n_pid++;
+	increase_pid_number(data);
 }
 
 static void	execute_or_fail(t_minishell *data, char **cmd)

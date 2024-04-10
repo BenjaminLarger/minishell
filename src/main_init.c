@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_init.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
+/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 18:35:15 by blarger           #+#    #+#             */
-/*   Updated: 2024/04/10 18:08:12 by blarger          ###   ########.fr       */
+/*   Updated: 2024/04/10 20:25:44 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ int	init_program(t_minishell *data)
 	data->prompt = NULL;
 	data->is_exit = FALSE;
 	data->n_pid = 0;
+	data->pid_alloc_size = 20;
 	data->no_output_builtin_executed = FALSE;
 	return (SUCCESS);
 }

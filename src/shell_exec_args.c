@@ -3,30 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   shell_exec_args.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
+/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 14:57:17 by demre             #+#    #+#             */
-/*   Updated: 2024/04/10 19:16:16 by blarger          ###   ########.fr       */
+/*   Updated: 2024/04/10 19:54:37 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static void	exec_args_cleanup(t_minishell *data)
-{
-	char	cwd[1024];
-
-	if (getcwd(cwd, sizeof(cwd)) != NULL)
-		getcwd(data->last_valid_dir, sizeof(data->last_valid_dir));
-	dup2(data->original_stdout_fd, STDOUT_FILENO);
-	close(data->original_stdout_fd);
-	dup2(data->original_stdin_fd, STDIN_FILENO);
-	close(data->original_stdin_fd);
-	free(data->pid);
-	free(data->status);
-	if (access(".temp_infile", F_OK | R_OK) == 0)
-		unlink(".temp_infile");
-}
 
 static void	reset(t_minishell *data, int *start_index, int i)
 {
@@ -57,7 +41,22 @@ static void	wait_for_child_processes(t_minishell *data)
 		data->last_exit_status = WEXITSTATUS(data->status[i]);
 		i++;
 	}
-	exec_args_cleanup(data);
+}
+
+static void	exec_args_cleanup(t_minishell *data)
+{
+	char	cwd[1024];
+
+	if (getcwd(cwd, sizeof(cwd)) != NULL)
+		getcwd(data->last_valid_dir, sizeof(data->last_valid_dir));
+	dup2(data->original_stdout_fd, STDOUT_FILENO);
+	close(data->original_stdout_fd);
+	dup2(data->original_stdin_fd, STDIN_FILENO);
+	close(data->original_stdin_fd);
+	free(data->pid);
+	free(data->status);
+	if (access(".temp_infile", F_OK | R_OK) == 0)
+		unlink(".temp_infile");
 }
 
 static int	get_cmd_and_execute(t_minishell *data, int start, int i)
@@ -107,5 +106,6 @@ int	exec_args(t_minishell *data)
 		i++;
 	}
 	wait_for_child_processes(data);
+	exec_args_cleanup(data);
 	return (SUCCESS);
 }
