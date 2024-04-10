@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 18:35:15 by blarger           #+#    #+#             */
-/*   Updated: 2024/04/10 12:31:15 by blarger          ###   ########.fr       */
+/*   Updated: 2024/04/10 18:08:12 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static int	increase_shlvl(char **env_msh)
 			temp_shlvl
 				= ft_itoa(ft_atoi(ft_strchr(env_msh[i], '=') + 1) + 1);
 			if (!temp_shlvl)
-				return (FAILURE);
+				return (print_error_and_failure(MALLOC_FAIL));
 			free(env_msh[i]);
 			env_msh[i] = ft_strjoin("SHLVL=", temp_shlvl);
 			if (!env_msh[i])
@@ -85,7 +85,6 @@ int	init_program(t_minishell *data)
 	data->cd_last_dir = (char *)malloc(sizeof(char) * MAX_PATH_LEN);
 	if (!data->cd_last_dir)
 		return (print_error_and_failure(MALLOC_FAIL));
-	data->is_start = TRUE;
 	data->last_exit_status = 0;
 	data->prompt = NULL;
 	data->is_exit = FALSE;

@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 16:15:50 by blarger           #+#    #+#             */
-/*   Updated: 2024/04/10 16:44:28 by blarger          ###   ########.fr       */
+/*   Updated: 2024/04/10 18:07:50 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,15 +49,17 @@ static void	dispatch_home_dir(char *arg, char *cur_dir, t_minishell *data)
 	free(path);
 }
 
-static void	cd_back_to_prev_cur_dir(char *arg, char *cur_dir, t_minishell *data)
+static void	cd_back_to_prev_cur_dir( char *cur_dir, t_minishell *data)
 {
-	if (data->is_start == TRUE && arg)
+	if (data->cd_last_dir[0] == '\0')
 	{
 		ft_putstr_fd("minish: cd: OLDPWD not set\n", 2);
 		data->last_exit_status = 1;
 	}
-	else
+	else if (data->cd_last_dir)
 		printf("%s\n", data->cd_last_dir);
+	else if (cur_dir)
+		printf("%s\n", cur_dir);
 	ft_strlcpy(data->cd_last_dir, cur_dir, ft_strlen(cur_dir) + 1);
 	free(cur_dir);
 }
@@ -101,7 +103,7 @@ void	builtin_cd(char *arg, t_minishell *data)
 	if (!cur_dir)
 		chdir(ft_getenv(data, "HOME"));
 	else if (!ft_strcmp(arg, "-"))
-		return (cd_back_to_prev_cur_dir(arg, cur_dir, data));
+		return (cd_back_to_prev_cur_dir(cur_dir, data));
 	else if (!ft_strncmp(arg, "~", 1))
 		dispatch_home_dir(arg, cur_dir, data);
 	else if (ft_strcmp(arg, ".") && chdir(arg))
@@ -109,7 +111,7 @@ void	builtin_cd(char *arg, t_minishell *data)
 	if (cur_dir)
 	{
 		ft_strlcpy(data->cd_last_dir, cur_dir, ft_strlen(cur_dir) + 1);
-		if (data->is_start == FALSE && data->cd_last_dir)
+		if (data->cd_last_dir[0] != '\0')
 			export_pwd_or_old_pwd(data, data->cd_last_dir, "OLDPWD=");
 	}
 	free(cur_dir);

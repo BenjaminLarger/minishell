@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 16:52:17 by blarger           #+#    #+#             */
-/*   Updated: 2024/04/10 17:08:03 by blarger          ###   ########.fr       */
+/*   Updated: 2024/04/10 17:12:01 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static void	father_sigint_handler_herefile(int sig)
 	rl_redisplay();
 }
 
-void set_child_sigint_action_herefile(void)
+void	set_child_sigint_action_herefile(void)
 {
 	struct sigaction	act;
 
