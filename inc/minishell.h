@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
+/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:00 by demre             #+#    #+#             */
-/*   Updated: 2024/04/10 16:51:28 by blarger          ###   ########.fr       */
+/*   Updated: 2024/04/10 19:04:48 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ int		init_program(t_minishell *data);
 
 int		run_shell_loop(t_minishell *data);
 int		exec_args(t_minishell *data);
+int		exec_args_init(t_minishell *data, int *i, int *start);
 int		get_cmd_without_redirections(t_minishell *data, char ***cmd,
 	int start, int end);
 void	exec_command_with_pipe(t_minishell *data, char **cmd);

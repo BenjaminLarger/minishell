@@ -3,31 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   shell_exec_args.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
+/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 14:57:17 by demre             #+#    #+#             */
-/*   Updated: 2024/04/10 16:30:14 by blarger          ###   ########.fr       */
+/*   Updated: 2024/04/10 19:04:24 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static int	exec_args_init(t_minishell *data, int *i, int *start)
-{
-	*i = 0;
-	*start = 0;
-	data->original_stdin_fd = dup(STDIN_FILENO);
-	data->original_stdout_fd = dup(STDOUT_FILENO);
-	data->n_pid = 0;
-	// add realloc
-	data->pid = (int *)malloc(1000 * sizeof(int));
-	if (!data->pid)
-		return (FAILURE);
-	data->status = (int *)malloc(1000 * sizeof(int));
-	if (!data->status)
-		return (FAILURE);
-	return (SUCCESS);
-}
 
 static void	exec_args_cleanup(t_minishell *data)
 {
@@ -87,11 +70,38 @@ static void	wait_for_child_processes(t_minishell *data)
 	exec_args_cleanup(data);
 }
 
+static int	get_cmd_and_execute(t_minishell *data, int start, int i)
+{
+	char	**cmd;
+
+	if (get_cmd_without_redirections(data, &cmd, start, i) == FAILURE)
+		return (FAILURE);
+	if (cmd && !(*cmd) && (data->file.has_heredoc == TRUE
+		|| data->file.has_infile == TRUE))
+	{
+		data->file.in_fd = open(".temp_infile", O_RDONLY | O_CREAT, 0644);
+		dup2(data->file.in_fd, STDIN_FILENO);
+		close(data->file.in_fd);
+	}
+	if (cmd && !(*cmd) && data->file.has_outfile == TRUE)
+	{
+		dup2(data->original_stdout_fd, STDOUT_FILENO);
+		close(data->original_stdout_fd);
+		data->original_stdout_fd = dup(STDOUT_FILENO);
+	}
+	if (cmd && *cmd && data->args[i] && !ft_strcmp(data->args[i], "|"))
+		exec_command_with_pipe(data, cmd);
+	else if (cmd && *cmd && !data->args[i])
+		exec_command_nopipe(data, cmd);
+	free_string_array(cmd);
+	return (SUCCESS);
+}
+
+
 int	exec_args(t_minishell *data)
 {
 	int		i;
 	int		start;
-	char	**cmd;
 
 	if (exec_args_init(data, &i, &start) == FAILURE)
 		return (print_strerror_and_set_exit_status_and_failure(data));
@@ -103,13 +113,8 @@ int	exec_args(t_minishell *data)
 			i++;
 		if (handle_redirections(data, data->args, start, i) == SUCCESS)
 		{
-			if (get_cmd_without_redirections(data, &cmd, start, i) == FAILURE)
+			if (get_cmd_and_execute(data, start, i) == FAILURE)
 				return (FAILURE);
-			if (cmd && *cmd && data->args[i] && !ft_strcmp(data->args[i], "|"))
-				exec_command_with_pipe(data, cmd);
-			else if (cmd && *cmd && !data->args[i])
-				exec_command_nopipe(data, cmd);
-			free_string_array(cmd);
 		}
 		dprintf(2, "exec_args exit status = %d\n", data->last_exit_status);
 		i++;
