@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:00 by demre             #+#    #+#             */
-/*   Updated: 2024/04/10 13:34:59 by blarger          ###   ########.fr       */
+/*   Updated: 2024/04/10 14:13:59 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,6 +148,8 @@ void	set_father_sigint_action_herefile(void);
 char	*ft_getenv(t_minishell *data, char *key);
 void	print_error_cd(char *arg, t_minishell *data, char *error_msg);
 void	export_pwd_or_old_pwd(t_minishell *data, char *dir, char *pwd);
+int		return_true_or_false_set_exit_status(int ret, int sta, t_minishell *d);
+int		is_valid_shell_value(char *arg, t_minishell *data);
 
 //errros_handling.c
 

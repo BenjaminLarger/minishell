@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 09:34:57 by blarger           #+#    #+#             */
-/*   Updated: 2024/04/10 13:24:28 by blarger          ###   ########.fr       */
+/*   Updated: 2024/04/10 14:13:34 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,36 +29,25 @@ static int	is_valid_shell_var(char *arg, t_minishell *data)
 	int	i;
 
 	i = 0;
-	dprintf(2, "is_valid_shell_var arg: %s\n", arg); //
 	if (arg[i] && ft_isdigit(arg[i]))
 	{
-		dprintf(2, "IS not VALID, last_exit_status set to 1\n"); //
 		print_error_message_and_arg(IDENTIFIER, arg);
-		data->last_exit_status = 1;
-		return (FALSE);
+		return (return_true_or_false_set_exit_status(FALSE, 1, data));
 	}
 	while (arg[i] && is_valid_ev_character(arg[i]) == TRUE)
 		i++;
 	if (i != 0 && ((arg[i] && arg[i] == '=')
 			|| (arg[i] && arg[i] == '+' && arg[i + 1] && arg[i + 1] == '=')))
 	{
-		data->last_exit_status = 0;
-		dprintf(2, "IS VALID\n");
-		return (TRUE);
+		return (return_true_or_false_set_exit_status(TRUE, 0, data));
 	}
 	else if (arg[i] && is_valid_ev_character(arg[i]) == FALSE)
 	{
-		dprintf(2, "IS not VALID, last_exit_status set to 1\n"); //
 		print_error_message_and_arg(IDENTIFIER, arg);
-		data->last_exit_status = 1;
-		return (FALSE);
+		return (return_true_or_false_set_exit_status(FALSE, 1, data));
 	}
 	else
-	{
-		data->last_exit_status = 0;
-		dprintf(2, "IS not VALID\n"); //
-		return (FALSE);
-	}
+		return (return_true_or_false_set_exit_status(FALSE, 1, data));
 }
 
 static int	does_env_var_exist(char **env_msh, char *new_var, int end)
@@ -115,7 +104,8 @@ void	builtin_export(char **args, t_minishell *data)
 	{
 		while (args[i])
 		{
-			if (is_valid_shell_var(args[i], data) == TRUE)
+			if (is_valid_shell_var(args[i], data) == TRUE
+				&& is_valid_shell_value(args[i], data) == TRUE)
 			{
 				if (handle_shell_var(&data->env_msh, args[i]) == FAILURE)
 				{
