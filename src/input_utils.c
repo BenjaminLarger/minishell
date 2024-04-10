@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 15:51:27 by demre             #+#    #+#             */
-/*   Updated: 2024/03/23 16:36:14 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/10 16:21:01 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,17 @@ int	is_valid_ev_dollar_sign(char c, int *n_sgl_quotes, int *n_dbl_quotes,
 	else
 		*first_quote = no_quote;
 	if (*first_quote != 1 && c == '$')
+		return (TRUE);
+	return (FALSE);
+}
+
+int	is_redirection(char *str)
+{
+	if (ft_strcmp(str, "<") == 0
+		|| ft_strcmp(str, "<<") == 0
+		|| ft_strcmp(str, ">") == 0
+		|| ft_strcmp(str, ">>") == 0
+	)
 		return (TRUE);
 	return (FALSE);
 }

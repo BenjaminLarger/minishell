@@ -30,7 +30,7 @@ SRCS		:= main.c main_init.c shell.c \
 	shell_redirections_handle.c shell_get_cmd.c \
 	shell_exec_cmd_pipe.c shell_exec_cmd_nopipe.c \
 	shell_redirections_herefile.c \
-	utils_joinfree.c utils_process_args.c  \
+	utils_joinfree.c utils.c  \
 	cleanup_free_arrays.c \
 	error_handling.c \
 	dev_utils.c \

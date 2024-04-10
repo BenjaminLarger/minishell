@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 15:16:11 by demre             #+#    #+#             */
-/*   Updated: 2024/03/25 20:24:14 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/10 16:06:35 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,18 +44,16 @@ static int	calculate_expanded_len(char const *input, int input_len,
 			exp.ev_start = ++i;
 			while (i < input_len && is_valid_ev_character(input[i]))
 				i++;
-			exp.temp_ev_name
-				= ft_substr(input, exp.ev_start, i - exp.ev_start);
-			if (!exp.temp_ev_name)
+			exp.temp_ev_key = ft_substr(input, exp.ev_start, i - exp.ev_start);
+			if (!exp.temp_ev_key)
 				return (-1);
-			if (ft_getenv(data, exp.temp_ev_name))
-				exp.expanded_len += ft_strlen(ft_getenv(data, exp.temp_ev_name));
-			free(exp.temp_ev_name);
+			if (ft_getenv(data, exp.temp_ev_key))
+				exp.expanded_len += ft_strlen(ft_getenv(data, exp.temp_ev_key));
+			free(exp.temp_ev_key);
 		}
 		else
 			increment_index_and_length(&i, &exp.expanded_len);
 	}
-	dprintf(2, "returning exp_len: %d, i: %d\n\n", exp.expanded_len, i);
 	return (exp.expanded_len);
 }
 
