@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 16:15:50 by blarger           #+#    #+#             */
-/*   Updated: 2024/04/10 13:40:27 by blarger          ###   ########.fr       */
+/*   Updated: 2024/04/10 13:46:08 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,20 +69,11 @@ static void	dispatch_home_dir(char *arg, char *cur_dir, t_minishell *data)
 	else
 	{
 		print_error_cd(arg, data, FILE);
-		ft_putstr_fd("minish: cd: ", 2);
-		ft_putstr_fd(arg, 2);
-		write(2, " ", 1);
-		ft_putstr_fd(FILE, 2);
-		data->last_exit_status = 1;
 		return ;
 	}
 	if (chdir(arg))
 	{
-		ft_putstr_fd("minish: cd: ", 2);
-		ft_putstr_fd(path, 2);
-		write(2, " ", 1);
-		ft_putstr_fd(FILE, 2);
-		data->last_exit_status = 1;
+		print_error_cd(arg, data, FILE);
 	}
 	ft_strlcpy(data->cd_last_dir, cur_dir, ft_strlen(data->cd_last_dir) + 1);
 	free(path);

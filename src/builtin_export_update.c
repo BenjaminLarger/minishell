@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export_update.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
+/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 13:35:34 by demre             #+#    #+#             */
-/*   Updated: 2024/04/05 16:10:01 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/10 14:16:55 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,4 +122,31 @@ int	append_shell_var(char ***env_msh, char *new_var, int end)
 		i++;
 	}
 	return (FAILURE);
+}
+
+int	is_valid_shell_value(char *arg, t_minishell *data)
+{
+	int	i;
+
+	i = 0;
+	while (arg[i])
+		i++;
+	while (is_valid_ev_character(arg[i]) == TRUE && arg[i] != '=' && i > 0)
+	{
+		i--;
+	}
+	if (arg[i] != '=')
+	{
+		print_error_message_and_arg(IDENTIFIER, arg);
+		return (return_true_or_false_set_exit_status(FALSE, 1, data));
+	}
+	while (i > 0)
+	{
+		if (arg[i] == '=')
+		{
+			print_error_message_and_arg(IDENTIFIER, arg);
+			return (return_true_or_false_set_exit_status(FALSE, 1, data));
+		}
+	}
+	return (TRUE);
 }
