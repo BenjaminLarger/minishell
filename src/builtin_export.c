@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 09:34:57 by blarger           #+#    #+#             */
-/*   Updated: 2024/04/10 11:27:58 by blarger          ###   ########.fr       */
+/*   Updated: 2024/04/10 13:24:28 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,34 +23,6 @@ static void	display_exported_variable(t_minishell *data)
 		i++;
 	}
 }
-
-/* static int	is_valid_shell_var(char *arg, t_minishell *data)
-{
-	int	i;
-
-	i = 0;
-	dprintf(2, "is_valid_shell_var arg: %s\n", arg); //
-	while (arg[i] && is_valid_ev_character(arg[i]) == TRUE)
-		i++;
-	if (i != 0 && ((arg[i] && arg[i] == '=')
-		|| (arg[i] && arg[i] == '+' && arg[i + 1] && arg[i + 1] == '=')))
-	{
-		if (arg[i] == '+')
-			i++;
-		i++;
-		while (arg[i] && is_valid_ev_character(arg[i]) == TRUE)
-			i++;
-		if (arg[i] == '\0')
-		{
-			dprintf(2, "IS VALID\n"); //
-			return (TRUE);
-		}
-	}
-	dprintf(2, "IS not VALID, last_exit_status set to 1\n"); //
-	print_error_message_and_arg(IDENTIFIER, arg);
-	data->last_exit_status = 1;
-	return (FALSE);
-} */
 
 static int	is_valid_shell_var(char *arg, t_minishell *data)
 {

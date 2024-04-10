@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 16:15:50 by blarger           #+#    #+#             */
-/*   Updated: 2024/04/10 13:18:30 by blarger          ###   ########.fr       */
+/*   Updated: 2024/04/10 13:40:27 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ static void	dispatch_home_dir(char *arg, char *cur_dir, t_minishell *data)
 	}
 	else
 	{
+		print_error_cd(arg, data, FILE);
 		ft_putstr_fd("minish: cd: ", 2);
 		ft_putstr_fd(arg, 2);
 		write(2, " ", 1);
@@ -100,7 +101,7 @@ static void	cd_back_to_prev_cur_dir(char *arg, char *cur_dir, t_minishell *data)
 	free(cur_dir);
 }
 
-static void	export_pwd_or_old_pwd(t_minishell *data, char *dir, char *pwd)
+void	export_pwd_or_old_pwd(t_minishell *data, char *dir, char *pwd)
 {
 	char	**args;
 	char	*value;
@@ -112,17 +113,16 @@ static void	export_pwd_or_old_pwd(t_minishell *data, char *dir, char *pwd)
 		return (ft_putstr_fd(MALLOC_FAIL, 2));
 	value = ft_strdup(dir);
 	args[0] = ft_strdup("export");
-	args[1] = ft_strjoin(pwd, dir); //PWD= or OLDPWD=
+	args[1] = ft_strjoin(pwd, dir);
 	args[2] = NULL;
 	builtin_export(args, data);
 	free(value);
 	free_n_string_array(args, 2);
 }
 
-void	builtin_cd(char *arg, t_minishell *data) //Check the leaks. Else it should works perfectly
+void	builtin_cd(char *arg, t_minishell *data)
 {
 	char	*cur_dir;
-	char	cwd[1024];
 
 	data->last_exit_status = 0;
 	if (command_with_pipe(data->args) == TRUE)
@@ -137,19 +137,8 @@ void	builtin_cd(char *arg, t_minishell *data) //Check the leaks. Else it should 
 		return (cd_back_to_prev_cur_dir(arg, cur_dir, data));
 	else if (!ft_strncmp(arg, "~", 1))
 		dispatch_home_dir(arg, cur_dir, data);
-	else if (ft_strcmp(arg, "."))
-	{
-		if (chdir(arg))
-		{
-			ft_putstr_fd("minish: cd: ", 2);
-			ft_putstr_fd(arg, 2);
-			ft_putchar_fd(' ', 2);
-			ft_putstr_fd(FILE, 2);
-			data->last_exit_status = 1;
-		}
-	}
-	if (getcwd(cwd, sizeof(cwd)) != NULL)
-		export_pwd_or_old_pwd(data, cwd, "PWD=");
+	else if (ft_strcmp(arg, ".") && chdir(arg))
+		print_error_cd(arg, data, FILE);
 	if (cur_dir)
 	{
 		ft_strlcpy(data->cd_last_dir, cur_dir, ft_strlen(cur_dir) + 1);
