@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:00 by demre             #+#    #+#             */
-/*   Updated: 2024/04/10 19:58:56 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/10 20:49:24 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,9 @@ extern int	g_signal;
 
 // Signal handling
 
-	//ctrl-c
+	// ctrl-c
 void	set_child_sigint_action_during_prompt(void);
-	//ctr- \						//
+	// ctr- \						//
 void	set_child_sigquit_action_during_prompt(void);
 void	set_child_sigquit_action_after_prompt(void);
 
@@ -52,14 +52,13 @@ int		load_env_variables(t_minishell *data, char **envp);
 int		init_program(t_minishell *data);
 
 // Shell engine
-// shell.c, shell_process_args.c
 
 int		run_shell_loop(t_minishell *data);
 int		exec_args(t_minishell *data);
 int		exec_args_init(t_minishell *data, int *i, int *start);
 void	increase_pid_number(t_minishell *data);
 int		get_cmd_without_redirections(t_minishell *data, char ***cmd,
-	int start, int end);
+			int start, int end);
 void	exec_command_with_pipe(t_minishell *data, char **cmd);
 void	exec_command_nopipe(t_minishell *data, char **cmd);
 int		exec_cmd_if_builtin(char **args, t_minishell *data);
@@ -68,7 +67,7 @@ int		is_env_changing_builtin(char **cmd, t_minishell *data);
 // Path
 
 int		get_cmd_with_path(t_minishell *data, char const *cmd,
-	char **cmd_with_path);
+			char **cmd_with_path);
 
 // Handle input
 
@@ -78,11 +77,10 @@ int		count_tokens(char const *str);
 int		assign_tokens(t_minishell *data, char const *str);
 int		check_tokens_syntax(char **args);
 char	*replace_env_var_in_substr(char const *input, int input_len,
-	t_minishell *data);
+			t_minishell *data);
 int		get_ev_str_expanded_len(char const *input, int input_len,
-	int *expanded_len, t_minishell *data);
+			int *expanded_len, t_minishell *data);
 char	*remove_quotes_from_str(char *str);
-
 
 // Handle input utils
 
@@ -92,12 +90,13 @@ int		is_outside_quotes(t_token_data *tok);
 int		isspace_outside_quotes(int c, t_index_data *ind);
 int		islinker_outside_quotes(char const *str, t_index_data *ind);
 void	increase_quote_count_if_outside_quotes(char c,
-	int *n_sgl_quotes, int *n_dbl_quotes);
+			int *n_sgl_quotes, int *n_dbl_quotes);
 int		is_valid_ev_dollar_sign(char c, int *n_sgl_quotes, int *n_dbl_quotes,
-	int *first_quote);
+			int *first_quote);
 
-//Execute commands
-	//BuiltsIn
+// Execute commands
+	// BuiltsIn
+
 void	builtin_echo(char **args);
 void	builtin_pwd(t_minishell *data);
 void	builtin_env(t_minishell *data);
@@ -106,25 +105,25 @@ void	builtin_export(char **args, t_minishell *data);
 void	builtin_unset(char **args, t_minishell *data);
 void	builtin_exit(t_minishell *data, char **args);
 
-	//builtin_export_update
+	// builtin_export_update
 
 int		new_shell_var(char ***env_msh, char *new_var);
 int		replace_shell_var(char ***env_msh, char *new_var, int end);
 int		new_shell_var_without_plus(char ***env_msh, char *new_var, int end);
 int		append_shell_var(char ***env_msh, char *new_var, int end);
 
-//Handle redirection
+// Handle redirection
 
 int		handle_redirections(t_minishell *data, char **args, int start, int end);
 
 // Free arrays
-// cleanup_free_arrays.c
+
 void	free_string_array(char **str_array);
 void	free_n_string_array(char **str_array, int n);
 void	free_int_array(int **int_array, int size);
-// void	free_env_array(void);
 
-//utils
+// Utils
+
 char	*ft_strjoin_free(char *s1, char *s2);
 int		is_linker(char *str);
 int		is_redirection(char *str);
@@ -133,7 +132,7 @@ int		command_with_pipe(char **args);
 int		is_valid_ev_character(char c);
 int		handle_here_document(t_minishell *data, char **args);
 void	set_child_sigint_action_herefile(void);
-void 	set_child_sigint_action_after_prompt(void);
+void	set_child_sigint_action_after_prompt(void);
 void	set_father_sigint_action_herefile(void);
 char	*ft_getenv(t_minishell *data, char *key);
 void	print_error_cd(char *arg, t_minishell *data, char *error_msg);
@@ -142,7 +141,7 @@ int		return_true_or_false_set_exit_status(int ret, int sta, t_minishell *d);
 int		is_valid_shell_value(char *arg, t_minishell *data);
 int		is_valid_value_character(char c);
 
-//errros_handling.c
+// Error handling
 
 void	print_error_cmd(char *cmd);
 void	print_error_syntax(char *arg);

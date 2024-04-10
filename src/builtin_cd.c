@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_cd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
+/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 16:15:50 by blarger           #+#    #+#             */
-/*   Updated: 2024/04/10 18:07:50 by blarger          ###   ########.fr       */
+/*   Updated: 2024/04/10 20:44:24 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,7 @@
 static char	*get_home_path(t_minishell *data)
 {
 	if (ft_getenv(data, "HOME"))
-	{
 		return (ft_getenv(data, "HOME"));
-	}
 	else if (ft_getenv(data, ""))
 		return (ft_getenv(data, "ZDOTDIR"));
 	else if (ft_getenv(data, "USER_ZDOTDIR"))
@@ -34,6 +32,8 @@ static void	dispatch_home_dir(char *arg, char *cur_dir, t_minishell *data)
 	if ((arg[1] == '/' || arg[1] == '\0') && get_home_path(data))
 	{
 		path = gnl_strjoin(get_home_path(data), arg + 1);
+		if (!path)
+			return (print_strerror_and_set_exit_status(data));
 		arg = path;
 	}
 	else

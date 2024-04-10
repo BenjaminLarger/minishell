@@ -6,11 +6,23 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 18:35:15 by blarger           #+#    #+#             */
-/*   Updated: 2024/04/10 20:25:44 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/10 20:39:25 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static int	get_array_size(char **envp)
+{
+	int	size;
+
+	size = 0;
+	if (!envp)
+		return (size);
+	while (envp[size])
+		size++;
+	return (size);
+}
 
 /**
  * @brief Increase by one the $SHLVL environment variable that holds the current
@@ -26,8 +38,7 @@ static int	increase_shlvl(char **env_msh)
 	{
 		if (ft_strncmp(env_msh[i], "SHLVL=", 6) == 0)
 		{
-			temp_shlvl
-				= ft_itoa(ft_atoi(ft_strchr(env_msh[i], '=') + 1) + 1);
+			temp_shlvl = ft_itoa(ft_atoi(ft_strchr(env_msh[i], '=') + 1) + 1);
 			if (!temp_shlvl)
 				return (print_error_and_failure(MALLOC_FAIL));
 			free(env_msh[i]);
@@ -55,9 +66,7 @@ int	load_env_variables(t_minishell *data, char **envp)
 	int		size;
 
 	i = 0;
-	size = 0;
-	while (envp[size])
-		size++;
+	size = get_array_size(envp);
 	data->env_msh = (char **)malloc((size + 1) * sizeof(char *));
 	if (!data->env_msh)
 		return (print_error_and_failure(MALLOC_FAIL));

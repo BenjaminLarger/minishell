@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
+/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:16:49 by demre             #+#    #+#             */
-/*   Updated: 2024/04/10 19:06:27 by blarger          ###   ########.fr       */
+/*   Updated: 2024/04/10 20:39:56 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ int	main(int argc, char **argv, char **envp)
 		exit(EXIT_FAILURE);
 	dprintf(2, "\e[36mLaunching minishell - $SHLVL=%s\e[0m\n", ft_getenv(&data, "SHLVL"));
 	run_shell_loop(&data);
-	dprintf(2, "freeing\n");
 	free_string_array(data.env_msh);
 	free(data.cd_last_dir);
 	exit(data.last_exit_status);
