@@ -1,6 +1,12 @@
 # TODO:
 
-1)  
+- Reset color of "exit"
+- Check every printf/dprintf
+
+- Delete dev_utils.c
+- Remove dev_utils.c from Makefile
+- Remove -Wunreachable-code -g -fsanitize=address,undefined from Makefile
+
 
 --------
 
