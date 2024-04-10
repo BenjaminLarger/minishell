@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_cd_utils.c                                 :+:      :+:    :+:   */
+/*   builtin_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 13:28:12 by blarger           #+#    #+#             */
-/*   Updated: 2024/04/10 13:58:20 by blarger          ###   ########.fr       */
+/*   Updated: 2024/04/10 14:51:10 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,4 +25,17 @@ int	return_true_or_false_set_exit_status(int ret, int sta, t_minishell *d)
 {
 	d->last_exit_status = sta;
 	return (ret);
+}
+
+int	is_valid_value_character(char c)
+{
+	if ((c >= '0' && c <= '9')
+		|| (c >= 'a' && c <= 'z')
+		|| (c >= 'A' && c <= 'Z')
+		|| (c == '_')
+		|| (c == '-')
+		|| (c == '.')
+		|| (c == '/'))
+		return (TRUE);
+	return (FALSE);
 }

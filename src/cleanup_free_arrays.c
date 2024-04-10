@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleanup_free_arrays.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
+/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/02 14:34:07 by demre             #+#    #+#             */
-/*   Updated: 2024/03/27 12:45:24 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/10 14:21:20 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,18 +56,3 @@ void	free_int_array(int **int_array, int size)
 	}
 	free(int_array);
 }
-
-/* 
-void	free_env_array(void)
-{
-	extern char	**environ;
-	int	i;
-
-	i = 0;
-	while (environ[i])
-	{
-		free(environ[i]);
-		i++;
-	}
-}
- */

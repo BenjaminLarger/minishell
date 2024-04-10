@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
+/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:00 by demre             #+#    #+#             */
-/*   Updated: 2024/04/10 14:20:19 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/10 14:50:44 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ int		signal_handling(t_minishell *data);
 void	set_child_sigint_action_during_prompt(void);
 void	set_parent_sigint_action(void);
 	//ctrl-d
-void	set_child_exit_signal_action(void);
 void	set_parent_exit_signal_action(void);
 	//ctr- \						//
 void	set_child_sigquit_action_during_prompt(void);
@@ -150,6 +149,7 @@ void	print_error_cd(char *arg, t_minishell *data, char *error_msg);
 void	export_pwd_or_old_pwd(t_minishell *data, char *dir, char *pwd);
 int		return_true_or_false_set_exit_status(int ret, int sta, t_minishell *d);
 int		is_valid_shell_value(char *arg, t_minishell *data);
+int		is_valid_value_character(char c);
 
 //errros_handling.c
 

@@ -6,29 +6,16 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 14:31:29 by demre             #+#    #+#             */
-/*   Updated: 2024/04/10 10:48:57 by blarger          ###   ########.fr       */
+/*   Updated: 2024/04/10 14:31:36 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/* static void	kill_and_exit(t_minishell *data, int exit_status)
-{
-	// free args
-	// close file descriptors
-	free_env_array();
-	close(data->fd_pipe1[READ_END]);
-	kill(data->pid1, SIGUSR1);
-	if (errno == 0)
-		exit(exit_status);
-	exit(errno);
-} */
-
 int	run_shell_loop(t_minishell *data)
 {
 	set_child_sigint_action_during_prompt();
 	set_child_sigquit_action_during_prompt();
-	set_child_exit_signal_action(); //SIGUSR1 to delete ?
 	//dprintf(2, "data->prompt: %s, data->is_exit: %d\n", data->prompt, data->is_exit);
 	while (!(data->prompt) || data->is_exit == FALSE)
 	{
