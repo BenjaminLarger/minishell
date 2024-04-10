@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 08:57:23 by blarger           #+#    #+#             */
-/*   Updated: 2024/04/09 12:42:23 by blarger          ###   ########.fr       */
+/*   Updated: 2024/04/10 11:25:36 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,12 +66,12 @@ void	builtin_unset(char **args, t_minishell *data)
 	int		j;
 
 	i = 1;
+	data->last_exit_status = 0;
 	while (args[i])
 	{
 		j = 0;
 		if (value_is_valid(args[i]) == FALSE)
 		{
-			data->last_exit_status = 1;
 			i++;
 			continue ;
 		}

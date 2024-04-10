@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
+/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 09:34:57 by blarger           #+#    #+#             */
-/*   Updated: 2024/04/09 20:08:28 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/10 11:27:58 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,8 @@ static int	is_valid_shell_var(char *arg, t_minishell *data)
 	if (i != 0 && ((arg[i] && arg[i] == '=')
 			|| (arg[i] && arg[i] == '+' && arg[i + 1] && arg[i + 1] == '=')))
 	{
-		dprintf(2, "IS VALID\n"); //
+		data->last_exit_status = 0;
+		dprintf(2, "IS VALID\n");
 		return (TRUE);
 	}
 	else if (arg[i] && is_valid_ev_character(arg[i]) == FALSE)
@@ -82,6 +83,7 @@ static int	is_valid_shell_var(char *arg, t_minishell *data)
 	}
 	else
 	{
+		data->last_exit_status = 0;
 		dprintf(2, "IS not VALID\n"); //
 		return (FALSE);
 	}

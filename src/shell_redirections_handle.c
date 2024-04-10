@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_redirections_handle.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
+/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 14:57:17 by demre             #+#    #+#             */
-/*   Updated: 2024/04/09 17:29:09 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/10 11:49:57 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ void	update_pipe_with_infile(t_minishell *data)
 	{
 		dup2(data->file.heredoc_pipe[READ_END], STDIN_FILENO);
 		close(data->file.heredoc_pipe[READ_END]);
-
 	}
 }
 
