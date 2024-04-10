@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 14:57:17 by demre             #+#    #+#             */
-/*   Updated: 2024/04/10 13:38:19 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/10 18:13:02 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,20 +34,23 @@ static int	handle_input_redirection(t_minishell *data, char **args)
 {
 	if (data->file.has_infile == TRUE)
 		close(data->file.in_fd);
-	data->file.in_fd = open(args[1], O_RDONLY);
-	if (access(args[1], F_OK) == -1 || access(args[1], R_OK) == -1
-		|| data->file.in_fd < 0)
-	{
-		data->last_exit_status = 1;
-		print_strerror_and_arg(args[1]);
-		return (FAILURE);
-	}
 	if (data->file.has_heredoc == TRUE)
 	{
 		close(data->file.heredoc_pipe[READ_END]);
 		data->file.has_heredoc = FALSE;
 	}
 	data->file.has_infile = TRUE;
+	data->file.in_fd = open(args[1], O_RDONLY);
+	if (access(args[1], F_OK | R_OK) == -1 || data->file.in_fd < 0)
+	{
+		dprintf(2, "no infile, creating .temp_infile\n");
+		data->file.in_fd = open(".temp_infile", O_RDONLY | O_CREAT, 0644);
+		dup2(data->file.in_fd, STDIN_FILENO);
+		close(data->file.in_fd);
+		data->last_exit_status = 1;
+		print_strerror_and_arg(args[1]);
+		return (FAILURE);
+	}
 	return (SUCCESS);
 }
 

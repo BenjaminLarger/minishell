@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_redirections_herefile.c                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
+/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 17:44:46 by blarger           #+#    #+#             */
-/*   Updated: 2024/04/10 17:09:56 by blarger          ###   ########.fr       */
+/*   Updated: 2024/04/10 19:06:28 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,10 @@ int	handle_here_document(t_minishell *data, char **args)
 		data->last_exit_status = 258;
 		return (FAILURE);
 	}
+
+	dup2(data->original_stdin_fd, STDIN_FILENO);
+	close(data->original_stdin_fd);
+	data->original_stdin_fd = dup(STDIN_FILENO);
 	if (pipe(data->file.heredoc_pipe) == -1)
 		return (print_strerror_and_set_exit_status_and_failure(data));
 	here_pid = fork();
