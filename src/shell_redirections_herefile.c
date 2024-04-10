@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 17:44:46 by blarger           #+#    #+#             */
-/*   Updated: 2024/04/08 18:10:52 by blarger          ###   ########.fr       */
+/*   Updated: 2024/04/10 15:07:40 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,12 @@
 static void	child_sigint_handler_herefile(int sig)
 {
 	(void)sig;
-	//dprintf(2, "The child_sigint_handler_herefile ID is %d\n", getpid());
-	dprintf(2, "ctrl-c pressed in here file -> EXIT_FAILURE\n"); //
 	exit(EXIT_FAILURE);
 }
 
 static void	father_sigint_handler_herefile(int sig)
 {
 	(void)sig;
-	printf("ctrl-c pressed in here file parent catch\n"); //
-	//free(content);
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
@@ -53,14 +49,22 @@ void	set_father_sigint_action_herefile(void)
 
 static void	write_herefile(t_minishell *data, char	*content)
 {
+	char	*env_var_replaced;
+
+	env_var_replaced = replace_env_var_in_substr(content,
+			ft_strlen(content), data);
+	if (!env_var_replaced)
+		exit(print_error_and_failure(MALLOC_FAIL));
 	close(data->file.heredoc_pipe[READ_END]);
-	write(data->file.heredoc_pipe[WRITE_END], content, ft_strlen(content));
+	write(data->file.heredoc_pipe[WRITE_END], env_var_replaced,
+		ft_strlen(env_var_replaced));
 	close(data->file.heredoc_pipe[WRITE_END]);
 	if (data->file.has_infile == TRUE)
 	{
 		close(data->file.in_fd);
 		data->file.has_infile = FALSE;
 	}
+	free(env_var_replaced);
 }
 
 /**
@@ -68,30 +72,20 @@ static void	write_herefile(t_minishell *data, char	*content)
  * exit immediately. We may have to fork the process before creating the pipe,
  * and then handle an instant exit via set_child_sigint_action_herefile
  * setting child_sigint_handler_herefile as exit(EXIT_FAILURE) when reached.
-	
  */
 static void	read_herefile_util(t_minishell *data, char **args)
 {
 	char	*line;
 	char	*content;
-	char	*env_var_replaced;
 
-	dprintf(2, "The child herefile ID is %d\n", getpid());
 	set_child_sigint_action_herefile();
-	data->file.ctr_d_pressed = false;
 	content = ft_calloc(1, sizeof(char));
 	if (!content)
-		exit(FAILURE); //Handle malloc failure
+		exit(print_error_and_failure(MALLOC_FAIL));
 	while (1)
 	{
 		line = readline("> ");
-		if (!line)
-		{
-			data->file.ctr_d_pressed = true;
-			free(line);
-			break ;
-		}
-		if (!ft_strcmp(line, args[1]))
+		if (!line || !(ft_strcmp(line, args[1])))
 		{
 			free(line);
 			break ;
@@ -100,11 +94,7 @@ static void	read_herefile_util(t_minishell *data, char **args)
 		content = ft_strjoin_free(content, "\n");
 		free(line);
 	}
-	env_var_replaced = replace_env_var_in_substr(content, ft_strlen(content), data);
-	if (!env_var_replaced)
-		exit(EXIT_FAILURE); // malloc failure
-	write_herefile(data, env_var_replaced);
-	free(env_var_replaced);
+	write_herefile(data, content);
 	exit(EXIT_SUCCESS);
 }
 /**

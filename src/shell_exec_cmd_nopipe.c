@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_exec_cmd_nopipe.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
+/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 20:35:01 by demre             #+#    #+#             */
-/*   Updated: 2024/04/10 14:17:01 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/10 16:21:17 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ void	exec_command_nopipe(t_minishell *data, char **cmd)
 		execve(cmd_with_path, cmd, data->env_msh);
 		free(cmd_with_path);
 		print_error_cmd(cmd[0]);
+		printf("exit 127\n");
 		exit(127);
 	}
 	else if (data->pid[data->n_pid] > 0)

@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 13:28:12 by blarger           #+#    #+#             */
-/*   Updated: 2024/04/10 14:51:10 by blarger          ###   ########.fr       */
+/*   Updated: 2024/04/10 16:34:21 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ void	print_error_cd(char *arg, t_minishell *data, char *error_msg)
 
 int	return_true_or_false_set_exit_status(int ret, int sta, t_minishell *d)
 {
-	d->last_exit_status = sta;
+	if (sta == 1 || sta == 0)
+		d->last_exit_status = sta;
 	return (ret);
 }
 

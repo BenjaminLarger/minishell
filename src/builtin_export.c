@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 09:34:57 by blarger           #+#    #+#             */
-/*   Updated: 2024/04/10 14:13:34 by blarger          ###   ########.fr       */
+/*   Updated: 2024/04/10 16:33:55 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static int	is_valid_shell_var(char *arg, t_minishell *data)
 	if (i != 0 && ((arg[i] && arg[i] == '=')
 			|| (arg[i] && arg[i] == '+' && arg[i + 1] && arg[i + 1] == '=')))
 	{
-		return (return_true_or_false_set_exit_status(TRUE, 0, data));
+		return (return_true_or_false_set_exit_status(TRUE, -1, data));
 	}
 	else if (arg[i] && is_valid_ev_character(arg[i]) == FALSE)
 	{

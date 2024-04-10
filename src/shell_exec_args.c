@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_exec_args.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
+/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 14:57:17 by demre             #+#    #+#             */
-/*   Updated: 2024/04/10 14:33:36 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/10 16:30:14 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ static void	wait_for_child_processes(t_minishell *data)
 	{
 		waitpid(data->pid[i], &data->status[i], 0);
 		data->last_exit_status = WEXITSTATUS(data->status[i]);
+		printf("\tlast exit status wait child process = %d\n", data->last_exit_status);
 		if (WIFEXITED(data->status[i]))
 		{
 			if (WEXITSTATUS(data->status[i]) != 0)
@@ -96,6 +97,7 @@ int	exec_args(t_minishell *data)
 		return (print_strerror_and_set_exit_status_and_failure(data));
 	while (i < data->n_args && data->args[i])
 	{
+		printf("\texec args start = %d\n", data->last_exit_status);
 		reset(data, &start, i);
 		while (data->args[i] && ft_strcmp(data->args[i], "|") != 0)
 			i++;

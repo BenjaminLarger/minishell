@@ -3,22 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   shell_exec_builtin.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
+/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 19:04:16 by demre             #+#    #+#             */
-/*   Updated: 2024/04/09 17:20:33 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/10 16:42:31 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/**
- * @brief Execute cmd if it is a builtin command
- * @param cmd command with its parameters
- * @return SUCCESS if cmd correctly executed, FAILURE otherwise
- */
-
-void	check_and_replace_last_exit_status_call(char **args, t_minishell *data)
+static void	check_and_replace_last_exit_status_call(char **args, t_minishell *data)
 {
 	int	i;
 
@@ -28,13 +22,13 @@ void	check_and_replace_last_exit_status_call(char **args, t_minishell *data)
 		if (!(ft_strcmp(args[i], "$?")))
 		{
 			free(args[i]);
-			args[i] = ft_calloc(sizeof(char), 4);
-			if (!args[i])
-				return ; //Hanlde malloc failure
 			args[i] = ft_itoa(data->last_exit_status);
+			if (!args[i])
+				return (print_strerror_and_set_exit_status(data));
 		}
 		i++;
 	}
+	data->last_exit_status = 0;
 }
 
 static int	is_builtin(char **args)
@@ -64,11 +58,6 @@ int	exec_cmd_if_builtin(char **args, t_minishell *data)
 			builtin_pwd(data);
 		else if (!ft_strcmp(args[0], "env"))
 			builtin_env(data);
-//		else if (!ft_strcmp(args[0], "export"))
-//			builtin_export(args, data);
-//		else if (!ft_strcmp(args[0], "exit"))
-//			builtin_exit(data);
-//		dprintf(2, "HERE builtin\n");
 		return (SUCCESS);
 	}
 	else

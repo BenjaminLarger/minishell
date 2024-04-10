@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 14:31:29 by demre             #+#    #+#             */
-/*   Updated: 2024/04/10 14:31:36 by blarger          ###   ########.fr       */
+/*   Updated: 2024/04/10 16:18:38 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int	run_shell_loop(t_minishell *data)
 		set_child_sigquit_action_after_prompt();
 		if (g_signal != 0)
 		{
+			printf("\tlast exit status f_signal run shell\n");
 			data->last_exit_status = g_signal;
 			g_signal = 0;
 		}
