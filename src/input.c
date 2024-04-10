@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:16 by demre             #+#    #+#             */
-/*   Updated: 2024/04/10 16:06:55 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/10 16:38:26 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,5 @@ int	split_input_into_args(t_minishell *data)
 			return (print_error_and_failure(MALLOC_FAIL));
 		}
 	}
-	print_array(data->args, ""); //
 	return (SUCCESS);
 }

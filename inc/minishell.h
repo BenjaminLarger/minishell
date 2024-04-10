@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:00 by demre             #+#    #+#             */
-/*   Updated: 2024/04/10 16:13:06 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/10 16:29:21 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,8 +152,6 @@ int		is_valid_value_character(char c);
 
 //errros_handling.c
 
-//char	*get_linker_for_error(char *linker);
-void	perror_msg_kill_free(char *msg, t_minishell *data);
 void	print_error_cmd(char *cmd);
 void	print_error_syntax(char *arg);
 int		print_error_and_failure(char *error);

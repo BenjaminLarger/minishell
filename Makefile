@@ -32,7 +32,7 @@ SRCS		:= main.c main_init.c shell.c \
 	shell_redirections_herefile.c \
 	utils_joinfree.c utils.c  \
 	cleanup_free_arrays.c \
-	error_handling.c \
+	error_handling.c error_handling_strerror.c \
 	dev_utils.c \
 
 SRC_DIR		:= src/

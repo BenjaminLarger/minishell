@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:12:28 by demre             #+#    #+#             */
-/*   Updated: 2024/04/09 18:45:44 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/10 16:28:35 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static int	get_all_paths_from_env(t_minishell *data, char ***paths)
 	char	*all_paths_as_one_str;
 	char	*temp;
 	int		i;
-	
+
 	all_paths_as_one_str = ft_getenv(data, "PATH");
 	if (!all_paths_as_one_str)
 		all_paths_as_one_str = "";
@@ -83,7 +83,7 @@ static int	add_path_to_command(char const *cmd, char **cmd_with_path,
 	else
 		*cmd_with_path = ft_strdup(cmd);
 	if (!(*cmd_with_path))
-			return (FAILURE);
+		return (FAILURE);
 	return (SUCCESS);
 }
 
