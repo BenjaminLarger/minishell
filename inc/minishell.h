@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:00 by demre             #+#    #+#             */
-/*   Updated: 2024/04/10 19:04:48 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/10 19:12:43 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,15 +40,8 @@ extern int	g_signal;
 
 // Signal handling
 
-void	block_signal(int signal);
-void	unblock_signal(int signal);
-int		signal_handling(t_minishell *data);
-
 	//ctrl-c
 void	set_child_sigint_action_during_prompt(void);
-void	set_parent_sigint_action(void);
-	//ctrl-d
-void	set_parent_exit_signal_action(void);
 	//ctr- \						//
 void	set_child_sigquit_action_during_prompt(void);
 void	set_child_sigquit_action_after_prompt(void);
@@ -134,8 +127,6 @@ void	free_int_array(int **int_array, int size);
 char	*ft_strjoin_free(char *s1, char *s2);
 int		is_linker(char *str);
 int		is_redirection(char *str);
-int		count_commands(char **args);
-void	write_fdin_to_fdout(int fd_in, int fd_out);
 int		is_string_all_space(char const *str);
 int		command_with_pipe(char **args);
 int		is_valid_ev_character(char c);
@@ -165,7 +156,6 @@ void	print_strerror_and_set_exit_status(t_minishell *data);
 
 void	print_array(char **array, char *message);
 void	check_open_fd(char *message);
-void	ft_leaks(void);
 void	print_fd(int fd);
 void	print_pipes_fd(t_minishell *data);
 void	print_files_fd(t_minishell *data);

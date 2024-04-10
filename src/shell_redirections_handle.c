@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 14:57:17 by demre             #+#    #+#             */
-/*   Updated: 2024/04/10 18:13:02 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/10 19:14:56 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ static int	handle_input_redirection(t_minishell *data, char **args)
 	data->file.in_fd = open(args[1], O_RDONLY);
 	if (access(args[1], F_OK | R_OK) == -1 || data->file.in_fd < 0)
 	{
-		dprintf(2, "no infile, creating .temp_infile\n");
 		data->file.in_fd = open(".temp_infile", O_RDONLY | O_CREAT, 0644);
 		dup2(data->file.in_fd, STDIN_FILENO);
 		close(data->file.in_fd);
