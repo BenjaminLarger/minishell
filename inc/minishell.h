@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
+/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:00 by demre             #+#    #+#             */
-/*   Updated: 2024/04/10 16:29:21 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/10 16:51:28 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,6 @@ void	write_fdin_to_fdout(int fd_in, int fd_out);
 int		is_string_all_space(char const *str);
 int		command_with_pipe(char **args);
 int		is_valid_ev_character(char c);
-void	check_and_replace_last_exit_status_call(char **args, t_minishell *data);
 int		handle_here_document(t_minishell *data, char **args);
 void	set_child_sigint_action_herefile(void);
 void 	set_child_sigint_action_after_prompt(void);

@@ -6,46 +6,11 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 17:44:46 by blarger           #+#    #+#             */
-/*   Updated: 2024/04/10 15:07:40 by blarger          ###   ########.fr       */
+/*   Updated: 2024/04/10 17:09:56 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static void	child_sigint_handler_herefile(int sig)
-{
-	(void)sig;
-	exit(EXIT_FAILURE);
-}
-
-static void	father_sigint_handler_herefile(int sig)
-{
-	(void)sig;
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
-	exit(EXIT_FAILURE);
-}
-
-void set_child_sigint_action_herefile(void)
-{
-	struct sigaction	act;
-
-	if (isatty(STDIN_FILENO))
-		g_signal = 1;
-	ft_bzero(&act, sizeof(act));
-	act.sa_handler = &child_sigint_handler_herefile;
-	sigaction(SIGINT, &act, NULL);
-}
-
-void	set_father_sigint_action_herefile(void)
-{
-	struct sigaction	act;
-
-	ft_bzero(&act, sizeof(act));
-	act.sa_handler = &father_sigint_handler_herefile;
-	sigaction(SIGINT, &act, NULL);
-}
 
 static void	write_herefile(t_minishell *data, char	*content)
 {
@@ -65,6 +30,7 @@ static void	write_herefile(t_minishell *data, char	*content)
 		data->file.has_infile = FALSE;
 	}
 	free(env_var_replaced);
+	free(content);
 }
 
 /**
@@ -91,12 +57,17 @@ static void	read_herefile_util(t_minishell *data, char **args)
 			break ;
 		}
 		content = ft_strjoin_free(content, line);
+		if (!content)
+			exit(print_error_and_failure(MALLOC_FAIL));
 		content = ft_strjoin_free(content, "\n");
+		if (!content)
+			exit(print_error_and_failure(MALLOC_FAIL));
 		free(line);
 	}
 	write_herefile(data, content);
 	exit(EXIT_SUCCESS);
 }
+
 /**
  * @brief Handle here document using readline. Handle ctr-d ok.
  * //Must implement a siganl management in case of ctr-c
@@ -104,39 +75,25 @@ static void	read_herefile_util(t_minishell *data, char **args)
  * Handle here document using readline. Handle ctr-d quasi ok.
  * 		=> ne marche pas quand on repete plusieurs fois
  * 			d'affile ctr-c dans un herefile.
-	
  */
-
 void	read_here_pipe(t_minishell *data, pid_t here_pid)
 {
 	int	status;
 
 	close(data->file.heredoc_pipe[WRITE_END]);
-	dprintf(2, "The parent herefile ID is %d\n", getpid());
-	if (!data)
-		set_father_sigint_action_herefile();
-	dprintf(2, "here father waiting\n");
+	set_father_sigint_action_herefile();
 	waitpid(here_pid, &status, 0);
 	set_child_sigint_action_during_prompt();
-	dprintf(2, "FATHER can process\n");
 	if (WIFEXITED(status))
 	{
 		data->last_exit_status = WEXITSTATUS(status);
 		if (WEXITSTATUS(status) != 0)
 		{
-			//data->file.has_heredoc = FALSE;
 			data->file.has_heredoc = TRUE;
 			close(data->file.heredoc_pipe[READ_END]);
-			//dprintf(2, "ctr-c pressed, caught in father here fork = %d\n", (WEXITSTATUS(status)));
-			//rl_on_new_line();
-			//rl_replace_line("", 0);
-			//rl_redisplay();
-			//data->fd_pipe1[READ_END] = 0;
 		}
 		else
-		{
 			data->file.has_heredoc = TRUE;
-		}
 	}
 	if (data->file.has_infile == TRUE)
 	{
@@ -154,22 +111,14 @@ int	handle_here_document(t_minishell *data, char **args)
 		data->last_exit_status = 258;
 		return (FAILURE);
 	}
-	print_array(args, "handle_here_document");
 	if (pipe(data->file.heredoc_pipe) == -1)
-	{
-		data->last_exit_status = errno;
-		perror("Minish: ");
-		return (FAILURE);
-	}
-	/* if (data->file.has_heredoc == TRUE)
-		close(data->file.heredoc_pipe[READ_END]); */
+		return (print_strerror_and_set_exit_status_and_failure(data));
 	here_pid = fork();
 	if (here_pid < 0)
-		return (FAILURE);
+		return (print_strerror_and_set_exit_status_and_failure(data));
 	else if (here_pid == 0)
 		read_herefile_util(data, args);
 	else
 		read_here_pipe(data, here_pid);
-	dprintf(2, "HERE SUCCESS\n");
 	return (SUCCESS);
 }

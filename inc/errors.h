@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errors.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
+/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:07 by demre             #+#    #+#             */
-/*   Updated: 2024/04/09 16:51:14 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/10 16:55:22 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,6 @@
 # define SYNTAXPIPE		"minish: syntax error near unexpected token `|'\n"
 # define IDENTIFIER		"minish: export: not a valid identifier: `"
 # define ENDOFFILE		"minish: syntax error: unexpected end of file\n"
+# define PIPE			"minish: Pipe failed to be created\n"
 
 #endif
