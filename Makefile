@@ -27,7 +27,8 @@ SRCS		:= main.c main_init.c shell.c \
 	builtin_cd.c builtin_echo.c builtin_pwd.c builtin_env.c \
 	builtin_export.c builtin_export_update.c builtin_exit.c builtin_cd_utils.c\
 	shell_exec_args.c path.c shell_exec_builtin.c builtin_unset.c\
-	shell_redirections_handle.c shell_get_cmd.c shell_exec_cmd.c \
+	shell_redirections_handle.c shell_get_cmd.c \
+	shell_exec_cmd_pipe.c shell_exec_cmd_nopipe.c \
 	shell_redirections_herefile.c \
 	utils_joinfree.c utils_process_args.c  \
 	cleanup_free_arrays.c \

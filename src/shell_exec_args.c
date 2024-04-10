@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_exec_args.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
+/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 14:57:17 by demre             #+#    #+#             */
-/*   Updated: 2024/04/10 13:42:01 by blarger          ###   ########.fr       */
+/*   Updated: 2024/04/10 14:11:33 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ static void	exec_args_cleanup(t_minishell *data)
 	free(data->status);
 	if (access(".temp_infile", F_OK | R_OK) == 0)
 		unlink(".temp_infile");
+	data->is_start = FALSE;
 }
 
 static void	reset(t_minishell *data, int *start_index, int i)
@@ -107,9 +108,9 @@ int	exec_args(t_minishell *data)
 			if (get_cmd_without_redirections(data, &cmd, start, i) == FAILURE)
 				return (FAILURE); // errors handled and all freed
 			if (cmd && *cmd && data->args[i] && !ft_strcmp(data->args[i], "|"))
-				exec_command_with_pipe(data, cmd, i);
+				exec_command_with_pipe(data, cmd);
 			else if (cmd && *cmd && !data->args[i])
-				exec_command_nopipe(data, cmd, i);
+				exec_command_nopipe(data, cmd);
 			free_string_array(cmd);
 		}
 		dprintf(2, "exec_args exit status = %d\n", data->last_exit_status);
@@ -117,7 +118,6 @@ int	exec_args(t_minishell *data)
 	}
 	wait_for_child_processes(data);
 	exec_args_cleanup(data);
-	data->is_start = FALSE;
 //	check_open_fd("end of exec_args");
 //	print_pipes_fd(data);
 	return (SUCCESS);
