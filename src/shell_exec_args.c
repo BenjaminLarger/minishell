@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 14:57:17 by demre             #+#    #+#             */
-/*   Updated: 2024/04/10 14:11:33 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/10 14:33:36 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,7 @@ static int	exec_args_init(t_minishell *data, int *i, int *start)
 {
 	*i = 0;
 	*start = 0;
-	data->original_stdin_fd = open("/dev/tty", O_RDONLY);
-//	data->original_stdin_fd = dup(STDIN_FILENO);
+	data->original_stdin_fd = dup(STDIN_FILENO);
 	data->original_stdout_fd = dup(STDOUT_FILENO);
 	data->n_pid = 0;
 	// add realloc
@@ -73,8 +72,6 @@ static void	wait_for_child_processes(t_minishell *data)
 	while (i < data->n_pid)
 	{
 		waitpid(data->pid[i], &data->status[i], 0);
-		//dprintf(2, "done waiting for child pid[%d]: %d\n", i, data->pid[i]);
-//		dprintf(2, "data->status[i] = %d, last exit status = %d, i = %d\n", data->status[i], (WEXITSTATUS(data->status[i])), i);
 		data->last_exit_status = WEXITSTATUS(data->status[i]);
 		if (WIFEXITED(data->status[i]))
 		{
@@ -82,12 +79,11 @@ static void	wait_for_child_processes(t_minishell *data)
 			{
 				dprintf(2, "errno exit status in first child = %d\n", (WEXITSTATUS(data->status[i])));
 				data->last_exit_status = WEXITSTATUS(data->status[i]);
-				//data->last_exit_status = 127;
 			}
 		}
-//		dprintf(2, "errno exit status in first child = %d\n", (WEXITSTATUS(data->status[i])));
 		i++;
 	}
+	exec_args_cleanup(data);
 }
 
 int	exec_args(t_minishell *data)
@@ -106,7 +102,7 @@ int	exec_args(t_minishell *data)
 		if (handle_redirections(data, data->args, start, i) == SUCCESS)
 		{
 			if (get_cmd_without_redirections(data, &cmd, start, i) == FAILURE)
-				return (FAILURE); // errors handled and all freed
+				return (FAILURE);
 			if (cmd && *cmd && data->args[i] && !ft_strcmp(data->args[i], "|"))
 				exec_command_with_pipe(data, cmd);
 			else if (cmd && *cmd && !data->args[i])
@@ -117,8 +113,5 @@ int	exec_args(t_minishell *data)
 		i++;
 	}
 	wait_for_child_processes(data);
-	exec_args_cleanup(data);
-//	check_open_fd("end of exec_args");
-//	print_pipes_fd(data);
 	return (SUCCESS);
 }
