@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_exec_cmd_nopipe.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
+/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 20:35:01 by demre             #+#    #+#             */
-/*   Updated: 2024/04/10 16:21:17 by blarger          ###   ########.fr       */
+/*   Updated: 2024/04/10 17:48:33 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 static void	handle_child_input_command_nopipe(t_minishell *data)
 {
-	if (data->file.previous_had_outfile == TRUE)
+	if (data->file.previous_had_outfile == TRUE
+		&& data->file.has_infile == FALSE)
 	{
 		data->file.temp_infile = open(".temp_infile", O_RDONLY | O_CREAT, 0644);
 		dup2(data->file.temp_infile, STDIN_FILENO);
@@ -50,7 +51,6 @@ void	exec_command_nopipe(t_minishell *data, char **cmd)
 		execve(cmd_with_path, cmd, data->env_msh);
 		free(cmd_with_path);
 		print_error_cmd(cmd[0]);
-		printf("exit 127\n");
 		exit(127);
 	}
 	else if (data->pid[data->n_pid] > 0)
