@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 09:42:30 by blarger           #+#    #+#             */
-/*   Updated: 2024/04/09 12:47:17 by blarger          ###   ########.fr       */
+/*   Updated: 2024/04/10 11:26:50 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,4 +20,5 @@ void	builtin_pwd(t_minishell *data)
 		printf("%s\n", cwd);
 	else
 		printf("%s\n", data->last_valid_dir);
+	data->last_exit_status = 0;
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_init.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
+/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 18:35:15 by blarger           #+#    #+#             */
-/*   Updated: 2024/04/08 16:03:12 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/10 12:31:15 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ int	init_program(t_minishell *data)
 	data->cd_last_dir = (char *)malloc(sizeof(char) * MAX_PATH_LEN);
 	if (!data->cd_last_dir)
 		return (print_error_and_failure(MALLOC_FAIL));
+	data->is_start = TRUE;
 	data->last_exit_status = 0;
 	data->prompt = NULL;
 	data->is_exit = FALSE;

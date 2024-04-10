@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 16:30:35 by demre             #+#    #+#             */
-/*   Updated: 2024/04/10 12:41:48 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/10 13:39:35 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ typedef struct s_file
  */
 typedef struct s_minishell
 {
+	int		is_start;
 	char	*prompt;
 	char	**args;
 	char	**env_msh;

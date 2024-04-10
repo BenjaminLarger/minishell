@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
+/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 14:31:29 by demre             #+#    #+#             */
-/*   Updated: 2024/04/09 17:36:03 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/10 10:48:57 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ int	run_shell_loop(t_minishell *data)
 		if (g_signal != 0)
 		{
 			data->last_exit_status = g_signal;
+			g_signal = 0;
 		}
 	//dprintf(2, "run_shell_loop data->prompt: %s, data->is_exit: %d\n", data->prompt, data->is_exit);
 		if (data->prompt && *(data->prompt) && data->is_exit == FALSE

@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 20:35:01 by demre             #+#    #+#             */
-/*   Updated: 2024/04/10 13:32:43 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/10 13:39:51 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ void	exec_command_with_pipe(t_minishell *data, char **cmd, int end_index)
 	dprintf(2, "\nexec_command_with_pipe current last, data->args[%d]: %s\n", end_index, data->args[end_index]); //
 	if (is_env_changing_builtin(cmd, data) == TRUE)
 		data->no_output_builtin_executed = TRUE;
-
 	print_array(cmd, "exec_command");
 	if (pipe(data->fd_pipe) == -1)
 		return (print_strerror_and_set_exit_status(data));

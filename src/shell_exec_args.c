@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 14:57:17 by demre             #+#    #+#             */
-/*   Updated: 2024/04/10 13:33:18 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/10 13:37:39 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ static void	reset(t_minishell *data, int *start_index, int i)
 	*start_index = i;
 	data->no_output_builtin_executed = FALSE;
 	data->file.previous_had_outfile = FALSE;
-	data->last_exit_status = 0;
 	if (data->file.has_outfile == TRUE)
 	{
 		data->file.has_outfile = FALSE;
@@ -114,5 +113,8 @@ int	exec_args(t_minishell *data)
 	}
 	wait_for_child_processes(data);
 	exec_args_cleanup(data);
+	data->is_start = FALSE;
+//	check_open_fd("end of exec_args");
+//	print_pipes_fd(data);
 	return (SUCCESS);
 }
