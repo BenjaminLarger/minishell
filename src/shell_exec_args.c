@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 14:57:17 by demre             #+#    #+#             */
-/*   Updated: 2024/04/10 16:30:14 by blarger          ###   ########.fr       */
+/*   Updated: 2024/04/10 19:00:38 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ static void	exec_args_cleanup(t_minishell *data)
 	free(data->status);
 	if (access(".temp_infile", F_OK | R_OK) == 0)
 		unlink(".temp_infile");
-	data->is_start = FALSE;
 }
 
 static void	reset(t_minishell *data, int *start_index, int i)
@@ -73,15 +72,6 @@ static void	wait_for_child_processes(t_minishell *data)
 	{
 		waitpid(data->pid[i], &data->status[i], 0);
 		data->last_exit_status = WEXITSTATUS(data->status[i]);
-		printf("\tlast exit status wait child process = %d\n", data->last_exit_status);
-		if (WIFEXITED(data->status[i]))
-		{
-			if (WEXITSTATUS(data->status[i]) != 0)
-			{
-				dprintf(2, "errno exit status in first child = %d\n", (WEXITSTATUS(data->status[i])));
-				data->last_exit_status = WEXITSTATUS(data->status[i]);
-			}
-		}
 		i++;
 	}
 	exec_args_cleanup(data);
@@ -97,7 +87,6 @@ int	exec_args(t_minishell *data)
 		return (print_strerror_and_set_exit_status_and_failure(data));
 	while (i < data->n_args && data->args[i])
 	{
-		printf("\texec args start = %d\n", data->last_exit_status);
 		reset(data, &start, i);
 		while (data->args[i] && ft_strcmp(data->args[i], "|") != 0)
 			i++;
@@ -111,7 +100,6 @@ int	exec_args(t_minishell *data)
 				exec_command_nopipe(data, cmd);
 			free_string_array(cmd);
 		}
-		dprintf(2, "exec_args exit status = %d\n", data->last_exit_status);
 		i++;
 	}
 	wait_for_child_processes(data);

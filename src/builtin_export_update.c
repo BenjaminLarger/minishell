@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 13:35:34 by demre             #+#    #+#             */
-/*   Updated: 2024/04/10 14:50:13 by blarger          ###   ########.fr       */
+/*   Updated: 2024/04/10 19:07:01 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,7 @@ int	append_shell_var(char ***env_msh, char *new_var, int end)
 	}
 	return (FAILURE);
 }
+
 int	is_valid_shell_value(char *arg, t_minishell *data)
 {
 	int	i;

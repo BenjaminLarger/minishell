@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 14:30:46 by demre             #+#    #+#             */
-/*   Updated: 2024/04/10 17:45:19 by blarger          ###   ########.fr       */
+/*   Updated: 2024/04/10 19:05:57 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ static void	child_sigint_handler_during_prompt(int sig)
 	(void)sig;
 	if (isatty(STDIN_FILENO))
 		g_signal = 1;
-	//printf("\n");
 	rl_on_new_line();
 	rl_replace_line("\n", 0);
 	rl_redisplay();
@@ -41,8 +40,6 @@ static void	child_sigint_handler_after_prompt(int sig)
 	(void)sig;
 	if (isatty(STDIN_FILENO))
 		g_signal = 130;
-	//write(1, "\n", 1);
-	//printf("\n");
 	rl_on_new_line();
 	rl_replace_line("\n", 0);
 	rl_redisplay();

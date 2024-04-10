@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 16:30:35 by demre             #+#    #+#             */
-/*   Updated: 2024/04/10 18:07:40 by blarger          ###   ########.fr       */
+/*   Updated: 2024/04/10 19:01:59 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,6 @@ typedef struct s_file
 	int		previous_had_outfile;
 	int		temp_infile;
 	int		has_heredoc;
-//	int		fd1_limited;
-//	char	*filename1;
-//	char	*filename2;
-//	char	*filename_limited;
-//	char	*limited;
-//	bool	exist_file_1;
-//	bool	read_access_1;
-//	bool	write_access_2;
 }	t_file;
 
 /**
