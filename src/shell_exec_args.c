@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 14:57:17 by demre             #+#    #+#             */
-/*   Updated: 2024/04/10 19:10:43 by blarger          ###   ########.fr       */
+/*   Updated: 2024/04/10 19:13:35 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static int	get_cmd_and_execute(t_minishell *data, int start, int i)
 	if (get_cmd_without_redirections(data, &cmd, start, i) == FAILURE)
 		return (FAILURE);
 	if (cmd && !(*cmd) && (data->file.has_heredoc == TRUE
-		|| data->file.has_infile == TRUE))
+			|| data->file.has_infile == TRUE))
 	{
 		data->file.in_fd = open(".temp_infile", O_RDONLY | O_CREAT, 0644);
 		dup2(data->file.in_fd, STDIN_FILENO);
@@ -86,7 +86,6 @@ static int	get_cmd_and_execute(t_minishell *data, int start, int i)
 	free_string_array(cmd);
 	return (SUCCESS);
 }
-
 
 int	exec_args(t_minishell *data)
 {
