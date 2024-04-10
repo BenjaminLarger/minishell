@@ -6,13 +6,14 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 19:04:16 by demre             #+#    #+#             */
-/*   Updated: 2024/04/10 16:42:31 by blarger          ###   ########.fr       */
+/*   Updated: 2024/04/10 17:12:37 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	check_and_replace_last_exit_status_call(char **args, t_minishell *data)
+static void	check_and_replace_last_exit_status_call(char **args,
+		t_minishell *data)
 {
 	int	i;
 

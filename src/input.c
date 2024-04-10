@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
+/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:16 by demre             #+#    #+#             */
-/*   Updated: 2024/04/10 16:38:26 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/10 17:53:21 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,7 @@ char	*read_input(char *prompt)
 		free(prompt);
 		prompt = NULL;
 	}
-	prompt = readline("\e[32mminish> \e[0m");
-//	prompt = readline("minish> ");
+	prompt = readline("minish> ");
 	if (prompt && *prompt)
 		add_history(prompt);
 	return (prompt);

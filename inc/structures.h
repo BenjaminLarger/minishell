@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 16:30:35 by demre             #+#    #+#             */
-/*   Updated: 2024/04/10 16:46:13 by blarger          ###   ########.fr       */
+/*   Updated: 2024/04/10 18:07:40 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ typedef struct s_file
  */
 typedef struct s_minishell
 {
-	int		is_start;
 	char	*prompt;
 	char	**args;
 	char	**env_msh;

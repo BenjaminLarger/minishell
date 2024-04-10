@@ -6,7 +6,7 @@
 /*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 14:31:29 by demre             #+#    #+#             */
-/*   Updated: 2024/04/10 16:18:38 by blarger          ###   ########.fr       */
+/*   Updated: 2024/04/10 18:03:43 by blarger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ int	run_shell_loop(t_minishell *data)
 {
 	set_child_sigint_action_during_prompt();
 	set_child_sigquit_action_during_prompt();
+	data->cd_last_dir[0] = '\0'; //test if needed
 	//dprintf(2, "data->prompt: %s, data->is_exit: %d\n", data->prompt, data->is_exit);
 	while (!(data->prompt) || data->is_exit == FALSE)
 	{
