@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 18:18:30 by blarger           #+#    #+#             */
-/*   Updated: 2024/04/11 12:16:47 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/11 12:37:26 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ static void	child_sigquit_handler_after_prompt(int sig)
 	(void)sig;
 	if (isatty(STDIN_FILENO))
 	{
-		g_signal = 130;
-		printf("'^\\'Quit: %d\n", SIGQUIT);
+		g_signal = 131;
+		printf("Quit: %d\n", SIGQUIT);
 	}
 }
 
@@ -62,23 +62,9 @@ void	set_child_sigquit_action_after_prompt(void)
 }
 
 /**
- * @brief if ctr \ is pressed during a command in interactive mode
- * 		=> nothing happens
+ * @brief Ignore on ctrl-\
  */
-static void	child_sigquit_handler_during_prompt(int sig)
-{
-	(void)sig;
-	//clear_output2();
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
-}
-
 void	set_child_sigquit_action_during_prompt(void)
 {
-	struct sigaction	act;
-
-	ft_bzero(&act, sizeof(act));
-	act.sa_handler = &child_sigquit_handler_during_prompt;
-	sigaction(SIGQUIT, &act, NULL);
+	signal(SIGQUIT, SIG_IGN);
 }
