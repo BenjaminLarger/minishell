@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal_sigint.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
+/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 14:30:46 by demre             #+#    #+#             */
-/*   Updated: 2024/04/10 19:05:57 by blarger          ###   ########.fr       */
+/*   Updated: 2024/04/11 11:48:51 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,9 @@ static void	child_sigint_handler_during_prompt(int sig)
 	(void)sig;
 	if (isatty(STDIN_FILENO))
 		g_signal = 1;
+	ft_putchar_fd('\n', 1);
 	rl_on_new_line();
-	rl_replace_line("\n", 0);
+	rl_replace_line("", 0);
 	rl_redisplay();
 }
 
@@ -40,9 +41,7 @@ static void	child_sigint_handler_after_prompt(int sig)
 	(void)sig;
 	if (isatty(STDIN_FILENO))
 		g_signal = 130;
-	rl_on_new_line();
-	rl_replace_line("\n", 0);
-	rl_redisplay();
+	ft_putchar_fd('\n', 1);
 }
 
 /**

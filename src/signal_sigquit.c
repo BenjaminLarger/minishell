@@ -6,11 +6,37 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 18:18:30 by blarger           #+#    #+#             */
-/*   Updated: 2024/04/10 16:26:44 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/11 12:16:47 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <termcap.h>
+#include <stdio.h>
+#include <termios.h>
+#include <unistd.h>
+
+/* int clear_output(void)
+{
+    char *str = tgetstr("ccvrvrl", NULL); // Get the clear screen capability
+    if (str != NULL) {
+        tputs(str, 1, putchar); // Output the clear screen capability to the terminal
+    }
+    return 0;
+} */
+
+int	clear_output2(void)
+{
+	struct termios term;
+    tcgetattr(STDIN_FILENO, &term); // Get current terminal attributes
+
+    term.c_lflag &= ~(ICANON | ECHO); // Disable canonical mode and echo
+    tcsetattr(STDIN_FILENO, TCSANOW, &term); // Set modified attributes
+
+    // Now you can read input character by character without echoing
+    // Don't forget to restore terminal attributes later
+    return 0;
+}
 
 /**
  * @brief if ctr \ is pressed after a command in interactive mode
@@ -23,9 +49,6 @@ static void	child_sigquit_handler_after_prompt(int sig)
 	{
 		g_signal = 130;
 		printf("'^\\'Quit: %d\n", SIGQUIT);
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
 	}
 }
 
@@ -45,6 +68,7 @@ void	set_child_sigquit_action_after_prompt(void)
 static void	child_sigquit_handler_during_prompt(int sig)
 {
 	(void)sig;
+	//clear_output2();
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
