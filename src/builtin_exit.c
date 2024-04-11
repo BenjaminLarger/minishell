@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_exit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
+/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 12:57:45 by blarger           #+#    #+#             */
-/*   Updated: 2024/04/09 16:28:18 by blarger          ###   ########.fr       */
+/*   Updated: 2024/04/11 11:15:58 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,9 @@ static int	is_numeric(char *str)
 
 void	builtin_exit(t_minishell *data, char **args)
 {
-	ft_putstr_fd("exit\n", 2);
 	if (command_with_pipe(data->args) == TRUE)
 		return ;
+	ft_putstr_fd("exit\n", 1);
 	data->is_exit = TRUE;
 	if (args[1] && is_numeric(args[1]) == FALSE)
 	{

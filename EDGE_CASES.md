@@ -16,10 +16,10 @@ usage: tr [-Ccsu] string1 string2
 
 
 grep i < infile
-==
+!= in bash
 < infile | grep i
 
-ls -l | < infile | cat -e // should work
+ls -l | < infile | cat -e // should not work in bash
 
 ls >> outfile -l			// add 'ls -l' to outfile
 ls >> outfile1 -l > outfile2	// print 'ls -l' to outfile2, and leave outfile unchanged or create empty outfile

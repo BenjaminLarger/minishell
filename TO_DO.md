@@ -1,7 +1,5 @@
 # TODO:
 
-- Reset color of "exit"
-- Check every printf/dprintf
 
 - Delete dev_utils.c
 - Remove dev_utils.c from Makefile

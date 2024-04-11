@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:18:16 by demre             #+#    #+#             */
-/*   Updated: 2024/04/10 19:09:27 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/11 10:32:46 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ char	*read_input(char *prompt)
 int	split_input_into_args(t_minishell *data)
 {
 	data->n_args = count_tokens(data->prompt);
-	printf("%s, n_args: %d\n", data->prompt, data->n_args); //
 	if (data->n_args == 0)
 		return (SUCCESS);
 	else if (data->n_args == -1)

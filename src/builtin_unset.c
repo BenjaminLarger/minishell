@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_unset.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blarger <blarger@student.42.fr>            +#+  +:+       +#+        */
+/*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 08:57:23 by blarger           #+#    #+#             */
-/*   Updated: 2024/04/10 11:25:36 by blarger          ###   ########.fr       */
+/*   Updated: 2024/04/11 11:13:39 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,44 @@ static int	value_is_valid(char *value)
 	return (TRUE);
 }
 
+static void	compare_and_remove(char **args, t_minishell *data, int i)
+{
+	int		j;
+
+	j = 0;
+	while (data->env_msh[j])
+	{
+		if (!(ft_strncmp(args[i], data->env_msh[j], ft_strlen(args[i])))
+			&& data->env_msh[j][ft_strlen(args[i])] == '=')
+		{
+			move_unset_to_the_end(data, j, array_len(data->env_msh));
+			return ;
+		}
+		j++;
+	}
+}
+
+void	builtin_unset(char **args, t_minishell *data)
+{
+	int		i;
+
+	i = 1;
+	data->last_exit_status = 0;
+	if (command_with_pipe(data->args) == TRUE)
+		return ;
+	while (args[i])
+	{
+		if (value_is_valid(args[i]) == FALSE)
+		{
+			i++;
+			continue ;
+		}
+		compare_and_remove(args, data, i);
+		i++;
+	}
+}
+
+/* 
 void	builtin_unset(char **args, t_minishell *data)
 {
 	int		i;
@@ -87,4 +125,4 @@ void	builtin_unset(char **args, t_minishell *data)
 		}
 		i++;
 	}
-}
+} */

@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:16:49 by demre             #+#    #+#             */
-/*   Updated: 2024/04/10 20:39:56 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/11 10:33:04 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ int	main(int argc, char **argv, char **envp)
 	if (load_env_variables(&data, envp) == FAILURE
 		|| init_program(&data) == FAILURE)
 		exit(EXIT_FAILURE);
-	dprintf(2, "\e[36mLaunching minishell - $SHLVL=%s\e[0m\n", ft_getenv(&data, "SHLVL"));
 	run_shell_loop(&data);
 	free_string_array(data.env_msh);
 	free(data.cd_last_dir);

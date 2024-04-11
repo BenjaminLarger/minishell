@@ -6,7 +6,7 @@
 /*   By: demre <demre@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 18:35:15 by blarger           #+#    #+#             */
-/*   Updated: 2024/04/10 20:39:25 by demre            ###   ########.fr       */
+/*   Updated: 2024/04/11 11:20:34 by demre            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,5 +100,8 @@ int	init_program(t_minishell *data)
 	data->n_pid = 0;
 	data->pid_alloc_size = 20;
 	data->no_output_builtin_executed = FALSE;
+	set_child_sigint_action_during_prompt();
+	set_child_sigquit_action_during_prompt();
+	data->cd_last_dir[0] = '\0';
 	return (SUCCESS);
 }
